@@ -42,3 +42,4 @@ BookEilen/
 ├── frontend/
 │ └── book-eilen/
 └── backend/
+<pre><code>### 3. 📁 Folder Structure ``` BookEilen/ ├── frontend/ │ └── book-eilen/ └── backend/ ``` </code></pre>
