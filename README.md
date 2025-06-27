@@ -12,15 +12,20 @@ Run the following command in both the `frontend` and `backend` folders:
 
 ```bash
 npm install
+```
 
-
-2. Start the Servers
+### 2. Start the Servers
 For Frontend
-bash
-Copy
-Edit
+```bash
 npm run dev
+```
+For Backend
+```bash
+npm start
+```
 
+### 3. Folder Structure
 BookEilen/
-├── frontend/     # React or other frontend framework
+├── frontend/
+|      └── book-eilen
 └── backend/ 
