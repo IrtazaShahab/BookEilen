@@ -1,6 +1,19 @@
 # BookEilen - Full Stack Project
-
 This is the complete **frontend and backend project** for **BookEilen**.
+
+## 🚀 Tech Stack
+
+**Frontend:**
+- React.js
+- Next.js
+- Axios / Fetch API
+- Tailwind CSS / SCSS / Bootstrap
+
+**Backend:**
+- Node.js
+- Express.js
+- MongoDB
+- JWT for authentication 
 
 ## 🛠️ Getting Started
 
@@ -27,5 +40,5 @@ npm start
 ### 3. Folder Structure
 BookEilen/
 ├── frontend/
-|      └── book-eilen
+|      └── book-eilen/
 └── backend/ 
