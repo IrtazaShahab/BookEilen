@@ -38,8 +38,7 @@ npm start
 ```
 
 ### 3. 📁 Folder Structure
-BookEilen/
-├── frontend/
-│ └── book-eilen/
-└── backend/
-<pre><code>### 3. 📁 Folder Structure ``` BookEilen/ ├── frontend/ │ └── book-eilen/ └── backend/ ``` </code></pre>
+BookEilen/ <br/>
+├── frontend/<br/>
+│ └── book-eilen/<br/>
+└── backend/<br/>
