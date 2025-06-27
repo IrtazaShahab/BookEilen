@@ -15,9 +15,8 @@ export default function Home({
 }>) {
     return (
         <div>
-            <h1>hello afeef</h1>
             <Container>
-                <div style={{ width: 500 }} className="mx-auto p-3 rounded ">
+                <div className="">
                     <Index />
                 </div>
             </Container>

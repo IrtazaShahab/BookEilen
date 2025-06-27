@@ -5,7 +5,7 @@ import { Carousel } from 'antd';
 
 const contentStyle: React.CSSProperties = {
     margin: 0,
-    height: '160px',
+    // height: '160px',
     color: '#fff',
     lineHeight: '160px',
     textAlign: 'center',
@@ -14,19 +14,19 @@ const contentStyle: React.CSSProperties = {
 
 export default function BeHomeCarousel() {
     return (
-        <div className="">
+        <div className="be-home-carousel">
             <Carousel arrows infinite={false}>
                 <div>
-                    <h3 style={contentStyle}>1</h3>
+                    <img src="/frontend/book-eilen/assets/images/sample-carousel.jpg" alt="1" />
                 </div>
                 <div>
-                    <h3 style={contentStyle}>2</h3>
+                    <img src="/frontend/book-eilen/assets/images/sample-carousel.jpg" alt="2" />
                 </div>
                 <div>
-                    <h3 style={contentStyle}>3</h3>
+                    <img src="/frontend/book-eilen/assets/images/sample-carousel.jpg" alt="3" />
                 </div>
                 <div>
-                    <h3 style={contentStyle}>4</h3>
+                    <img src="/frontend/book-eilen/assets/images/sample-carousel.jpg" alt="4" />
                 </div>
             </Carousel>
         </div>

@@ -7,7 +7,7 @@ export default function Index() {
     // const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     return (
-        <div className="bg-dark-900">
+        <div className="be-home">
             <BeHomeCarousel />
         </div>
     );
