@@ -1,7 +1,7 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import Container from 'react-bootstrap/Container';
-import Index from './pages';
+import Index from './pages/index';
 
 export const metadata: Metadata = {
     title: 'Book Eilen',
