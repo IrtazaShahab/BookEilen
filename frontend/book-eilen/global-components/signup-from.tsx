@@ -14,7 +14,6 @@ export default function BeSignupForm() {
     const password = watch('password'); // Watch the password field for comparison
 
     const onSubmit = async (event) => {
-        // event.preventDefault();
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData.entries());
         console.log('Form submitted:', data);
