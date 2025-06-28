@@ -14,26 +14,26 @@ export default function BeSignupForm() {
     const password = watch('password'); // Watch the password field for comparison
 
     const onSubmit = async (event) => {
-        event.preventDefault();
+        // event.preventDefault();
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData.entries());
         console.log('Form submitted:', data);
 
-        try {
-            await fetch('http://localhost:302/api/bookcall', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            });
-        } catch (error) {
-            console.error('Error submitting form:', error);
-        }
+        // try {
+        //     await fetch('http://localhost:302/api/bookcall', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         body: JSON.stringify(data),
+        //     });
+        // } catch (error) {
+        //     console.error('Error submitting form:', error);
+        // }
     };
 
     return (
-        <form className="be-form" onSubmit={onSubmit}>
+        <form className="be-form" onSubmit={handleSubmit(onSubmit)}>
             <div className="">
                 <h1 className="h2">Sign Up</h1>
 
@@ -45,12 +45,13 @@ export default function BeSignupForm() {
                         <input
                             required
                             id="first-name"
-                            name="first-name"
+                            // name="first-name"
                             type="text"
                             autoComplete="given-name"
                             className="form-control be-form-input"
                             placeholder="First Name"
                         />
+                        {/* {errors.firstName && <p className="text-danger">{errors.firstName.message}</p>} */}
                     </div>
 
                     <div className="col-md-6">
@@ -75,11 +76,18 @@ export default function BeSignupForm() {
                         <input
                             required
                             id="email"
-                            name="email"
+                            // name="email"
                             type="email"
                             autoComplete="email"
                             className="form-control be-form-input"
                             placeholder="Email Address"
+                            {...register('email', {
+                                required: 'Email is required',
+                                pattern: {
+                                    value: /^\S+@\S+$/i,
+                                    message: 'Invalid email address',
+                                },
+                            })}
                         />
                     </div>
 
@@ -90,12 +98,20 @@ export default function BeSignupForm() {
                         <input
                             required
                             id="password"
-                            name="password"
+                            // name="password"
                             type="password"
                             autoComplete="password"
                             className="form-control be-form-input"
                             placeholder="Password"
+                            {...register('password', {
+                                required: 'Password is required',
+                                minLength: {
+                                    value: 6,
+                                    message: 'Password must be at least 6 characters',
+                                },
+                            })}
                         />
+                        {errors.password && <p>{errors.password.message}</p>}
                     </div>
 
                     <div className="">
@@ -105,12 +121,18 @@ export default function BeSignupForm() {
                         <input
                             required
                             id="confirm-password"
-                            name="confirm-password"
+                            // name="confirm-password"
                             type="password"
                             autoComplete="password"
                             className="form-control be-form-input"
                             placeholder="Confirm Password"
+                            {...register('confirmPassword', {
+                                required: 'Confirm Password is required',
+                                validate: (value) => value === password || 'Passwords do not match',
+                            })}
                         />
+
+                        {errors.confirmPassword && <p>{errors.confirmPassword.message}</p>}
                     </div>
                 </div>
             </div>
