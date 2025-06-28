@@ -1,6 +1,4 @@
 'use client';
-
-import { ChevronDownIcon } from '@heroicons/react/16/solid';
 import { useForm } from 'react-hook-form';
 
 export default function BeSignupForm() {

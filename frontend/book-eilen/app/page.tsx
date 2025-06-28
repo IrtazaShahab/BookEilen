@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Container from 'react-bootstrap/Container';
 import Index from './pages/index';
 import BeSignupForm from '@/global-components/signup-from';
+import BeLoginForm from '@/global-components/login-form';
 
 export const metadata: Metadata = {
     title: 'Book Eilen',
@@ -18,7 +19,7 @@ export default function Home({
             <Container>
                 <div className="">
                     {/* <Index /> */}
-                    <BeSignupForm />
+                    <BeLoginForm />
                 </div>
             </Container>
         </div>
