@@ -19,6 +19,20 @@
             border-color: $be-primary;
             box-shadow: unset;
         }
+        // Chrome autofill override
+        &:-webkit-autofill {
+            box-shadow: 0 0 0 1000px $be-secondary inset !important;
+            -webkit-text-fill-color: $be-color !important;
+            transition: background-color 5000s ease-in-out 0s;
+            // border-color: $be-primary;
+        }
+
+        &:-webkit-autofill:hover,
+        &:-webkit-autofill:focus,
+        &:-webkit-autofill:active {
+            box-shadow: 0 0 0 1000px $be-secondary inset !important;
+            -webkit-text-fill-color: $be-color !important;
+        }
     }
 
     .be-btn {

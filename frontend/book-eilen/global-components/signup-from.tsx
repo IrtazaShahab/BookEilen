@@ -1,9 +1,19 @@
 'use client';
 
 import { ChevronDownIcon } from '@heroicons/react/16/solid';
+import { useForm } from 'react-hook-form';
 
 export default function BeSignupForm() {
-    const handleSubmit = async (event) => {
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: { errors },
+    } = useForm();
+
+    const password = watch('password'); // Watch the password field for comparison
+
+    const onSubmit = async (event) => {
         event.preventDefault();
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData.entries());
@@ -23,7 +33,7 @@ export default function BeSignupForm() {
     };
 
     return (
-        <form className="be-form" onSubmit={handleSubmit}>
+        <form className="be-form" onSubmit={onSubmit}>
             <div className="">
                 <h1 className="h2">Sign Up</h1>
 
@@ -48,6 +58,7 @@ export default function BeSignupForm() {
                             Last name
                         </label>
                         <input
+                            required
                             id="last-name"
                             name="last-name"
                             type="text"
@@ -62,6 +73,7 @@ export default function BeSignupForm() {
                             Email address
                         </label>
                         <input
+                            required
                             id="email"
                             name="email"
                             type="email"
@@ -76,6 +88,7 @@ export default function BeSignupForm() {
                             Password
                         </label>
                         <input
+                            required
                             id="password"
                             name="password"
                             type="password"
@@ -90,6 +103,7 @@ export default function BeSignupForm() {
                             Confirm Password
                         </label>
                         <input
+                            required
                             id="confirm-password"
                             name="confirm-password"
                             type="password"
