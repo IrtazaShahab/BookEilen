@@ -1,0 +1,43 @@
+@use '../_1_imports/_1_variables/variables' as *;
+
+.be-form {
+    width: 600px;
+    margin: 0 auto;
+    color: $be-color;
+
+    .be-form-input {
+        background-color: $be-secondary;
+
+        &::placeholder {
+            color: $be-gray-500;
+            font-size: 12px;
+            opacity: 1;
+        }
+
+        &:focus {
+            color: $be-color;
+            border-color: $be-primary;
+            box-shadow: unset;
+        }
+    }
+
+    .be-btn {
+        background-color: $be-primary;
+        color: $be-color;
+        border: 1px solid $be-primary;
+        font-weight: 600;
+        font-size: 16px;
+        padding: 15px 55px;
+        line-height: 1;
+        border-radius: $be-btn-border-radius;
+
+        &:hover {
+            background-color: $be-primary-hover;
+            border-color: $be-secondary;
+        }
+    }
+
+    * {
+        color: $be-color;
+    }
+}
