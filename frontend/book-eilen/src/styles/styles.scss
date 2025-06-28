@@ -1,5 +1,7 @@
 @use 'tailwindcss';
 
+@use '../styles/__bootstrap/bootstrap.scss' as *;
+
 // Variables
 @use './_1_imports/imports' as *;
 
@@ -12,19 +14,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 :root {
-    --background: $body-bg;
-    --foreground: $text-default;
+    --background: $be-body-bg;
+    --foreground: $be-text-default;
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --background: $body-bg;
-        --foreground: $text-default;
+        --background: $be-body-bg;
+        --foreground: $be-text-default;
     }
 }
 
 body {
-    background: $body-bg;
-    color: $text-default;
+    background: $be-body-bg;
+    color: $be-text-default;
     font-family: 'Montserrat', Arial, Helvetica, sans-serif;
 }
