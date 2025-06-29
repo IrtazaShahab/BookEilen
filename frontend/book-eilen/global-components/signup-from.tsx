@@ -7,6 +7,7 @@ export default function BeSignupForm() {
         handleSubmit,
         watch,
         formState: { errors },
+        reset,
     } = useForm();
 
     const password = watch('password'); // Watch the password field for comparison
@@ -14,19 +15,22 @@ export default function BeSignupForm() {
     const onSubmit = async (event) => {
         const formData = new FormData(event.target);
         const data = Object.fromEntries(formData.entries());
-        console.log('Form submitted:', data);
+        // debugger;
+        console.log('Form submitted:', event);
 
-        // try {
-        //     await fetch('http://localhost:302/api/bookcall', {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //         body: JSON.stringify(data),
-        //     });
-        // } catch (error) {
-        //     console.error('Error submitting form:', error);
-        // }
+        try {
+            await fetch('http://localhost:3040/users/signup/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(event),
+            });
+
+            reset();
+        } catch (error) {
+            console.error('Error submitting form:', error);
+        }
     };
 
     return (

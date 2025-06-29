@@ -19,7 +19,8 @@ export default function Home({
             <Container>
                 <div className="">
                     {/* <Index /> */}
-                    <BeLoginForm />
+                    {/* <BeLoginForm /> */}
+                    <BeSignupForm />
                 </div>
             </Container>
         </div>
