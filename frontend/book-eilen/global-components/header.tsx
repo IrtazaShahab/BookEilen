@@ -22,6 +22,8 @@ import {
     XMarkIcon,
 } from '@heroicons/react/24/outline';
 import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid';
+import LogoImage from 'images/logo.svg';
+import Image from 'next/image';
 
 const products = [
     { name: 'Analytics', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
@@ -39,14 +41,14 @@ export default function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     return (
-        <header className="bg-dark-900 be-header max-w-7xl mt-16 fixed left-78 right-0 top-0 rounded-header">
-            <nav aria-label="Global" className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
-                <div className="flex lg:flex-1">
+        <header className="bg-dark-900 be-header max-w-7xl mt-16 fixed left-78 right-0 top-0 rounded-[25px]">
+            <nav aria-label="Global" className="mx-auto flex max-w-7xl items-center justify-between pt-3 pb-3 pl-6 pr-6 lg:px-8 gap-[52px]">
+                <div className="flex">
                     <a href="#" className="-m-1.5 p-1.5">
                         <span className="sr-only">Your Company</span>
-                        <img
-                            alt=""
-                            src="/frontend/book-eilen/logo.svg"
+                        <Image
+                            alt="Logo-Image"
+                            src={LogoImage} width="158" height="38"
                             className="h-8 w-auto"
                         />
                     </a>
@@ -63,7 +65,7 @@ export default function Header() {
                 </div>
                 <PopoverGroup className="hidden lg:flex lg:gap-x-12">
                     <Popover className="relative">
-                        <PopoverButton className="flex items-center gap-x-1 text-sm/6 font-semibold ">
+                        <PopoverButton className="flex items-center gap-x-1 font-size font-semibold ">
                             Product
                             <ChevronDownIcon aria-hidden="true" className="size-5 flex-none " />
                         </PopoverButton>
@@ -106,7 +108,7 @@ export default function Header() {
                         </PopoverPanel>
                     </Popover>
 
-                    <a href="#" className="text-sm/6 font-semibold ">
+                    <a href="#" className="no-underline font-size font-semibold text-white">
                         Features
                     </a>
 

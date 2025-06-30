@@ -3,13 +3,22 @@
 .be-header {
     background-color: $be-secondary;
     background-color: $be-secondary;
+    font-family: "Inter", sans-serif;
 
     a img {
         width: 154px;
         height: 34px;
     }
+
+    a {
+        text-decoration: none;
+    }
 }
 
 .rounded-header {
-    border-radius: 25px;
+    border-radius: $header-br;
+}
+
+.font-size {
+    font-size: $be-header-text;
 }
