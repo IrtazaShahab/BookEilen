@@ -25,8 +25,8 @@ const corsOptions = {
 // Use the cors middleware with your options
 app.use(cors(corsOptions));
 
-var port = process.env.PORT || '3040';
-app.set('port', port);
+// var port = process.env.PORT || '3040';
+// app.set('port', port);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
