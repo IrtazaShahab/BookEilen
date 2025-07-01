@@ -46,13 +46,19 @@ export default function BeSignupForm() {
                         <input
                             required
                             id="first-name"
-                            // name="first-name"
                             type="text"
                             autoComplete="given-name"
                             className="form-control be-form-input"
                             placeholder="First Name"
+                            {...register('f_name', {
+                                required: 'First Name is required',
+                                pattern: {
+                                    value: /^[A-Za-z]+$/i,
+                                    message: 'First Name must contain only letters',
+                                },
+                            })}
                         />
-                        {/* {errors.firstName && <p className="text-danger">{errors.firstName.message}</p>} */}
+                        {errors.f_name && <p className="text-danger">{errors.f_name.message}</p>}
                     </div>
 
                     <div className="col-md-6">
@@ -62,12 +68,19 @@ export default function BeSignupForm() {
                         <input
                             required
                             id="last-name"
-                            name="last-name"
                             type="text"
                             autoComplete="family-name"
                             className="form-control be-form-input"
                             placeholder="Last Name"
+                            {...register('l_name', {
+                                required: 'Last Name is required',
+                                pattern: {
+                                    value: /^[A-Za-z]+$/i,
+                                    message: 'Last Name must contain only letters',
+                                },
+                            })}
                         />
+                        {errors.l_name && <p className="text-danger">{errors.l_name.message}</p>}
                     </div>
 
                     <div className="">
@@ -90,6 +103,7 @@ export default function BeSignupForm() {
                                 },
                             })}
                         />
+                        {errors.email && <p className="text-danger">{errors.email.message}</p>}
                     </div>
 
                     <div className="">
