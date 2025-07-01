@@ -50,6 +50,7 @@ export default function BeSignupForm() {
                             autoComplete="given-name"
                             className="form-control be-form-input"
                             placeholder="First Name"
+                            // UseForm Validation and Registration of data
                             {...register('f_name', {
                                 required: 'First Name is required',
                                 pattern: {
@@ -72,6 +73,7 @@ export default function BeSignupForm() {
                             autoComplete="family-name"
                             className="form-control be-form-input"
                             placeholder="Last Name"
+                            // UseForm Validation and Registration of data
                             {...register('l_name', {
                                 required: 'Last Name is required',
                                 pattern: {
@@ -90,11 +92,11 @@ export default function BeSignupForm() {
                         <input
                             required
                             id="email"
-                            // name="email"
                             type="email"
                             autoComplete="email"
                             className="form-control be-form-input"
                             placeholder="Email Address"
+                            // UseForm Validation and Registration of data
                             {...register('email', {
                                 required: 'Email is required',
                                 pattern: {
@@ -113,11 +115,11 @@ export default function BeSignupForm() {
                         <input
                             required
                             id="password"
-                            // name="password"
                             type="password"
                             autoComplete="password"
                             className="form-control be-form-input"
                             placeholder="Password"
+                            // UseForm Validation and Registration of data
                             {...register('password', {
                                 required: 'Password is required',
                                 minLength: {
@@ -141,6 +143,7 @@ export default function BeSignupForm() {
                             autoComplete="password"
                             className="form-control be-form-input"
                             placeholder="Confirm Password"
+                            // UseForm Validation and Registration of data
                             {...register('confirmPassword', {
                                 required: 'Confirm Password is required',
                                 validate: (value) => value === password || 'Passwords do not match',

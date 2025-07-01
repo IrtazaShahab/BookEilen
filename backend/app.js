@@ -4,19 +4,18 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
-
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var env = require('dotenv');
 const db = require('./db');
+
+// Import routes
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
 
 env.config({
     path: './.env',
 });
 
 var app = express();
-
-// Create a new PostgreSQL client using the connection string from environment variables
 
 // Connect to the database
 app.get('/', async (req, res) => {
