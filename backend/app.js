@@ -8,12 +8,26 @@ const cors = require('cors');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var env = require('dotenv');
+const db = require('./db');
 
 env.config({
     path: './.env',
 });
 
 var app = express();
+
+// Create a new PostgreSQL client using the connection string from environment variables
+
+// Connect to the database
+app.get('/', async (req, res) => {
+    try {
+        const result = await db.query('SELECT * FROM user');
+        res.json(result.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+    }
+});
 
 // Define CORS options (customize as needed)
 const corsOptions = {
