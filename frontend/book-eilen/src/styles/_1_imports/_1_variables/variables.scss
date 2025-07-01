@@ -17,12 +17,14 @@ $be-primary: #e50914;
 $be-primary-hover: #aa0009;
 
 $be-secondary: #282828;
+$be-border-color: #747474;
 
 $be-color: $be-text-default;
 $be-background: $be-body-bg;
 $be-foreground: $be-text-default;
+$be-search-border: $be-border-color;
 
-$be-btn-border-radius: 25px;
+$be-btn-border-radius: 20px;
 $be-font-size: 18px;
 $header-br: $be-btn-border-radius;
 $be-header-text: $be-font-size;

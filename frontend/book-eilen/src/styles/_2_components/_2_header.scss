@@ -2,16 +2,148 @@
 
 .be-header {
     background-color: $be-secondary;
-    background-color: $be-secondary;
     font-family: "Inter", sans-serif;
+    margin: 40px 50px 0;
+    border-radius: $header-br;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
 
-    a img {
-        width: 154px;
-        height: 34px;
+    .be-logo {
+        width: 125px;
+        height: 22px;
     }
 
-    a {
-        text-decoration: none;
+    .be-nav {
+        margin: 0 30px;
+        padding: 0;
+        display: flex;
+        justify-content: space-between;
+        gap: 40px;
+        font-size: 15px;
+
+        .be-navbar-content {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .be-nav-content {
+            display: flex;
+            gap: 40px;
+        }
+
+        button {
+            display: flex;
+        }
+    }
+
+    .be-dropdown {
+        .be-dropdown-list {
+            position: absolute;
+            background-color: $be-secondary;
+            border-radius: 25px;
+
+            svg {
+                width: 20px;
+            }
+
+            .be-list-item {
+                width: 400px;
+                border-radius: 25px;
+
+                > div {
+                    display: flex;
+
+                    svg {
+                        width: 20px;
+                    }
+                }
+            }
+
+            .call-to-action {
+                display: flex;
+                justify-content: space-around;
+                margin-bottom: 12px;
+
+                .be-link {
+                    gap: 6px;
+                    display: flex;
+                    align-items: center;
+                    color: $be-white;
+                }
+            }
+        }
+    }
+
+    .be-navbar-toggle {
+        display: none;
+    }
+
+    button {
+        padding: 18px 0;
+        font-weight: 500;
+
+        &:focus-visible {
+            outline: none;
+        }
+
+        svg {
+            width: 20px;
+        }
+    }
+
+    .be-right-content {
+        margin: auto 0;
+        display: flex;
+        align-items: center;
+        gap: 50px;
+
+        .be-input {
+            position: relative;
+            .be-search-input {
+                border: 1px solid $be-search-border;
+                border-radius: 30pc;
+                padding: 10px 14px !important;
+                font-weight: 500;
+                color: $be-white !important;
+                margin: auto 0;
+                width: 250px;
+                height: 33px;
+
+                &:focus-visible {
+                    outline: none;
+                }
+
+                ::placeholder {
+                    color: $be-search-border !important;
+                    font-size: 13px;
+                }
+            }
+
+            .search-icon {
+                position: absolute;
+                width: 25px;
+                height: 25px;
+                top: 4px;
+                right: 3px;
+                cursor: pointer;
+            }
+        }
+
+        .be-login-btn {
+            background-color: $be-primary;
+            color: $be-white;
+            text-decoration: none;
+            padding: 6px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+
+            :hover {
+                background-color: $be-primary-hover;
+            }
+        }
     }
 }
 

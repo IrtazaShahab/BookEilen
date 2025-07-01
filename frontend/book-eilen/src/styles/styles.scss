@@ -18,6 +18,7 @@
     --foreground: $be-text-default;
     --header-br: $header-br;
     --be-header-text: $be-font-size;
+    --be-search-border: $be-border-color;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -26,6 +27,7 @@
         --foreground: $be-text-default;
         --header-br: $header-br;
         --be-header-text: $be-font-size;
+        --be-search-border: $be-border-color;
     }
 }
 
