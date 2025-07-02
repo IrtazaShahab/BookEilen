@@ -49,7 +49,7 @@ export default function Header() {
                         <Image
                             alt="Logo-Image"
                             src={LogoImage} width="158" height="38"
-                            className="h-8 w-auto"
+                            className="h-8 w-auto" priority
                         />
                     </a>
                 </div>
