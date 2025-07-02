@@ -46,4 +46,36 @@ router.post('/signup', async (req, res) => {
     }
 });
 
+router.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+    // 1. Validate all required fields
+    if (!email || !password) {
+        return res.status(400).json({ message: 'All fields are required.' });
+    }
+    // 2. Check for existing user (duplicate email)
+    try {
+        const existingUser = await db.query('SELECT * FROM "user" WHERE "email" = $1', [email]);
+        if (existingUser.rows.length === 0) {
+            return res.status(404).json({ message: 'User not found.' });
+        }
+        // 3. Compare password with hashed password in DB
+        const user = existingUser.rows[0];
+        const bcrypt = require('bcryptjs');
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(401).json({ message: 'Invalid password.' });
+        }
+        // 4. Return success (do not return password)
+        const userData = { ...user };
+        delete userData.password;
+        res.status(200).json({
+            message: 'Login successful',
+            data: userData,
+        });
+    } catch (error) {
+        console.error('Error Logging in user:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
 module.exports = router;
