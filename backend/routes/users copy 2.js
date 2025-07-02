@@ -17,9 +17,11 @@ router.post('/signup', async (req, res) => {
     if (password !== confirmPassword) {
         return res.status(400).json({ message: 'Password and confirm password do not match.' });
     }
+    const dbNameResult = await db.query('SELECT current_database()');
+    console.log('Connected to database:', dbNameResult.rows[0].current_database);
     // 3. Check for existing user (duplicate email)
     try {
-        const existingUser = await db.query('SELECT * FROM "user" WHERE "email" = $1', [email]);
+        const existingUser = await db.query('SELECT * FROM user WHERE email = $1', [email]);
         if (existingUser.rows.length > 0) {
             return res.status(409).json({ message: 'Email already registered.' });
         }
@@ -27,7 +29,7 @@ router.post('/signup', async (req, res) => {
         const bcrypt = require('bcryptjs');
         const hashedPassword = await bcrypt.hash(password, 10);
         // 5. Store user in DB (sanitize input is handled by parameterized queries)
-        const result = await db.query('INSERT INTO "user" (f_name, l_name, email, password) VALUES ($1, $2, $3, $4) RETURNING *', [
+        const result = await db.query('INSERT INTO user (f_name, l_name, email, password) VALUES ($1, $2, $3, $4) RETURNING *', [
             f_name,
             l_name,
             email,
