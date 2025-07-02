@@ -4,16 +4,29 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
+var env = require('dotenv');
+const db = require('./db');
 
+// Import routes
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var env = require('dotenv');
 
 env.config({
     path: './.env',
 });
 
 var app = express();
+
+// Connect to the database
+app.get('/', async (req, res) => {
+    try {
+        const result = await db.query('SELECT * FROM user');
+        res.json(result.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+    }
+});
 
 // Define CORS options (customize as needed)
 const corsOptions = {
@@ -25,8 +38,8 @@ const corsOptions = {
 // Use the cors middleware with your options
 app.use(cors(corsOptions));
 
-var port = process.env.PORT || '3040';
-app.set('port', port);
+// var port = process.env.PORT || '3040';
+// app.set('port', port);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
