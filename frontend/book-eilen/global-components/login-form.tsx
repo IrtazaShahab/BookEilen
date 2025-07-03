@@ -16,21 +16,21 @@ export default function BeLoginForm() {
 
     const onSubmit = async (event) => {
         const formData = new FormData(event.target);
-        const data = Object.fromEntries(formData.entries());
-        console.log('Form submitted:', data);
+        // const data = Object.fromEntries(formData.entries());
+        console.log('Form submitted:', event);
 
         // ! Check if the user exists and password is correct then login the user else put error message
-        // try {
-        //     await fetch('http://localhost:302/api/login', {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //         body: JSON.stringify(data),
-        //     });
-        // } catch (error) {
-        //     console.error('Error submitting form:', error);
-        // }
+        try {
+            await fetch('http://localhost:3040/users/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(event),
+            });
+        } catch (error) {
+            console.error('Error submitting form:', error);
+        }
     };
 
     return (

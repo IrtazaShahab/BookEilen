@@ -7,6 +7,7 @@ router.get('/', function (req, res, next) {
     res.send('respond with a resource');
 });
 
+// Signup
 router.post('/signup', async (req, res) => {
     const { email, f_name, l_name, password, confirmPassword } = req.body;
     // 1. Validate all required fields
@@ -46,8 +47,11 @@ router.post('/signup', async (req, res) => {
     }
 });
 
+// Login
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
+
+    console.log('Login request received:', req.body);
     // 1. Validate all required fields
     if (!email || !password) {
         return res.status(400).json({ message: 'All fields are required.' });
