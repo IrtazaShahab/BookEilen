@@ -20,11 +20,43 @@ import {
 import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid';
 import LogoImage from 'images/logo.svg';
 import SearchIcon from "images/search-icon.svg";
+import DropdownIcon from "images/dropdown-icon.svg";
+import LogoutIcon from "images/log-out.svg";
+import SettingsIcon from "images/settings-icon.svg";
+import ReadListIcon from "images/read-list.svg";
+import MyBooksIcon from "images/open-book.svg";
+import PersonIcon from "images/person.svg";
 import Image from 'next/image';
 
 const callsToAction = [
     { name: 'Watch demo', href: '#', icon: PlayCircleIcon },
     { name: 'Contact sales', href: '#', icon: PhoneIcon },
+];
+
+const items: MenuProps['items'] = [
+    {
+      label: (
+        <a href="https://www.antgroup.com" target="_blank" rel="noopener noreferrer">
+          1st menu item
+        </a>
+      ),
+      key: '0',
+    },
+    {
+      label: (
+        <a href="https://www.aliyun.com" target="_blank" rel="noopener noreferrer">
+          2nd menu item
+        </a>
+      ),
+      key: '1',
+    },
+    {
+      type: 'divider',
+    },
+    {
+      label: '3rd menu item',
+      key: '3',
+    },
 ];
 
 export default function Header() {
@@ -49,7 +81,6 @@ export default function Header() {
                             alt="Logo-Image"
                             src={LogoImage} width="158" height="38"
                             className=""
-
                         />
                     </a>
                 </div>
@@ -63,21 +94,33 @@ export default function Header() {
                 {/* dropdown-content */}
                         <PopoverPanel
                             transition
-                            className="be-dropdown-list">
-                            <div className="p-4 be-list-item">
-                            </div>
-
-                            <div className="call-to-action">
-                                {callsToAction.map((item) => (
-                                    <a
-                                        key={item.name}
-                                        href={item.href}
-                                        className="be-link"
-                                    >
-                                        <item.icon aria-hidden="true" className="" />
-                                        {item.name}
-                                    </a>
-                                ))}
+                            className="be-dropdown-content">
+                            <div className="p-4 be-list-content">
+                                <h5>Browse</h5>
+                                <div className="be-list">
+                                <ul>
+                                    <li><a href="#">Romance</a></li>
+                                    <li><a href="#">Fan-Fiction</a></li>
+                                    <li><a href="#">Fantasy</a></li>
+                                    <li><a href="#">Historical Fic</a></li>
+                                    <li><a href="#">Humor</a></li>
+                                    <li><a href="#">Sci-Fi</a></li>
+                                </ul>
+                                <ul>
+                                    <li><a href="#">Paranormal</a></li>
+                                    <li><a href="#">Mystry</a></li>
+                                    <li><a href="#">Poetry</a></li>
+                                    <li><a href="#">Adventure</a></li>
+                                    <li><a href="#">Thriller</a></li>
+                                    <li><a href="#">Teen Fiction</a></li>
+                                </ul>
+                                <ul>
+                                    <li><a href="#">Diverse Lit</a></li>
+                                    <li><a href="#">Editors Picks</a></li>
+                                    <li><a href="#">Non-Fiction</a></li>
+                                    <li><a href="#">Short Fiction</a></li>
+                                </ul>
+                                </div>
                             </div>
                         </PopoverPanel>
                     </Popover>
@@ -101,7 +144,7 @@ export default function Header() {
                 </div>
                 {/* navbar left content */}
                 <div className="be-right-content">
-                {/* nlt-search-input */}
+                 {/* nlt-search-input */}
                  <div className="be-input">
                     <input
                       type="text"
@@ -112,10 +155,39 @@ export default function Header() {
                     />
                     <Image className='search-icon' src={SearchIcon} alt="search-icon" />
                  </div>
-                {/* nlt-login-btn */}
+                 {/* nlt-login-btn */}
                     <a href="#" className="be-login-btn be-link">
                         Log in <span aria-hidden="true">&rarr;</span>
                     </a>
+
+  <PopoverGroup className="be-profile-dropdown">
+                    <Popover className="be-dropdown">
+                        <PopoverButton className="be-link">
+                        <Image alt="dropdown-logo"  src={DropdownIcon} width="36" height="36" className="profile-img"/>
+                        <ChevronDownIcon aria-hidden="true" className="" />
+                        </PopoverButton>
+                {/* dropdown-content */}
+                        <PopoverPanel
+                            transition
+                            className="be-dropdown-content">
+                            <div className="p-4 be-list-content">
+                                <h5><Image alt="person-icon"  src={PersonIcon} width="26" height="26" className="person-icon"/> My Profile</h5>
+                                <div className="be-list">
+                                <ul>
+                                    <li><a href="#"><Image alt="My-Books-icon"  src={MyBooksIcon} width="22" height="22" className="My-Books-icon"/>
+                                            My Books</a></li>
+                                    <li><a href="#"><Image alt="read-list-icon"  src={ReadListIcon} width="24" height="24" className="read-list-icon"/>
+                                        Read List</a></li>
+                                    <li><a href="#"><Image alt="settings-icon"  src={SettingsIcon} width="24" height="24" className="settings-icon"/>
+                                        Settings</a></li>
+                                 <li><a href="#"><Image alt="logout-icon"  src={LogoutIcon} width="24" height="24" className="logout-icon"/>
+                                        Log Out</a></li>
+                                </ul>
+                                </div>
+                            </div>
+                        </PopoverPanel>
+                    </Popover>
+                </PopoverGroup>
                 </div>
             </nav>
         </header>

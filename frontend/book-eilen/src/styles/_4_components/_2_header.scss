@@ -15,6 +15,7 @@
     right: 0;
     top: 0;
 
+    // logo
     .be-logo {
         width: 125px;
         height: 22px;
@@ -44,9 +45,12 @@
         }
     }
 
+    // dropdown
     .be-dropdown {
-        .be-dropdown-list {
+        position: relative;
+        .be-dropdown-content {
             position: absolute;
+            top: 70px;
             background-color: $be-secondary;
             border-radius: 25px;
 
@@ -54,15 +58,38 @@
                 width: 20px;
             }
 
-            .be-list-item {
+            .be-list-content {
                 width: 400px;
                 border-radius: 25px;
 
-                > div {
-                    display: flex;
+                h5 {
+                    font-weight: 600;
+                    margin-bottom: 19px;
+                    padding-bottom: 10px;
+                    font-size: 18px;
+                    border-bottom: 1px solid $be-white;
+                }
 
-                    svg {
-                        width: 20px;
+                .be-list {
+                    display: flex;
+                    gap: 33px;
+
+                    ul {
+                        padding: 0;
+                        gap: 10px;
+                        display: flex;
+                        flex-direction: column;
+                        margin-bottom: 0;
+
+                        a {
+                            text-decoration: none;
+                            color: $be-text-default;
+
+                            &:hover {
+                                color: $be-primary !important;
+                                transition: all 0.2s ease-in-out;
+                            }
+                        }
                     }
                 }
             }
@@ -70,25 +97,35 @@
             .call-to-action {
                 display: flex;
                 justify-content: space-around;
-                margin-bottom: 12px;
+                margin-bottom: 25px;
 
                 .be-link {
                     gap: 6px;
                     display: flex;
                     align-items: center;
                     color: $be-white;
+
+                    &:hover {
+                        color: $be-primary !important;
+                        transition: all 0.2s ease-in-out;
+                    }
+
+                    svg {
+                        width: 20px;
+                    }
                 }
             }
         }
     }
 
+    // hamburger-toggler
     .be-navbar-toggle {
         display: none;
     }
 
     button {
         padding: 18px 0;
-        font-weight: 500;
+        font-weight: 600;
 
         &:focus-visible {
             outline: none;
@@ -99,12 +136,14 @@
         }
     }
 
+    // header-right-content
     .be-right-content {
         margin: auto 0;
         display: flex;
         align-items: center;
         gap: 50px;
 
+        // search-input
         .be-input {
             position: relative;
             .be-search-input {
@@ -136,7 +175,7 @@
                 cursor: pointer;
             }
         }
-
+        // login-btn
         .be-login-btn {
             background-color: $be-primary;
             color: $be-white;
@@ -149,13 +188,65 @@
                 background-color: $be-primary-hover;
             }
         }
+        .ant-space-item {
+            svg {
+                width: 20px;
+                height: 20px;
+                color: $be-white;
+            }
+        }
+        // dropdown
+        .be-profile-dropdown {
+            position: relative;
+            .be-dropdown-content {
+                position: absolute;
+                left: -85px;
+                top: 77px;
+                background-color: $be-secondary;
+                border-radius: 25px;
+
+                svg {
+                    width: 20px;
+                }
+
+                h5 {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                }
+
+                .be-list-content {
+                    width: 170px;
+                    padding: 25px !important;
+                    border-radius: $be-btn-border-radius;
+
+                    .be-list {
+                        display: flex;
+                        gap: 33px;
+
+                        ul {
+                            padding: 0;
+                            gap: 14px;
+                            display: flex;
+                            flex-direction: column;
+                            margin-bottom: 0;
+
+                            a {
+                                text-decoration: none;
+                                color: $be-text-default;
+                                display: flex;
+                                align-items: center;
+                                gap: 10px;
+
+                                &:hover {
+                                    color: $be-primary !important;
+                                    transition: all 0.2s ease-in-out;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
-}
-
-.rounded-header {
-    border-radius: $header-br;
-}
-
-.font-size {
-    font-size: $be-header-text;
 }
