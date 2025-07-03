@@ -39,7 +39,9 @@ export default function Header() {
     return (
         <header className="be-header">
             <nav aria-label="Global" className="be-nav">
+                {/* navbar-left-content */}
                 <div className="be-navbar-content">
+                {/* brand-logo */}
                 <div className="be-logo">
                     <a href="#" className="be-link">
                         <span className="sr-only">Your Company</span>
@@ -51,13 +53,14 @@ export default function Header() {
                         />
                     </a>
                 </div>
+                {/* nav-list-dropdown */}
                 <PopoverGroup className="be-nav-content">
                     <Popover className="be-dropdown">
                         <PopoverButton className="be-link">
                             Browse
                             <ChevronDownIcon aria-hidden="true" className="" />
                         </PopoverButton>
-
+                {/* dropdown-content */}
                         <PopoverPanel
                             transition
                             className="be-dropdown-list">
@@ -85,6 +88,7 @@ export default function Header() {
 
                 </PopoverGroup>
                 </div>
+                {/* navbar toggler */}
                 <div className="be-navbar-toggle">
                     <button
                         type="button"
@@ -95,7 +99,9 @@ export default function Header() {
                         <Bars3Icon aria-hidden="true" className="size-6" />
                     </button>
                 </div>
+                {/* navbar left content */}
                 <div className="be-right-content">
+                {/* nlt-search-input */}
                  <div className="be-input">
                     <input
                       type="text"
@@ -106,7 +112,7 @@ export default function Header() {
                     />
                     <Image className='search-icon' src={SearchIcon} alt="search-icon" />
                  </div>
-
+                {/* nlt-login-btn */}
                     <a href="#" className="be-login-btn be-link">
                         Log in <span aria-hidden="true">&rarr;</span>
                     </a>
