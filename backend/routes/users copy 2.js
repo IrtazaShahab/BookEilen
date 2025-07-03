@@ -17,9 +17,11 @@ router.post('/signup', async (req, res) => {
     if (password !== confirmPassword) {
         return res.status(400).json({ message: 'Password and confirm password do not match.' });
     }
+    const dbNameResult = await db.query('SELECT current_database()');
+    console.log('Connected to database:', dbNameResult.rows[0].current_database);
     // 3. Check for existing user (duplicate email)
     try {
-        const existingUser = await db.query('SELECT * FROM "user" WHERE "email" = $1', [email]);
+        const existingUser = await db.query('SELECT * FROM user WHERE email = $1', [email]);
         if (existingUser.rows.length > 0) {
             return res.status(409).json({ message: 'Email already registered.' });
         }
@@ -27,7 +29,7 @@ router.post('/signup', async (req, res) => {
         const bcrypt = require('bcryptjs');
         const hashedPassword = await bcrypt.hash(password, 10);
         // 5. Store user in DB (sanitize input is handled by parameterized queries)
-        const result = await db.query('INSERT INTO "user" (f_name, l_name, email, password) VALUES ($1, $2, $3, $4) RETURNING *', [
+        const result = await db.query('INSERT INTO user (f_name, l_name, email, password) VALUES ($1, $2, $3, $4) RETURNING *', [
             f_name,
             l_name,
             email,
@@ -42,38 +44,6 @@ router.post('/signup', async (req, res) => {
         });
     } catch (error) {
         console.error('Error creating user:', error);
-        res.status(500).json({ message: 'Internal server error' });
-    }
-});
-
-router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
-    // 1. Validate all required fields
-    if (!email || !password) {
-        return res.status(400).json({ message: 'All fields are required.' });
-    }
-    // 2. Check for existing user (duplicate email)
-    try {
-        const existingUser = await db.query('SELECT * FROM "user" WHERE "email" = $1', [email]);
-        if (existingUser.rows.length === 0) {
-            return res.status(404).json({ message: 'User not found.' });
-        }
-        // 3. Compare password with hashed password in DB
-        const user = existingUser.rows[0];
-        const bcrypt = require('bcryptjs');
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-        if (!isPasswordValid) {
-            return res.status(401).json({ message: 'Invalid password.' });
-        }
-        // 4. Return success (do not return password)
-        const userData = { ...user };
-        delete userData.password;
-        res.status(200).json({
-            message: 'Login successful',
-            data: userData,
-        });
-    } catch (error) {
-        console.error('Error Logging in user:', error);
         res.status(500).json({ message: 'Internal server error' });
     }
 });
