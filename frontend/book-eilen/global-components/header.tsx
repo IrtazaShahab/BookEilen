@@ -2,11 +2,7 @@
 
 import { useState } from 'react';
 import {
-    Dialog,
-    DialogPanel,
-    Disclosure,
-    DisclosureButton,
-    DisclosurePanel,
+
     Popover,
     PopoverButton,
     PopoverGroup,
@@ -19,163 +15,181 @@ import {
     CursorArrowRaysIcon,
     FingerPrintIcon,
     SquaresPlusIcon,
-    XMarkIcon,
+
 } from '@heroicons/react/24/outline';
 import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid';
 import LogoImage from 'images/logo.svg';
+import SearchIcon from "images/search-icon.svg";
+import DropdownIcon from "images/dropdown-icon.svg";
+import LogoutIcon from "images/log-out.svg";
+import SettingsIcon from "images/settings-icon.svg";
+import ReadListIcon from "images/read-list.svg";
+import MyBooksIcon from "images/open-book.svg";
+import PersonIcon from "images/person.svg";
 import Image from 'next/image';
 
-const products = [
-    { name: 'Analytics', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
-    { name: 'Engagement', description: 'Speak directly to your customers', href: '#', icon: CursorArrowRaysIcon },
-    { name: 'Security', description: 'Your customers’ data will be safe and secure', href: '#', icon: FingerPrintIcon },
-    { name: 'Integrations', description: 'Connect with third-party tools', href: '#', icon: SquaresPlusIcon },
-    { name: 'Automations', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
-];
 const callsToAction = [
     { name: 'Watch demo', href: '#', icon: PlayCircleIcon },
     { name: 'Contact sales', href: '#', icon: PhoneIcon },
 ];
 
+const items: MenuProps['items'] = [
+    {
+      label: (
+        <a href="https://www.antgroup.com" target="_blank" rel="noopener noreferrer">
+          1st menu item
+        </a>
+      ),
+      key: '0',
+    },
+    {
+      label: (
+        <a href="https://www.aliyun.com" target="_blank" rel="noopener noreferrer">
+          2nd menu item
+        </a>
+      ),
+      key: '1',
+    },
+    {
+      type: 'divider',
+    },
+    {
+      label: '3rd menu item',
+      key: '3',
+    },
+];
+
 export default function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+    console.log("Searching for:", e.target.value); // You can handle search logic here
+  };
 
     return (
-        <header className="bg-dark-900 be-header max-w-7xl mt-16 fixed left-78 right-0 top-0 rounded-[25px]">
-            <nav aria-label="Global" className="mx-auto flex max-w-7xl items-center justify-between pt-3 pb-3 pl-6 pr-6 lg:px-8 gap-[52px]">
-                <div className="flex">
-                    <a href="#" className="-m-1.5 p-1.5">
+        <header className="be-header">
+            <nav aria-label="Global" className="be-nav">
+                {/* navbar-left-content */}
+                <div className="be-navbar-content">
+                {/* brand-logo */}
+                <div className="be-logo">
+                    <a href="#" className="be-link">
                         <span className="sr-only">Your Company</span>
                         <Image
                             alt="Logo-Image"
                             src={LogoImage} width="158" height="38"
-                            className="h-8 w-auto" priority
+                            className=""
                         />
                     </a>
                 </div>
-                <div className="flex lg:hidden">
+                {/* nav-list-dropdown */}
+                <PopoverGroup className="be-nav-content">
+                    <Popover className="be-dropdown">
+                        <PopoverButton className="be-link">
+                            Browse
+                            <ChevronDownIcon aria-hidden="true" className="" />
+                        </PopoverButton>
+                {/* dropdown-content */}
+                        <PopoverPanel
+                            transition
+                            className="be-dropdown-content">
+                            <div className="p-4 be-list-content">
+                                <h5>Browse</h5>
+                                <div className="be-list">
+                                <ul>
+                                    <li><a href="#">Romance</a></li>
+                                    <li><a href="#">Fan-Fiction</a></li>
+                                    <li><a href="#">Fantasy</a></li>
+                                    <li><a href="#">Historical Fic</a></li>
+                                    <li><a href="#">Humor</a></li>
+                                    <li><a href="#">Sci-Fi</a></li>
+                                </ul>
+                                <ul>
+                                    <li><a href="#">Paranormal</a></li>
+                                    <li><a href="#">Mystry</a></li>
+                                    <li><a href="#">Poetry</a></li>
+                                    <li><a href="#">Adventure</a></li>
+                                    <li><a href="#">Thriller</a></li>
+                                    <li><a href="#">Teen Fiction</a></li>
+                                </ul>
+                                <ul>
+                                    <li><a href="#">Diverse Lit</a></li>
+                                    <li><a href="#">Editors Picks</a></li>
+                                    <li><a href="#">Non-Fiction</a></li>
+                                    <li><a href="#">Short Fiction</a></li>
+                                </ul>
+                                </div>
+                            </div>
+                        </PopoverPanel>
+                    </Popover>
+
+                    <button href="#" className="be-link">
+                        Features
+                    </button>
+
+                </PopoverGroup>
+                </div>
+                {/* navbar toggler */}
+                <div className="be-navbar-toggle">
                     <button
                         type="button"
                         onClick={() => setMobileMenuOpen(true)}
-                        className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 "
+                        className="be-navbar-toggle-icon"
                     >
                         <span className="sr-only">Open main menu</span>
                         <Bars3Icon aria-hidden="true" className="size-6" />
                     </button>
                 </div>
-                <PopoverGroup className="hidden lg:flex lg:gap-x-12">
-                    <Popover className="relative">
-                        <PopoverButton className="flex items-center gap-x-1 font-size font-semibold ">
-                            Product
-                            <ChevronDownIcon aria-hidden="true" className="size-5 flex-none " />
-                        </PopoverButton>
+                {/* navbar left content */}
+                <div className="be-right-content">
+                 {/* nlt-search-input */}
+                 <div className="be-input">
+                    <input
+                      type="text"
+                      placeholder="Search here"
+                      value={searchTerm}
+                      onChange={handleSearchChange}
+                      className="be-search-input"
+                    />
+                    <Image className='search-icon' src={SearchIcon} alt="search-icon" />
+                 </div>
+                 {/* nlt-login-btn */}
+                    <a href="#" className="be-login-btn be-link">
+                        Log in <span aria-hidden="true">&rarr;</span>
+                    </a>
 
+  <PopoverGroup className="be-profile-dropdown">
+                    <Popover className="be-dropdown">
+                        <PopoverButton className="be-link">
+                        <Image alt="dropdown-logo"  src={DropdownIcon} width="36" height="36" className="profile-img"/>
+                        <ChevronDownIcon aria-hidden="true" className="" />
+                        </PopoverButton>
+                {/* dropdown-content */}
                         <PopoverPanel
                             transition
-                            className="absolute top-full -left-8 z-50 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5 transition data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in"
-                        >
-                            <div className="p-4">
-                                {products.map((item) => (
-                                    <div
-                                        key={item.name}
-                                        className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 hover:bg-gray-50"
-                                    >
-                                        <div className="flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                                            <item.icon aria-hidden="true" className="size-6  group-hover:text-indigo-600" />
-                                        </div>
-                                        <div className="flex-auto">
-                                            <a href={item.href} className="block font-semibold ">
-                                                {item.name}
-                                                <span className="absolute inset-0" />
-                                            </a>
-                                            <p className="mt-1 ">{item.description}</p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                            <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
-                                {callsToAction.map((item) => (
-                                    <a
-                                        key={item.name}
-                                        href={item.href}
-                                        className="flex items-center justify-center gap-x-2.5 p-3 text-sm/6 font-semibold  hover:bg-gray-100"
-                                    >
-                                        <item.icon aria-hidden="true" className="size-5 flex-none " />
-                                        {item.name}
-                                    </a>
-                                ))}
+                            className="be-dropdown-content">
+                            <div className="p-4 be-list-content">
+                                <h5><Image alt="person-icon"  src={PersonIcon} width="26" height="26" className="person-icon"/> My Profile</h5>
+                                <div className="be-list">
+                                <ul>
+                                    <li><a href="#"><Image alt="My-Books-icon"  src={MyBooksIcon} width="22" height="22" className="My-Books-icon"/>
+                                            My Books</a></li>
+                                    <li><a href="#"><Image alt="read-list-icon"  src={ReadListIcon} width="24" height="24" className="read-list-icon"/>
+                                        Read List</a></li>
+                                    <li><a href="#"><Image alt="settings-icon"  src={SettingsIcon} width="24" height="24" className="settings-icon"/>
+                                        Settings</a></li>
+                                 <li><a href="#"><Image alt="logout-icon"  src={LogoutIcon} width="24" height="24" className="logout-icon"/>
+                                        Log Out</a></li>
+                                </ul>
+                                </div>
                             </div>
                         </PopoverPanel>
                     </Popover>
-
-                    <a href="#" className="no-underline font-size font-semibold text-white">
-                        Features
-                    </a>
-
                 </PopoverGroup>
-                <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                    <a href="#" className="text-sm/6 font-semibold ">
-                        Log in <span aria-hidden="true">&rarr;</span>
-                    </a>
                 </div>
             </nav>
-            <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
-                <div className="fixed inset-0 z-50" />
-                <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-                    <div className="flex items-center justify-between">
-                        <a href="#" className="-m-1.5 p-1.5">
-                            <span className="sr-only">Your Company</span>
-                            <img
-                                alt=""
-                                src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-                                className="h-8 w-auto"
-                            />
-                        </a>
-                        <button type="button" onClick={() => setMobileMenuOpen(false)} className="-m-2.5 rounded-md p-2.5 ">
-                            <span className="sr-only">Close menu</span>
-                            <XMarkIcon aria-hidden="true" className="size-6" />
-                        </button>
-                    </div>
-                    <div className="mt-6 flow-root">
-                        <div className="-my-6 divide-y divide-gray-500/10">
-                            <div className="space-y-2 py-6">
-                                <Disclosure as="div" className="-mx-3">
-                                    <DisclosureButton className="group flex w-full items-center justify-between rounded-lg py-2 pr-3.5 pl-3 text-base/7 font-semibold  hover:bg-gray-50">
-                                        Product
-                                        <ChevronDownIcon aria-hidden="true" className="size-5 flex-none group-data-open:rotate-180" />
-                                    </DisclosureButton>
-                                    <DisclosurePanel className="mt-2 space-y-2">
-                                        {[...products, ...callsToAction].map((item) => (
-                                            <DisclosureButton
-                                                key={item.name}
-                                                as="a"
-                                                href={item.href}
-                                                className="block rounded-lg py-2 pr-3 pl-6 text-sm/7 font-semibold  hover:bg-gray-50"
-                                            >
-                                                {item.name}
-                                            </DisclosureButton>
-                                        ))}
-                                    </DisclosurePanel>
-                                </Disclosure>
-                                <a href="#" className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold  hover:bg-gray-50">
-                                    Features
-                                </a>
-                                <a href="#" className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold  hover:bg-gray-50">
-                                    Marketplace
-                                </a>
-                                <a href="#" className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold  hover:bg-gray-50">
-                                    Company
-                                </a>
-                            </div>
-                            <div className="py-6">
-                                <a href="#" className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold  hover:bg-gray-50">
-                                    Log in
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </DialogPanel>
-            </Dialog>
         </header>
     );
 }

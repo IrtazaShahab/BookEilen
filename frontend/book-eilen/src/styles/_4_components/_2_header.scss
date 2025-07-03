@@ -2,25 +2,251 @@
 // ### Styles -> Conmponents -> Header
 //-------------------------------------------------------------------------------/
 
+// !TODO FIX path
+// @use "../_1_imports/imports" as *;
+
 .be-header {
     background-color: $be-secondary;
-    background-color: $be-secondary;
     font-family: "Inter", sans-serif;
-
-    a img {
-        width: 154px;
-        height: 34px;
-    }
-
-    a {
-        text-decoration: none;
-    }
-}
-
-.rounded-header {
+    margin: 40px 50px 0;
     border-radius: $header-br;
-}
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
 
-.font-size {
-    font-size: $be-header-text;
+    // logo
+    .be-logo {
+        width: 125px;
+        height: 22px;
+    }
+
+    .be-nav {
+        margin: 0 30px;
+        padding: 0;
+        display: flex;
+        justify-content: space-between;
+        gap: 40px;
+        font-size: 15px;
+
+        .be-navbar-content {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .be-nav-content {
+            display: flex;
+            gap: 40px;
+        }
+
+        button {
+            display: flex;
+        }
+    }
+
+    // dropdown
+    .be-dropdown {
+        position: relative;
+        .be-dropdown-content {
+            position: absolute;
+            top: 70px;
+            background-color: $be-secondary;
+            border-radius: 25px;
+
+            svg {
+                width: 20px;
+            }
+
+            .be-list-content {
+                width: 400px;
+                border-radius: 25px;
+
+                h5 {
+                    font-weight: 600;
+                    margin-bottom: 19px;
+                    padding-bottom: 10px;
+                    font-size: 18px;
+                    border-bottom: 1px solid $be-white;
+                }
+
+                .be-list {
+                    display: flex;
+                    gap: 33px;
+
+                    ul {
+                        padding: 0;
+                        gap: 10px;
+                        display: flex;
+                        flex-direction: column;
+                        margin-bottom: 0;
+
+                        a {
+                            text-decoration: none;
+                            color: $be-text-default;
+
+                            &:hover {
+                                color: $be-primary !important;
+                                transition: all 0.2s ease-in-out;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .call-to-action {
+                display: flex;
+                justify-content: space-around;
+                margin-bottom: 25px;
+
+                .be-link {
+                    gap: 6px;
+                    display: flex;
+                    align-items: center;
+                    color: $be-white;
+
+                    &:hover {
+                        color: $be-primary !important;
+                        transition: all 0.2s ease-in-out;
+                    }
+
+                    svg {
+                        width: 20px;
+                    }
+                }
+            }
+        }
+    }
+
+    // hamburger-toggler
+    .be-navbar-toggle {
+        display: none;
+    }
+
+    button {
+        padding: 18px 0;
+        font-weight: 600;
+
+        &:focus-visible {
+            outline: none;
+        }
+
+        svg {
+            width: 20px;
+        }
+    }
+
+    // header-right-content
+    .be-right-content {
+        margin: auto 0;
+        display: flex;
+        align-items: center;
+        gap: 50px;
+
+        // search-input
+        .be-input {
+            position: relative;
+            .be-search-input {
+                border: 1px solid $be-search-border;
+                border-radius: 30pc;
+                padding: 10px 30px 10px 14px !important;
+                font-weight: 500;
+                color: $be-white !important;
+                margin: auto 0;
+                width: 250px;
+                height: 33px;
+
+                &:focus-visible {
+                    outline: none;
+                }
+
+                ::placeholder {
+                    color: $be-search-border !important;
+                    font-size: 13px;
+                }
+            }
+
+            .search-icon {
+                position: absolute;
+                width: 25px;
+                height: 25px;
+                top: 4px;
+                right: 3px;
+                cursor: pointer;
+            }
+        }
+        // login-btn
+        .be-login-btn {
+            background-color: $be-primary;
+            color: $be-white;
+            text-decoration: none;
+            padding: 6px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+
+            :hover {
+                background-color: $be-primary-hover;
+            }
+        }
+        .ant-space-item {
+            svg {
+                width: 20px;
+                height: 20px;
+                color: $be-white;
+            }
+        }
+        // dropdown
+        .be-profile-dropdown {
+            position: relative;
+            .be-dropdown-content {
+                position: absolute;
+                left: -85px;
+                top: 77px;
+                background-color: $be-secondary;
+                border-radius: 25px;
+
+                svg {
+                    width: 20px;
+                }
+
+                h5 {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                }
+
+                .be-list-content {
+                    width: 170px;
+                    padding: 25px !important;
+                    border-radius: $be-btn-border-radius;
+
+                    .be-list {
+                        display: flex;
+                        gap: 33px;
+
+                        ul {
+                            padding: 0;
+                            gap: 14px;
+                            display: flex;
+                            flex-direction: column;
+                            margin-bottom: 0;
+
+                            a {
+                                text-decoration: none;
+                                color: $be-text-default;
+                                display: flex;
+                                align-items: center;
+                                gap: 10px;
+
+                                &:hover {
+                                    color: $be-primary !important;
+                                    transition: all 0.2s ease-in-out;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

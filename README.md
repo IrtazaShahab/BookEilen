@@ -1,4 +1,4 @@
-# BookEilen - Full Stack Project
+# BookEilen
 This is the complete **frontend and backend project** for **BookEilen**.
 
 ## 🚀 Tech Stack
