@@ -1,19 +1,27 @@
 @use "tailwindcss";
+@use "tailwindcss";
 
 @use "../styles/__bootstrap/bootstrap.scss" as *;
 
 // Variables
 @use "./_1_imports/imports" as *;
+@use "./_1_imports/imports" as *;
 
 // Variables
+@use "./_2_components/_components.scss" as *;
 @use "./_2_components/_components.scss" as *;
 
 // Pages
 @use "./pages.scss" as *;
+@use "./pages.scss" as *;
 
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 
 :root {
+    --background: $body-bg;
+    --foreground: $text-default;
+    --header-br: $header-br;
     --background: $be-body-bg;
     --foreground: $be-text-default;
     --header-br: $header-br;
@@ -23,6 +31,9 @@
 
 @media (prefers-color-scheme: dark) {
     :root {
+        --background: $body-bg;
+        --foreground: $text-default;
+        --header-br: $header-br;
         --background: $be-body-bg;
         --foreground: $be-text-default;
         --header-br: $header-br;
@@ -32,6 +43,9 @@
 }
 
 body {
+    background: $body-bg;
+    color: $text-default;
+    font-family: "Montserrat", Arial, Helvetica, sans-serif;
     background: $be-body-bg;
     color: $be-text-default;
     font-family: "Montserrat", Arial, Helvetica, sans-serif;

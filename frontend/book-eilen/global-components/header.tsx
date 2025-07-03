@@ -22,14 +22,6 @@ import LogoImage from 'images/logo.svg';
 import SearchIcon from "images/search-icon.svg";
 import Image from 'next/image';
 
-
-const products = [
-    { name: 'Analytics', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
-    { name: 'Engagement', description: 'Speak directly to your customers', href: '#', icon: CursorArrowRaysIcon },
-    { name: 'Security', description: 'Your customers’ data will be safe and secure', href: '#', icon: FingerPrintIcon },
-    { name: 'Integrations', description: 'Connect with third-party tools', href: '#', icon: SquaresPlusIcon },
-    { name: 'Automations', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
-];
 const callsToAction = [
     { name: 'Watch demo', href: '#', icon: PlayCircleIcon },
     { name: 'Contact sales', href: '#', icon: PhoneIcon },
@@ -61,7 +53,7 @@ export default function Header() {
                 <PopoverGroup className="be-nav-content">
                     <Popover className="be-dropdown">
                         <PopoverButton className="be-link">
-                            Product
+                            Browse
                             <ChevronDownIcon aria-hidden="true" className="" />
                         </PopoverButton>
 
@@ -69,22 +61,6 @@ export default function Header() {
                             transition
                             className="be-dropdown-list">
                             <div className="p-4 be-list-item">
-                                {products.map((item) => (
-                                    <div
-                                        key={item.name}
-                                        className="">
-                                        <div className="">
-                                            <item.icon aria-hidden="true" className="" />
-                                        </div>
-                                        <div className="">
-                                            <a href={item.href} className="be-link">
-                                                {item.name}
-                                                <span className="" />
-                                            </a>
-                                            <p className="">{item.description}</p>
-                                        </div>
-                                    </div>
-                                ))}
                             </div>
 
                             <div className="call-to-action">
