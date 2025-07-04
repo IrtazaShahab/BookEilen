@@ -2,12 +2,9 @@
 // ### Styles -> Conmponents -> Header
 //-------------------------------------------------------------------------------/
 
-// !TODO FIX path
-// @use "../_1_imports/imports" as *;
-
 .be-header {
     background-color: $be-secondary;
-    font-family: "Inter", sans-serif;
+    font-family: 'Inter', sans-serif;
     margin: 40px 50px 0;
     border-radius: $header-br;
     position: fixed;
@@ -36,7 +33,7 @@
         }
 
         .be-nav-content {
-            display: flex;
+            display: none;
             gap: 40px;
         }
 
@@ -120,7 +117,12 @@
 
     // hamburger-toggler
     .be-navbar-toggle {
-        display: none;
+        display: block;
+
+        svg {
+            width: 30px;
+            height: 30px;
+        }
     }
 
     button {
@@ -141,7 +143,7 @@
         margin: auto 0;
         display: flex;
         align-items: center;
-        gap: 50px;
+        gap: 20px;
 
         // search-input
         .be-input {
@@ -153,7 +155,7 @@
                 font-weight: 500;
                 color: $be-white !important;
                 margin: auto 0;
-                width: 250px;
+                width: 220px;
                 height: 33px;
 
                 &:focus-visible {
@@ -180,9 +182,11 @@
             background-color: $be-primary;
             color: $be-white;
             text-decoration: none;
-            padding: 6px 20px;
+            padding: 10px 20px;
+            line-height: 1;
             border-radius: 25px;
             font-weight: 600;
+            font-size: 13px;
 
             :hover {
                 background-color: $be-primary-hover;
@@ -198,9 +202,48 @@
         // dropdown
         .be-profile-dropdown {
             position: relative;
+            display: none;
+
+            button {
+                display: flex;
+                gap: 5px;
+                align-items: center;
+                transition: all 0.25s ease-out;
+
+                h6 {
+                    display: none;
+                    margin: 0;
+                    font-weight: 500;
+                    transition: all 0.25s ease-in-out;
+                }
+            }
+
+            /* Hide h6 by default */
+            .be-link .dropdown-username {
+                display: none;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                transform: translateY(-5px);
+                transition: all 0.25s ease-out;
+            }
+
+            /* Show it when dropdown is open */
+            .be-link[aria-expanded='true'] .dropdown-username {
+                display: inline-block;
+                opacity: 1;
+                transform: translateY(0);
+                transition: all 0.25s ease-in;
+            }
+
+            /* Show it when dropdown is open */
+            .be-link[aria-expanded='true'] {
+                transform: translateY(0);
+                transition: all 0.25s ease-in;
+            }
+
             .be-dropdown-content {
                 position: absolute;
-                left: -85px;
+                left: -7px;
                 top: 77px;
                 background-color: $be-secondary;
                 border-radius: 25px;
@@ -247,6 +290,34 @@
                     }
                 }
             }
+        }
+    }
+
+
+
+    @media (min-width: 992px) {
+        .be-nav {
+            .be-navbar-content {
+                .be-nav-content {
+                    display: block flex;
+                }
+            }
+        }
+
+        // navbar right content
+        .be-right-content {
+            gap: 50px;
+
+            .be-search-input {
+                width: 250px;
+            }
+            .be-login-btn {
+                font-size: 15px;
+            }
+        }
+        // hamburger-toggler
+        .be-navbar-toggle {
+            display: none;
         }
     }
 }
