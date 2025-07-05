@@ -1,15 +1,17 @@
 var express = require('express');
 var router = express.Router();
+import dotenv from 'dotenv';
 const db = require('../db');
 const jwt = require('jsonwebtoken');
 const SECRET_KEY = 'your_jwt_secret_key'; // store this in environment variable
 
-// TOKEN GENERATION
-const token = jwt.sign({ id: user.id, email: user.email }, SECRET_KEY, { expiresIn: '1h' });
-
 /* GET users listing. */
 router.get('/', function (req, res, next) {
     res.send('respond with a resource');
+});
+
+dotenv.config({
+    path: `.env.${process.env.NODE_ENV || 'development'}.local`,
 });
 
 // Signup
@@ -42,6 +44,10 @@ router.post('/signup', async (req, res) => {
         // 6. Return success (do not return password)
         const userData = { ...result.rows[0] };
         delete userData.password;
+
+        // TOKEN GENERATION
+        const token = jwt.sign({ id: result.rows[0].id, email: result.rows[0].email }, SECRET_KEY, { expiresIn: '1h' });
+
         res.status(201).json({
             message: 'User created successfully',
             token: token, // send token to frontend
