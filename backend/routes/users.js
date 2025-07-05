@@ -1,6 +1,11 @@
 var express = require('express');
 var router = express.Router();
 const db = require('../db');
+const jwt = require('jsonwebtoken');
+const SECRET_KEY = 'your_jwt_secret_key'; // store this in environment variable
+
+// TOKEN GENERATION
+const token = jwt.sign({ id: user.id, email: user.email }, SECRET_KEY, { expiresIn: '1h' });
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
@@ -39,6 +44,7 @@ router.post('/signup', async (req, res) => {
         delete userData.password;
         res.status(201).json({
             message: 'User created successfully',
+            token: token, // send token to frontend
             data: userData,
         });
     } catch (error) {
