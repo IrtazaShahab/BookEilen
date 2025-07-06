@@ -84,6 +84,17 @@ router.post('/login', async (req, res) => {
             accessToken: accessToken, // send token to frontend
             data: userData,
         });
+
+        function authenticateToken(req, res, next) {
+            const authHeader = req.headers['authorization'];
+            const token = authHeader && authHeader.split(' ')[1];
+            if (!token) return res.sendStatus(401); // Unauthorized
+            jwt.verify(token, JWT_SECRET, (err, user) => {
+                if (err) return res.sendStatus(403); // Forbidden
+                req.user = user;
+                next();
+            });
+        }
     } catch (error) {
         console.error('Error Logging in user:', error);
         res.status(500).json({ message: 'Internal server error' });
