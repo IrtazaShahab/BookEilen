@@ -1,17 +1,14 @@
 var express = require('express');
 var router = express.Router();
-import dotenv from 'dotenv';
 const db = require('../db');
 const jwt = require('jsonwebtoken');
-const SECRET_KEY = 'your_jwt_secret_key'; // store this in environment variable
+require('dotenv').config();
+const { JWT_SECRET, JWT_EXPIRES_IN } = process.env;
+const bcrypt = require('bcryptjs');
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
     res.send('respond with a resource');
-});
-
-dotenv.config({
-    path: `.env.${process.env.NODE_ENV || 'development'}.local`,
 });
 
 // Signup
@@ -32,7 +29,6 @@ router.post('/signup', async (req, res) => {
             return res.status(409).json({ message: 'Email already registered.' });
         }
         // 4. Hash password before storing
-        const bcrypt = require('bcryptjs');
         const hashedPassword = await bcrypt.hash(password, 10);
         // 5. Store user in DB (sanitize input is handled by parameterized queries)
         const result = await db.query('INSERT INTO "user" (f_name, l_name, email, password) VALUES ($1, $2, $3, $4) RETURNING *', [
@@ -45,12 +41,8 @@ router.post('/signup', async (req, res) => {
         const userData = { ...result.rows[0] };
         delete userData.password;
 
-        // TOKEN GENERATION
-        const token = jwt.sign({ id: result.rows[0].id, email: result.rows[0].email }, SECRET_KEY, { expiresIn: '1h' });
-
         res.status(201).json({
             message: 'User created successfully',
-            token: token, // send token to frontend
             data: userData,
         });
     } catch (error) {
@@ -76,7 +68,6 @@ router.post('/login', async (req, res) => {
         }
         // 3. Compare password with hashed password in DB
         const user = existingUser.rows[0];
-        const bcrypt = require('bcryptjs');
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
             return res.status(401).json({ message: 'Invalid password.' });
@@ -84,8 +75,13 @@ router.post('/login', async (req, res) => {
         // 4. Return success (do not return password)
         const userData = { ...user };
         delete userData.password;
+
+        // TOKEN GENERATION
+        const accessToken = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
+
         res.status(200).json({
             message: 'Login successful',
+            accessToken: accessToken, // send token to frontend
             data: userData,
         });
     } catch (error) {

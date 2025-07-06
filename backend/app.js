@@ -12,7 +12,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 env.config({
-    path: './.env',
+    path: `./.env.${process.env.NODE_ENV || 'development'}`,
 });
 
 var app = express();
