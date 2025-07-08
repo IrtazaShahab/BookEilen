@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Index from './pages/index';
 import BeSignupForm from '@/global-components/signup-from';
 import BeLoginForm from '@/global-components/login-form';
+import ReduxProvider from './ReduxProvider';
 
 export const metadata: Metadata = {
     title: 'Book Eilen',
@@ -15,14 +16,16 @@ export default function Home({
     children: React.ReactNode;
 }>) {
     return (
-        <div>
-            <Container>
-                <div className="">
-                    {/* <Index /> */}
-                    <BeLoginForm />
-                    <BeSignupForm />
-                </div>
-            </Container>
-        </div>
+        <ReduxProvider>
+            <div>
+                <Container>
+                    <div className="">
+                        {/* <Index /> */}
+                        <BeLoginForm />
+                        <BeSignupForm />
+                    </div>
+                </Container>
+            </div>
+        </ReduxProvider>
     );
 }
