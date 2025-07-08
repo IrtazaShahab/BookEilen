@@ -1,3 +1,91 @@
 //-------------------------------------------------------------------------------/
-// ### Styles -> Conmponents -> Footer
+// ### Styles -> Components -> Footer
 //-------------------------------------------------------------------------------/
+
+.be-footer {
+    background-color: $be-secondary !important;
+    margin: 0 50px 80px;
+    border-radius: 20px;
+    .footer-content {
+        padding: 40px 30px 80px;
+        border-top: 1px solid $be-white;
+        border-radius: 20px;
+
+        .be-footer-top {
+            display: flex;
+            gap: 139px;
+
+            .be-logo-content {
+                display: flex;
+                gap: 20px;
+                flex-direction: column;
+
+                .be-footer-icons {
+                    display: flex;
+                    gap: 15px;
+
+                    .x-color svg {
+                        width: 20px;
+                        height: 20px;
+                    }
+
+                    svg {
+                        width: 24px;
+                        height: 24px;
+                        color: $be-primary;
+                        transition: all 0.25s ease-out;
+
+                        &:hover {
+                            color: $be-white;
+                            transition: all 0.25s ease-in;
+                        }
+                    }
+                }
+            }
+
+            .be-top-right-content {
+                display: flex;
+                gap: 150px;
+
+                div {
+                    h5 {
+                        margin-bottom: 20px;
+                        font-weight: 600;
+                    }
+
+                    ul {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 8px;
+                        padding: 0 !important;
+
+                        li a {
+                            text-decoration: none;
+                            color: $be-white;
+                            transition: all 0.25s ease-out;
+
+                            &:hover {
+                                color: $be-primary;
+                                transition: all 0.25s ease-in;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .be-footer-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 30px;
+
+            span {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+            }
+        }
+    }
+}

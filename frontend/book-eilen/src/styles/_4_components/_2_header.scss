@@ -15,16 +15,16 @@
 
     // logo
     .be-logo {
-        width: 100px;
-        height: 15px;
+        width: 90px;
+        height: 14px;
     }
 
     .be-nav {
-        margin: 0 20px;
+        margin: 0 15px;
         padding: 0;
         display: flex;
         justify-content: space-between;
-        gap: 40px;
+        gap: 8px;
         font-size: 15px;
         height: 52px;
 
@@ -56,7 +56,7 @@
         .be-dropdown-content {
             position: absolute;
             top: 70px;
-            background-color: $be-secondary;
+            background-color: #2c2c2c;
             border-radius: 25px;
 
             svg {
@@ -106,8 +106,8 @@
         display: block;
 
         svg {
-            width: 25px;
-            height: 25px;
+            width: 23px;
+            height: 23px;
         }
     }
 
@@ -129,23 +129,25 @@
         margin: auto 0;
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 6px;
+        position: relative;
+        top: -4px;
 
         // search-input
         .be-input {
             position: relative;
-            top: -2px;
             right: 0;
+            top: -1px;
 
             .be-search-input {
                 border: 1px solid $be-search-border;
                 border-radius: 30pc;
-                padding: 10px 30px 10px 12px !important;
                 font-weight: 500;
                 color: $be-white !important;
                 margin: auto 0;
-                width: 140px !important;
-                height: 30px !important;
+                width: 110px !important;
+                height: 28px !important;
+                padding: 8px 30px 8px 8px !important;
 
                 &:focus-visible {
                     outline: none;
@@ -160,8 +162,8 @@
 
             .search-icon {
                 position: absolute;
-                width: 25px;
-                height: 25px;
+                width: 23px;
+                height: 23px;
                 top: 3px;
                 right: 3px;
                 cursor: pointer;
@@ -183,8 +185,10 @@
 
         // search-icon-outside
         .search-icon-outside {
-            top: -1px;
+            top: 0px;
             right: 3px;
+            width: 23px;
+            height: 23px;
             position: relative;
         }
 
@@ -192,12 +196,13 @@
         .be-login-btn {
             background-color: $be-primary;
             color: $be-white;
+            white-space: nowrap;
             text-decoration: none;
-            padding: 8px 11px;
+            padding: 6px 10px;
+            font-size: 10px;
             line-height: 1;
             border-radius: 25px;
             font-weight: 600;
-            font-size: 11px;
 
             :hover {
                 background-color: $be-primary-hover;
@@ -422,6 +427,10 @@
                 }
             }
 
+            .search-icon-outside {
+                top: -1px;
+            }
+
             .be-navbar-toggle {
                 svg {
                     width: 28px;
@@ -454,6 +463,9 @@
             .be-navbar-content {
                 .be-nav-content {
                     display: block flex;
+                    button{
+                        font-weight: 16px !important;
+                    }
                 }
             }
 
@@ -463,21 +475,30 @@
 
                 .be-input {
                     display: block;
+                    top: 3px;
+
+                    .search-icon {
+                        top: 3px !important;
+                        position: absolute;
+                        width: 28px;
+                        height: 28px;
+                    }
                 }
 
                 .be-search-input {
                     width: 250px !important;
                     height: 33px !important;
+                    padding: 8px 30px 8px 12px !important;
 
                     &::placeholder {
                         font-size: 13px !important;
                     }
+                }
 
-                    .search-icon {
-                        top: 4px !important;
-                        right: 4px !important;
-                        position: absolute;
-                    }
+                .search-icon-outside {
+                    top: 2px;
+                    width: 28px;
+                    height: 28px;
                 }
 
                 .be-login-btn {
@@ -494,5 +515,10 @@
 
     @media (min-width: 1200px) {
         margin: 40px 50px 0;
+
+        .be-logo {
+            width: 130px !important;
+            height: 22px !important;
+        }
     }
 }
