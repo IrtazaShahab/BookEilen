@@ -3,19 +3,23 @@ import { useForm } from 'react-hook-form';
 import { useState, useEffect, useRef } from 'react';
 import { useAppDispatch } from '../app/redux/hooks';
 import { setUser } from '../app/redux/store';
+import { useRouter } from 'next/navigation';
 
 export default function BeLoginForm() {
+    const router = useRouter();
+
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm({
         defaultValues: {
-            // Initialize with an empty string or a known default
             email: '',
             password: '',
         },
     });
+
+
     const [showPassword, setShowPassword] = useState(false);
     const emailRef = useRef(null);
 
@@ -41,6 +45,7 @@ export default function BeLoginForm() {
 
                 // REDIRECT TO Dashboard by UseRouter
                 // window.location.href = '/';
+                router.push('/pages/dashboard');
 
                 console.log('Redux Token', data.accessToken);
             }
