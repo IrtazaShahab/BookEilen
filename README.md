@@ -7,7 +7,10 @@ This is the complete **frontend and backend project** for **BookEilen**.
 - React.js
 - Next.js
 - Axios / Fetch API
+- Typescript
+- Redux - State Management
 - Tailwind CSS / SCSS / Bootstrap
+- Ant Design - UI Components
 
 **Backend:**
 - Node.js
@@ -40,5 +43,5 @@ npm start
 ### 3. 📁 Folder Structure
 BookEilen/ <br/>
 ├── frontend/<br/>
-│ └── book-eilen/<br/>
+ │ └── book-eilen/<br/>
 └── backend/<br/>
