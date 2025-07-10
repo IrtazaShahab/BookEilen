@@ -24,14 +24,14 @@ router.post('/signup', async (req, res) => {
     }
     // 3. Check for existing user (duplicate email)
     try {
-        const existingUser = await db.query('SELECT * FROM "user" WHERE "email" = $1', [email]);
+        const existingUser = await db.query('SELECT * FROM "users" WHERE "email" = $1', [email]);
         if (existingUser.rows.length > 0) {
             return res.status(409).json({ message: 'Email already registered.' });
         }
         // 4. Hash password before storing
         const hashedPassword = await bcrypt.hash(password, 10);
         // 5. Store user in DB (sanitize input is handled by parameterized queries)
-        const result = await db.query('INSERT INTO "user" (f_name, l_name, email, password) VALUES ($1, $2, $3, $4) RETURNING *', [
+        const result = await db.query('INSERT INTO "users" (f_name, l_name, email, password) VALUES ($1, $2, $3, $4) RETURNING *', [
             f_name,
             l_name,
             email,
@@ -62,7 +62,7 @@ router.post('/login', async (req, res) => {
     }
     // 2. Check for existing user (duplicate email)
     try {
-        const existingUser = await db.query('SELECT * FROM "user" WHERE "email" = $1', [email]);
+        const existingUser = await db.query('SELECT * FROM "users" WHERE "email" = $1', [email]);
         if (existingUser.rows.length === 0) {
             return res.status(404).json({ message: 'User not found.' });
         }
