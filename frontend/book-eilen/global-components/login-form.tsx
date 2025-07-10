@@ -1,6 +1,6 @@
 'use client';
 import { useForm } from 'react-hook-form';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useAppDispatch } from '../app/redux/hooks';
 import { setUser } from '../app/redux/store';
 import { useRouter } from 'next/navigation';
@@ -19,7 +19,6 @@ export default function BeLoginForm() {
         },
     });
 
-
     const [showPassword, setShowPassword] = useState(false);
     const emailRef = useRef(null);
 
@@ -29,7 +28,7 @@ export default function BeLoginForm() {
 
     const dispatch = useAppDispatch();
 
-    const onSubmit = async (event) => {
+    const onSubmit = useCallback(async (event) => {
         //Check if the user exists and password is correct then login the user else put error message
         try {
             const response = await fetch('http://localhost:3040/users/login', {
@@ -40,11 +39,14 @@ export default function BeLoginForm() {
 
             const data = await response.json();
             if (response.ok && data.accessToken) {
+                console.log(data.data);
+
                 dispatch(setUser({ user: data.data, token: data.accessToken }));
                 // Optionally, redirect or show success
 
                 // REDIRECT TO Dashboard by UseRouter
                 // window.location.href = '/';
+                // window.location.href = '/pages/dashboard';
                 router.push('/pages/dashboard');
 
                 console.log('Redux Token', data.accessToken);
@@ -52,7 +54,7 @@ export default function BeLoginForm() {
         } catch (error) {
             console.error('Error submitting form:', error);
         }
-    };
+    }, []);
 
     useEffect(() => {
         // Focus on the email input when the component mounts
@@ -60,10 +62,6 @@ export default function BeLoginForm() {
             emailRef.current.focus();
         }
     }, []);
-
-    useEffect(() => {
-        console.log('Redux Token', dispatch.token);
-    }, [dispatch.token]);
 
     return (
         <form className="be-form" onSubmit={handleSubmit(onSubmit)}>
