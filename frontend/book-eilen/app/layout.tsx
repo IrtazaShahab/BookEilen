@@ -4,6 +4,10 @@ import '../src/styles/styles.scss';
 import Header from '../global-components/header';
 import Footer from '@/global-components/footer';
 import ReduxProvider from './ReduxProvider';
+import { Inter, Montserrat } from 'next/font/google';
+
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+const montserrat = Montserrat({ subsets: ['latin'], variable: '--font-montserrat' });
 
 
 const geistSans = Geist({
@@ -28,7 +32,7 @@ export default function RootLayout({
 }>) {
     return (
         <ReduxProvider>
-            <html lang="en">
+            <html lang="en" className={`${inter.variable} ${montserrat.variable}`}>
                 <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
                     <Header />
                     {children}

@@ -7,13 +7,14 @@ export default function Footer() {
     return (
         <footer className="be-footer">
             <div className="footer-content">
-                <div className="be-footer-top">
-                    <div className="be-logo-content">
+                <div className="be-footer-top row">
+                    <div className="be-logo-content col-md-6 col-xl-3">
                         <div className="be-logo">
                             <a href="#" className="be-link">
                                 <Image src={footerLogoImage} alt="Logo-img" width="138" height="28" />
                             </a>
                         </div>
+                        <p>Bookeilen is an open, editable library catalog, building towards a web page for every book ever published</p>
                         <div className="be-footer-icons">
                             <a href="#" className="x-color">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -67,8 +68,7 @@ export default function Footer() {
                             </a>
                         </div>
                     </div>
-                    <div className="be-top-right-content">
-                        <div>
+                    <div className="bfc-content col-md-6 col-lg-3 col-xl-2">
                             <h5 className="">Explore</h5>
                             <ul className="">
                                 <li className="">
@@ -92,8 +92,8 @@ export default function Footer() {
                                     </a>
                                 </li>
                             </ul>
-                        </div>
-                        <div>
+                    </div>
+                    <div className="bfc-content col-md-6 col-lg-3 col-xl-1">
                             <h5 className="">Follow us</h5>
                             <ul className="">
                                 <li className="">
@@ -117,22 +117,28 @@ export default function Footer() {
                                     </a>
                                 </li>
                             </ul>
-                        </div>
-                        <div>
+                    </div>
+                    <div className="bfc-content col-md-6 col-xl-2">
                             <h5 className="">Legal</h5>
                             <ul className="">
                                 <li className="">
-                                    <a href="#" className="">
-                                        Privacy Policy
-                                    </a>
+                                        privacy policy
                                 </li>
                                 <li>
-                                    <a href="#" className="">
-                                        Terms &amp; Conditions
-                                    </a>
+                                        terms &amp; conditions
                                 </li>
                             </ul>
-                        </div>
+                    </div>
+                    <div className="bfc-content n-content col-md-6 col-xl-2">
+                         <div className="newsletter-content">
+                           <h5>Newsletter</h5>
+                           <input
+                            type="text"
+                            placeholder="Search here"
+                            className="be-search-input"
+                           />
+                           <button type="button" className="btn">Subscribe Now</button>
+                         </div>
                     </div>
                 </div>
                 <hr className="" />
