@@ -42,19 +42,27 @@ export default function BeLoginForm() {
                 console.log(data.data);
 
                 dispatch(setUser({ user: data.data, token: data.accessToken }));
-                // Optionally, redirect or show success
 
-                // REDIRECT TO Dashboard by UseRouter
-                // window.location.href = '/';
-                // window.location.href = '/pages/dashboard';
-                router.push('/pages/dashboard');
-
-                console.log('Redux Token', data.accessToken);
+                // Store accessToken in sessionStorage
+                sessionStorage.setItem('accessToken', data.accessToken);
             }
         } catch (error) {
             console.error('Error submitting form:', error);
         }
     }, []);
+
+    useEffect(() => {
+        // REDIRECT TO Dashboard by UseRouter
+        // window.location.href = '/';
+        // window.location.href = '/pages/dashboard';
+        console.log('Access Token', sessionStorage.getItem('accessToken'));
+
+        if (!sessionStorage.getItem('accessToken')) {
+            // router.push('/login');
+            return;
+        }
+        router.push('/pages/dashboard');
+    }, [router]);
 
     useEffect(() => {
         // Focus on the email input when the component mounts
