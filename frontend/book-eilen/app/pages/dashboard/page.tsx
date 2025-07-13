@@ -1,17 +1,17 @@
 'use client';
 
-import React from "react";
+import React from 'react';
 import { useAppDispatch } from '@/app/redux/hooks';
 import { useRouter } from 'next/navigation';
-import ReduxProvider from "@/app/ReduxProvider";
+import ReduxProvider from '@/app/ReduxProvider';
 
 const DashboardPage = () => {
     const router = useRouter();
     const dispatch = useAppDispatch();
-        if (!dispatch.token) {
-       router.push('/'); // Redirect to home if not authenticated
+
+    if (!sessionStorage.getItem('accessToken')) {
+        router.push('/'); // Redirect to home if not authenticated
     }
-       
 
     return (
         <main className="p-8">
