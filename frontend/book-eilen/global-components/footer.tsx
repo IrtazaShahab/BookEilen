@@ -8,7 +8,8 @@ export default function Footer() {
         <footer className="be-footer">
             <div className="footer-content">
                 <div className="be-footer-top row">
-                    <div className="be-logo-content col-md-6 col-xl-3">
+                    <div className="be-logo-content col-md-6 col-lg-5 col-xxl-6">
+                        <div className="be-l-content">
                         <div className="be-logo">
                             <a href="#" className="be-link">
                                 <Image src={footerLogoImage} alt="Logo-img" width="138" height="28" />
@@ -67,8 +68,9 @@ export default function Footer() {
                                 <span className="sr-only">GitHub account</span>
                             </a>
                         </div>
+                        </div>
                     </div>
-                    <div className="bfc-content col-md-6 col-lg-3 col-xl-2">
+                    <div className="bfc-content col-md-6 col-lg-2 ">
                             <h5 className="">Explore</h5>
                             <ul className="">
                                 <li className="">
@@ -93,7 +95,7 @@ export default function Footer() {
                                 </li>
                             </ul>
                     </div>
-                    <div className="bfc-content col-md-6 col-lg-3 col-xl-1">
+                    <div className="bfc-content col-md-6 col-lg-2 ">
                             <h5 className="">Follow us</h5>
                             <ul className="">
                                 <li className="">
@@ -118,18 +120,7 @@ export default function Footer() {
                                 </li>
                             </ul>
                     </div>
-                    <div className="bfc-content col-md-6 col-xl-2">
-                            <h5 className="">Legal</h5>
-                            <ul className="">
-                                <li className="">
-                                        privacy policy
-                                </li>
-                                <li>
-                                        terms &amp; conditions
-                                </li>
-                            </ul>
-                    </div>
-                    <div className="bfc-content n-content col-md-6 col-xl-2">
+                    <div className="bfc-content n-content col-md-6 col-lg-1">
                          <div className="newsletter-content">
                            <h5>Newsletter</h5>
                            <input
@@ -144,6 +135,23 @@ export default function Footer() {
                 <hr className="" />
                 <div className="be-footer-bottom">
                     <span className="">© 2025 . All Rights Reserved.</span>
+                    <ul className="">
+                        <li className="">
+                                    <a href="#">
+                                        Privacy Policy
+                                    </a>
+                        </li>
+                        <li>
+                                    <a href="#">
+                                        Terms &amp; Conditions
+                                    </a>
+                        </li>
+                        <li className="">
+                                    <a href="#">
+                                        Cookies Settings
+                                    </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </footer>

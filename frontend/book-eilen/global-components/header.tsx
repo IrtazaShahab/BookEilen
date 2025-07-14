@@ -34,6 +34,7 @@ export default function Header() {
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const searchRef = useRef(null);
   const buttonRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   // Close if clicking outside input and outside button
   useEffect(() => {
@@ -51,6 +52,18 @@ export default function Header() {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
 
+  }, []);
+
+   // Detect screen size
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 992); // adjust breakpoint if needed
+    };
+
+    handleResize(); // check on mount
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
 
@@ -114,25 +127,35 @@ export default function Header() {
 
         {/* Right Content */}
         <div className="be-right-content">
-        {mobileSearchOpen && (
-          <div className="be-input" ref={searchRef}>
-            <input
-              type="text"
-              placeholder="Search here"
-              value={searchTerm}
-              onChange={handleSearchChange}
-              className="be-search-input"
-            />
-            <Image className="search-icon" src={SearchIcon} alt="search-icon" />
-          </div>
+          {(isMobile ? mobileSearchOpen : true) && (
+        <div className="be-input" ref={searchRef}>
+          <input
+            type="text"
+            placeholder="Search here"
+            value={searchTerm}
+            onChange={handleSearchChange}
+            className="be-search-input"
+          />
+          <Image className="search-icon" src={SearchIcon} alt="search-icon" />
+        </div>
           )}
 
-          <button  type="button"
-           onClick={() => setMobileSearchOpen(true)}
-           ref={buttonRef}
-           className="search-toggle-btn">
-          <Image className="search-icon-outside" src={SearchIcon} width={25} height={25} alt="search-icon" />
-          </button>
+         {isMobile && (
+        <button
+          type="button"
+          onClick={() => setMobileSearchOpen(true)}
+          ref={buttonRef}
+          className="search-toggle-btn"
+        >
+          <Image
+            className="search-icon-outside"
+            src={SearchIcon}
+            width={25}
+            height={25}
+            alt="search-icon"
+          />
+        </button>
+         )}
 
 
           <a href="#" className="be-login-btn be-link">
