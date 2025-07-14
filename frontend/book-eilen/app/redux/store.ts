@@ -40,7 +40,9 @@ export const store = configureStore({
 
 // Types for use in hooks
 export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = {
-    token: string | null;
-    user: string;
-};
+// export type AppDispatch = {
+//     token: string | null;
+//     user: string;
+// };
+
+export type AppDispatch = typeof store.dispatch; // <-- Fix this line

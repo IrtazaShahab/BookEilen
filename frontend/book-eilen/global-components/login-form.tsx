@@ -20,7 +20,7 @@ export default function BeLoginForm() {
     });
 
     const [showPassword, setShowPassword] = useState(false);
-    const emailRef = useRef(null);
+    const emailRef = useRef<HTMLInputElement>(null);
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -28,33 +28,31 @@ export default function BeLoginForm() {
 
     const dispatch = useAppDispatch();
 
-    const onSubmit = useCallback(async (event) => {
-        //Check if the user exists and password is correct then login the user else put error message
-        try {
-            const response = await fetch('http://localhost:3040/users/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(event),
-            });
+    const onSubmit = useCallback(
+        async (event: { email: string; password: string }) => {
+            try {
+                const response = await fetch('http://localhost:3040/users/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(event),
+                });
 
-            const data = await response.json();
-            if (response.ok && data.accessToken) {
-                console.log(data.data);
+                const data = await response.json();
+                if (response.ok && data.accessToken) {
+                    // Store accessToken in sessionStorage
+                    sessionStorage.setItem('accessToken', data.accessToken);
 
-                dispatch(setUser({ user: data.data, token: data.accessToken }));
-                // Optionally, redirect or show success
+                    dispatch(setUser({ user: data.data, token: data.accessToken }));
 
-                // REDIRECT TO Dashboard by UseRouter
-                // window.location.href = '/';
-                // window.location.href = '/pages/dashboard';
-                router.push('/pages/dashboard');
-
-                console.log('Redux Token', data.accessToken);
+                    // Redirect to dashboard after successful login
+                    router.push('/pages/dashboard');
+                }
+            } catch (error) {
+                console.error('Error submitting form:', error);
             }
-        } catch (error) {
-            console.error('Error submitting form:', error);
-        }
-    }, []);
+        },
+        [dispatch, router]
+    );
 
     useEffect(() => {
         // Focus on the email input when the component mounts
