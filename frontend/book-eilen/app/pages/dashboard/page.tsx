@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, memo } from 'react';
 import { useAppDispatch } from '@/app/redux/hooks';
 import { useRouter } from 'next/navigation';
 import ReduxProvider from '@/app/ReduxProvider';
@@ -26,4 +26,4 @@ const DashboardPage = () => {
     );
 };
 
-export default DashboardPage;
+export default memo(DashboardPage);
