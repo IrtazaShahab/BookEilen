@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAppDispatch } from '@/app/redux/hooks';
 import { useRouter } from 'next/navigation';
 import ReduxProvider from '@/app/ReduxProvider';
@@ -9,9 +9,11 @@ const DashboardPage = () => {
     const router = useRouter();
     const dispatch = useAppDispatch();
 
-    if (!sessionStorage.getItem('accessToken')) {
-        router.push('/'); // Redirect to home if not authenticated
-    }
+    useEffect(() => {
+        if (typeof window !== 'undefined' && !localStorage.getItem('accessToken')) {
+            router.push('/'); // Redirect to home if not authenticated
+        }
+    }, [router]);
 
     return (
         <main className="p-8">

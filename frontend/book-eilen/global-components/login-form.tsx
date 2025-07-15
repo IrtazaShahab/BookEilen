@@ -38,9 +38,12 @@ export default function BeLoginForm() {
                 });
 
                 const data = await response.json();
+
                 if (response.ok && data.accessToken) {
-                    // Store accessToken in sessionStorage
-                    sessionStorage.setItem('accessToken', data.accessToken);
+                    if (typeof window !== 'undefined') {
+                        // Store accessToken in localStorage for persistent login
+                        localStorage.setItem('accessToken', data.accessToken);
+                    }
 
                     dispatch(setUser({ user: data.data, token: data.accessToken }));
 
