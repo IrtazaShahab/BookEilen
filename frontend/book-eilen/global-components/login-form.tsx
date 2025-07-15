@@ -69,7 +69,7 @@ export default function BeLoginForm() {
             <div className="">
                 <h1 className="h2">Login</h1>
 
-                <div className="row mt-4 g-3">
+                <div className="row mt-4 g-4">
                     <div className="">
                         <label htmlFor="email" className="form-label">
                             Email address

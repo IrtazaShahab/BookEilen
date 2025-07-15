@@ -16,14 +16,10 @@ export default function Home({
     children: React.ReactNode;
 }>) {
     return (
-        <div>
-            <Container>
-                <div className="">
-                    {/* <Index /> */}
-                    <BeLoginForm />
-                    <BeSignupForm />
-                </div>
-            </Container>
+        <div  className="form-content">
+                {/* <Index /> */}
+                <BeLoginForm />
+                <BeSignupForm />
         </div>
     );
 }

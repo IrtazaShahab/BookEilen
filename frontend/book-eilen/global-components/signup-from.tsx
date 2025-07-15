@@ -38,7 +38,7 @@ export default function BeSignupForm() {
             <div className="">
                 <h1 className="h2">Sign Up</h1>
 
-                <div className="row mt-4 g-3">
+                <div className="row mt-4 g-4">
                     <div className="col-md-6">
                         <label htmlFor="first-name" className="form-label">
                             First name

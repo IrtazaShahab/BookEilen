@@ -2,12 +2,20 @@
 // ### Styles -> Conmponents -> Form
 //-------------------------------------------------------------------------------/
 
+.form-content {
+    padding: 0 30px;
+}
+
 .be-form {
-    width: 600px;
     margin: 0 auto;
     color: $be-color;
     margin-top: 256px;
     margin-bottom: 120px;
+    width: 100%;
+
+    input {
+        border-radius: 20px;
+    }
 
     .be-form-input {
         background-color: $be-secondary;
@@ -45,7 +53,7 @@
         border: 1px solid $be-primary;
         font-weight: 600;
         font-size: 16px;
-        padding: 15px 55px;
+        padding: 10px 40px;
         line-height: 1;
         border-radius: $be-btn-border-radius;
 
@@ -57,5 +65,13 @@
 
     * {
         color: $be-color;
+    }
+
+    @media (min-width: 768px) {
+        width: 600px;
+
+        .be-btn {
+            padding: 12px 45px;
+        }
     }
 }
