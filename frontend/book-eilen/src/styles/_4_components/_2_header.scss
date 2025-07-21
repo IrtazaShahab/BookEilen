@@ -8,7 +8,7 @@ body {
 
 .be-header {
     background-color: $be-secondary;
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
     margin: 40px 25px 0;
     border-radius: $header-br;
     position: fixed;
@@ -50,6 +50,19 @@ body {
                 svg {
                     width: 18px;
                 }
+            }
+        }
+
+        .be-link {
+            padding: 18px 0;
+            font-weight: 600;
+
+            &:focus-visible {
+                outline: none;
+            }
+
+            svg {
+                width: 20px;
             }
         }
     }
@@ -242,7 +255,7 @@ body {
             }
 
             /* Show it when dropdown is open */
-            .be-link[aria-expanded='true'] .dropdown-username {
+            .be-link[aria-expanded="true"] .dropdown-username {
                 display: inline-block;
                 opacity: 1;
                 transform: translateY(0);
@@ -250,7 +263,7 @@ body {
             }
 
             /* Show it when dropdown is open */
-            .be-link[aria-expanded='true'] {
+            .be-link[aria-expanded="true"] {
                 transform: translateY(0);
                 transition: all 0.25s ease-in;
             }

@@ -13,6 +13,8 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 
+import Link from "next/link";
+import { useRouter } from 'next/navigation';
 import LogoImage from 'images/logo.svg';
 import SearchIcon from 'images/search-icon.svg';
 import DropdownIcon from 'images/dropdown-icon.svg';
@@ -35,6 +37,8 @@ export default function Header() {
   const searchRef = useRef(null);
   const buttonRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
+  const router = useRouter();
+
 
   // Close if clicking outside input and outside button
   useEffect(() => {
@@ -121,7 +125,7 @@ export default function Header() {
                 </div>
               </PopoverPanel>
             </Popover>
-            <button href="#" className="be-link">Features</button>
+            <Link href="/pages/dashboard" className="be-link">Features</Link>
           </PopoverGroup>
         </div>
 
