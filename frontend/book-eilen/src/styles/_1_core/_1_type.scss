@@ -1,0 +1,79 @@
+//-------------------------------------------------------------------------------/
+// ### Styles -> Core -> Type
+//-------------------------------------------------------------------------------/
+
+body {
+    font-family: $font-family-monospace;
+}
+
+h1,
+.h1 {
+    font-size: $h1-font-size;
+    font-weight: $font-weight-semibold;
+    color: $white;
+    margin-bottom: 30px;
+}
+
+h2,
+.h2 {
+    font-size: $h2-font-size;
+    font-weight: $font-weight-semibold;
+    text-transform: capitalize;
+    color: $white;
+    margin-bottom: 25px;
+}
+
+h3,
+.h3 {
+    font-size: $h3-font-size;
+    font-weight: $font-weight-medium;
+    color: $white;
+    margin-bottom: 25px;
+}
+
+h4,
+.h4 {
+    font-size: $h4-font-size;
+    font-weight: $font-weight-medium;
+    color: $white;
+    margin: 0;
+}
+
+h5,
+.h5 {
+    font-size: $h5-font-size;
+    font-weight: $font-weight-normal;
+    color: $white;
+}
+
+h6,
+.h6 {
+    font-size: $h6-font-size;
+    font-weight: $font-weight-normal;
+    color: $white;
+}
+
+p {
+    font-family: $font-family-sans-serif;
+    font-size: clamp(16px, calc(1rem + ((1vw - 3.2px) * 0.25)), 20px);
+    font-weight: $font-weight-normal;
+    line-height: 1.5;
+    margin: 0;
+    color: $white;
+}
+
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+a {
+    color: $white;
+    text-decoration: none;
+}
+
+.container {
+    max-width: 1290px;
+    margin: 0 auto;
+    padding: 0;
+}

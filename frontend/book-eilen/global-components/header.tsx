@@ -40,6 +40,7 @@ export default function Header() {
   const router = useRouter();
 
 
+
   // Close if clicking outside input and outside button
   useEffect(() => {
     function handleClickOutside(event) {
@@ -73,26 +74,29 @@ export default function Header() {
 
   return (
     <header className="be-header">
+      <div>
       <nav aria-label="Global" className="be-nav">
         {/* Left Content */}
         <div className="be-navbar-content">
           {/* Logo */}
           <div className="be-logo">
-            <a href="#" className="be-link">
+            <Link href="/" className="be-link">
               <Image
                 alt="Logo-Image"
                 src={LogoImage}
                 width="158"
                 height="38"
               />
-            </a>
+            </Link>
           </div>
 
           {/* Nav Dropdown */}
           <PopoverGroup className="be-nav-content">
             <Popover className="be-dropdown">
               <PopoverButton className="be-link">
+                <Link href= "/pages/dashboard">
                 Browse
+                </Link>
                 <ChevronDownIcon aria-hidden="true" width={20} height={20}/>
               </PopoverButton>
               <PopoverPanel transition className="be-dropdown-content">
@@ -125,7 +129,7 @@ export default function Header() {
                 </div>
               </PopoverPanel>
             </Popover>
-            <Link href="/pages/dashboard" className="be-link">Features</Link>
+            <Link href="#" className="be-link">Features</Link>
           </PopoverGroup>
         </div>
 
@@ -209,6 +213,7 @@ export default function Header() {
         </div>
         </div>
       </nav>
+      </div>
 
       {/* Mobile Menu */}
       <div className={`be-navbar-mobile d-lg-none ${mobileMenuOpen ? 'show' : 'hide'}`}>

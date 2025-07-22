@@ -1,8 +1,9 @@
 //-------------------------------------------------------------------------------/
-// ### Styles -> Conmponents -> Conmponents
+// ### Styles -> Components -> Components
 //-------------------------------------------------------------------------------/
 
-@import "./_1_buttons.scss";
-@import "./_2_header.scss";
-@import "./_3_footer.scss";
-@import "./_4_form.scss";
+@import "_1_buttons.scss";
+@import "_2_header.scss";
+@import "_3_footer.scss";
+@import "_4_form.scss";
+@import "5_home_carousel";
