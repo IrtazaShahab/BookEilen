@@ -27,61 +27,63 @@ const DashboardPage = () => {
 
     return (
         <main className="container-md">
+
+            <div className="dashboard-page">
             <h1>Dashboard</h1>
                 <BeHomeCarousel />
-
             <section className="bottom-section">
                 <h2>Featured</h2>
                 <div className="carousel row">
-                    <div className="book-card col-2">
+                    <div className="book-card col-lg-3 col-xl-2">
                         <Image src={featureCarouselImage} alt="Featured Book" />
                     </div>
-                    <div className="book-card col-2">
+                    <div className="book-card col-lg-3 col-xl-2">
                         <Image src={featureCarouselSecond} alt="Featured Book" />
                     </div>
-                    <div className="book-card col-2">
+                    <div className="book-card col-lg-3 col-xl-2">
                         <Image src={featureCarouselThird} alt="Featured Book" />
                     </div>
-                    <div className="book-card col-2">
+                    <div className="book-card col-lg-3 col-xl-2">
                         <Image src={featureCarouselFourth} alt="Featured Book" />
                     </div>
-                    <div className="book-card col-2">
+                    <div className="book-card col-lg-3 col-xl-2">
                         <Image src={featureCarouselFifth} alt="Featured Book" />
                     </div>
                 </div>
 
                 <h2>Top picks</h2>
-                <div className="carousel col-2">
+                <div className="carousel col-lg-3 col-xl-2">
                     <div className="book-card">
                         <Image src={sampleCarouselImage} alt="Top Pick Book" />
                     </div>
                 </div>
 
                 <h2>Trending</h2>
-                <div className="carousel col-2">
+                <div className="carousel col-lg-3 col-xl-2">
                     <div className="book-card">
                         <Image src={sampleCarouselImage} alt="Trending Book" />
                     </div>
                 </div>
                 <h2>New Arrivals</h2>
-                <div className="carousel col-2">
+                <div className="carousel col-lg-3 col-xl-2">
                     <div className="book-card">
                         <Image src={sampleCarouselImage} alt="New Arrival Book" />
                     </div>
                 </div>
                 <h2>Most Popular</h2>
-                <div className="carousel col-2">
+                <div className="carousel col-lg-3 col-xl-2">
                     <div className="book-card">
                         <Image src={sampleCarouselImage} alt="Most Popular Book" />
                     </div>
                 </div>
                 <h2>Recommendations</h2>
-                <div className="carousel col-2">
+                <div className="carousel col-lg-3 col-xl-2">
                     <div className="book-card">
                         <Image src={sampleCarouselImage} alt="Recommended Book" />
                     </div>
                 </div>
             </section>
+            </div>
         </main>
     );
 };
