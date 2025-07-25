@@ -15,7 +15,6 @@ import {
 
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
-import LogoImage from 'images/logo.svg';
 import SearchIcon from 'images/search-icon.svg';
 import DropdownIcon from 'images/dropdown-icon.svg';
 import LogoutIcon from 'images/log-out.svg';
@@ -23,6 +22,7 @@ import SettingsIcon from 'images/settings-icon.svg';
 import ReadListIcon from 'images/read-list.svg';
 import MyBooksIcon from 'images/open-book.svg';
 import PersonIcon from 'images/person.svg';
+import BookEilen from 'images/BookEilen.png';
 import Image from 'next/image';
 
 export default function Header() {
@@ -83,7 +83,7 @@ export default function Header() {
             <Link href="/" className="be-link">
               <Image
                 alt="Logo-Image"
-                src={LogoImage}
+                src={BookEilen}
                 width="158"
                 height="38"
               />

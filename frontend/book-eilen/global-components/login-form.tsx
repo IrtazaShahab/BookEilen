@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useAppDispatch } from '../app/redux/hooks';
 import { setUser } from '../app/redux/store';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link'; // Needed for sign up link
 
 export default function BeLoginForm() {
     const router = useRouter();
@@ -41,14 +42,13 @@ export default function BeLoginForm() {
 
                 if (response.ok && data.accessToken) {
                     if (typeof window !== 'undefined') {
-                        // Store accessToken in localStorage for persistent login
                         localStorage.setItem('accessToken', data.accessToken);
                     }
 
                     dispatch(setUser({ user: data.data, token: data.accessToken }));
-
-                    // Redirect to dashboard after successful login
                     router.push('/pages/dashboard');
+                } else {
+                    alert(data.message || 'Login failed. Please check your credentials.');
                 }
             } catch (error) {
                 console.error('Error submitting form:', error);
@@ -58,7 +58,6 @@ export default function BeLoginForm() {
     );
 
     useEffect(() => {
-        // Focus on the email input when the component mounts
         if (emailRef.current) {
             emailRef.current.focus();
         }
@@ -67,19 +66,21 @@ export default function BeLoginForm() {
     return (
         <form className="be-form" onSubmit={handleSubmit(onSubmit)}>
             <div className="">
+                <h1 className="h1 mb-5">Welcome To Book<span>Eilen</span></h1>
                 <h1 className="h2">Login</h1>
 
                 <div className="row mt-4 g-4">
-                    <div className="">
+                    {/* Email Field */}
+                    <div>
                         <label htmlFor="email" className="form-label">
-                            Email address
+                            Email Address
                         </label>
                         <input
-                            required
+                            ref={emailRef}
                             id="email"
                             type="email"
                             autoComplete="email"
-                            className="form-control be-form-input"
+                            className={`form-control be-form-input ${errors.email ? 'is-invalid' : ''}`}
                             placeholder="Email Address"
                             {...register('email', {
                                 required: 'Email is required',
@@ -89,52 +90,87 @@ export default function BeLoginForm() {
                                 },
                             })}
                         />
+                        {errors.email && (
+                            <p className="text-danger small mt-1">{errors.email.message}</p>
+                        )}
                     </div>
 
-                    <div className="">
+                    {/* Password Field */}
+                    <div>
                         <label htmlFor="password" className="form-label">
                             Password
                         </label>
                         <div style={{ position: 'relative' }}>
                             <input
-                                required
                                 id="password"
                                 type={showPassword ? 'text' : 'password'}
-                                autoComplete="password"
-                                className="form-control be-form-input"
+                                autoComplete="current-password"
+                                className={`form-control be-form-input ${errors.password ? 'is-invalid' : ''}`}
                                 placeholder="Password"
                                 {...register('password', {
                                     required: 'Password is required',
                                     minLength: {
                                         value: 6,
-                                        message: 'Password is incorrect',
+                                        message: 'Password must be at least 6 characters',
                                     },
                                 })}
                             />
                             <button
-                                onClick={togglePasswordVisibility}
-                                style={{
-                                    position: 'absolute',
-                                    right: '10px',
-                                    top: '50%',
-                                    transform: 'translateY(-50%)',
-                                    background: 'none',
-                                    border: 'none',
-                                    cursor: 'pointer',
-                                }}
-                            >
-                                {showPassword ? 'Hide' : 'Show'} {/* Placeholder for icon */}
-                            </button>
+  type="button"
+  onClick={togglePasswordVisibility}
+  style={{
+    position: 'absolute',
+    right: '10px',
+    top: '50%',
+    transform: 'translateY(-50%)',
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    padding: 0,
+  }}
+  aria-label="Toggle password visibility"
+>
+  {showPassword ? (
+    // 👁️ Eye OFF SVG
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+      strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17.94 17.94A10.5 10.5 0 0 1 12 19.5C7.305 19.5 3.135 16.305 1.5 12C2.366 9.825 3.84 7.95 5.76 6.6" />
+      <path d="M22.5 12C21.678 14.16 20.208 16.02 18.27 17.37" />
+      <path d="M1 1l22 22" />
+    </svg>
+  ) : (
+    // 👁️ Eye ON SVG
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+      strokeLinecap="round" strokeLinejoin="round">
+      <path d="M1 12S5 4 12 4s11 8 11 8-4 8-11 8S1 12 1 12z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  )}
+</button>
+
                         </div>
-                        {errors.password && <p>{errors.password.message}</p>}
+                        {errors.password && (
+                            <p className="text-danger small mt-1">{errors.password.message}</p>
+                        )}
                     </div>
                 </div>
             </div>
 
-            <div className="d-flex justify-content-center gap-3 mt-10">
-                <button type="submit" className="be-btn be-btn-submit btn">
+
+            <div className="d-flex justify-content-center gap-3 mt-5">
+                <button type="submit" className="be-btn be-btn-submit btn btn-primary">
                     Submit
                 </button>
+            </div>
+
+            {/* Sign up link */}
+            <div className="text-center mt-3 sign-up-link">
+                <p>
+                    Don’t have an account?{' '}
+                    <Link href="/pages/signup" className="text-primary fw-semibold">
+                        Sign up
+                    </Link>
+                </p>
             </div>
         </form>
     );

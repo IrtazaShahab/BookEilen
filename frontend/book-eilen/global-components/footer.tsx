@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import footerLogoImage from 'images/logo.svg';
+import BookEilen from 'images/logo-img.png';
 
 export default function Footer() {
     return (
@@ -11,8 +12,8 @@ export default function Footer() {
                     <div className="be-logo-content col-md-6 col-lg-5 col-xxl-6">
                         <div className="be-l-content">
                         <div className="be-logo">
-                            <a href="#" className="be-link">
-                                <Image src={footerLogoImage} alt="Logo-img" width="138" height="28" />
+                            <a href="/" className="be-link">
+                                <Image src={BookEilen} alt="Logo-img" width="138" height="28" />
                             </a>
                         </div>
                         <p>Bookeilen is an open, editable library catalog, building towards a web page for every book ever published</p>
