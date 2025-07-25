@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import Container from 'react-bootstrap/Container';
 import Index from './pages/index/page';
-import BeSignupForm from '@/global-components/signup-from';
 import BeLoginForm from '@/global-components/login-form';
 import ReduxProvider from './ReduxProvider';
 
@@ -20,7 +19,6 @@ export default function Home({
         <div  className="form-content">
                 {/* <Index /> */}
                 <BeLoginForm />
-                <BeSignupForm />
         </div>
     );
 }
