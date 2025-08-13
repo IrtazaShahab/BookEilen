@@ -2,17 +2,6 @@
 // ### Src -> Styles -> styles
 //-------------------------------------------------------------------------------/
 
-// Google Fonts
-
-:root {
-    --font-inter: "Inter", sans-serif;
-    --font-montserrat: "Montserrat", sans-serif;
-}
-
-body {
-    font-family: var(--font-montserrat);
-}
-
 //-------------------------------------------------------------------------------/
 // ### Styles -> Bootstrap -> Bootstrap
 //-------------------------------------------------------------------------------/
@@ -57,6 +46,8 @@ body {
 @import "tailwindcss";
 
 :root {
+    --font-inter: "Inter", sans-serif;
+    --font-montserrat: "Montserrat", sans-serif;
     --background: $body-bg;
     --foreground: $text-default;
     --header-br: $header-br;
@@ -81,10 +72,9 @@ body {
 }
 
 body {
+    font-family: var(--font-montserrat);
     background: $body-bg;
     color: $be-text-default;
-    font-family: "Montserrat", Arial, Helvetica, sans-serif;
     background: $be-body-bg;
     color: $be-text-default;
-    font-family: "Montserrat", Arial, Helvetica, sans-serif;
 }

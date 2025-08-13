@@ -4,92 +4,115 @@
 
 .form-content {
     padding: 0 30px;
-}
 
-.be-form {
-    margin: 0 auto;
-    color: $be-color;
-    // margin-top: 256px;
-    margin-bottom: 120px;
-    width: 100%;
-
-    span {
-        color: $be-primary;
-    }
-
-    input {
-        border-radius: 20px;
-    }
-
-    .form-label {
-        font-size: 18px;
-    }
-
-    .be-form-input {
-        background-color: $be-secondary;
-
-        &::placeholder {
-            color: $be-gray-500;
-            font-size: 12px;
-            opacity: 1;
-        }
-
-        &:focus {
-            color: $be-color;
-            border-color: $be-primary;
-            box-shadow: unset;
-        }
-        // Chrome autofill override
-        &:-webkit-autofill {
-            box-shadow: 0 0 0 1000px $be-secondary inset !important;
-            -webkit-text-fill-color: $be-color !important;
-            transition: background-color 5000s ease-in-out 0s;
-            // border-color: $be-primary;
-        }
-
-        &:-webkit-autofill:hover,
-        &:-webkit-autofill:focus,
-        &:-webkit-autofill:active {
-            box-shadow: 0 0 0 1000px $be-secondary inset !important;
-            -webkit-text-fill-color: $be-color !important;
-        }
-    }
-
-    .be-btn {
-        background-color: $be-primary;
+    .be-form {
+        margin: 0 auto;
         color: $be-color;
-        border: 1px solid $be-primary;
-        font-weight: 600;
-        font-size: 16px;
-        padding: 10px 40px;
-        line-height: 1;
-        border-radius: $be-btn-border-radius;
+        // margin-top: 256px;
+        margin-bottom: 120px;
+        width: 100%;
 
-        &:hover {
-            background-color: $be-primary-hover;
-            border-color: $be-secondary;
+        span {
+            color: $be-primary;
         }
-    }
 
-    .sign-up-link p {
-        font-family: "Montserrat" !important;
-        font-weight: 400 !important;
-        font-size: 16px !important;
-
-        a {
-            color: $be-primary !important;
+        input {
+            border-radius: 20px;
         }
-    }
 
-    * {
-        color: $be-color;
-    }
+        .form-label {
+            font-size: 18px;
+        }
 
-    @media (min-width: 768px) {
-        width: 600px;
+        div p {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+
+            button {
+                padding: 0;
+                text-decoration: none;
+                color: $be-primary !important;
+            }
+        }
+
+        .be-form-input {
+            background-color: $be-secondary;
+
+            &::placeholder {
+                color: $be-gray-500;
+                font-size: 12px;
+                opacity: 1;
+            }
+
+            &:focus {
+                color: $be-color;
+                border-color: $be-white;
+                box-shadow: unset;
+            }
+            // Chrome autofill override
+            &:-webkit-autofill {
+                box-shadow: 0 0 0 1000px $be-secondary inset !important;
+                -webkit-text-fill-color: $be-color !important;
+                transition: background-color 5000s ease-in-out 0s;
+                // border-color: $be-primary;
+            }
+
+            &:-webkit-autofill:hover,
+            &:-webkit-autofill:focus,
+            &:-webkit-autofill:active {
+                box-shadow: 0 0 0 1000px $be-secondary inset !important;
+                -webkit-text-fill-color: $be-color !important;
+            }
+        }
+
+        .is-invalid {
+            &:focus {
+                border-color: $be-primary;
+            }
+
+            & + button svg {
+                display: none;
+            }
+        }
 
         .be-btn {
-            padding: 12px 45px;
+            background-color: $be-primary;
+            color: $be-color;
+            border: 1px solid $be-primary;
+            font-weight: 600;
+            font-size: 16px;
+            padding: 10px 40px;
+            line-height: 1;
+            border-radius: $be-btn-border-radius;
+
+            &:hover {
+                background-color: $be-primary-hover;
+                border-color: $be-secondary;
+            }
+        }
+
+        .sign-up-link p {
+            font-family: "Montserrat" !important;
+            font-weight: 400 !important;
+            font-size: 16px !important;
+
+            a {
+                color: $be-primary !important;
+            }
+        }
+
+        * {
+            color: $be-color;
+        }
+
+        @media (min-width: 768px) {
+            width: 600px;
+
+            .be-btn {
+                padding: 12px 45px;
+            }
         }
     }
 }

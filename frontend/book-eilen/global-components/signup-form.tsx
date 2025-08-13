@@ -12,11 +12,9 @@ export default function BeSignupForm() {
 
     const password = watch('password'); // Watch the password field for comparison
 
-    const onSubmit = async (event) => {
-        const formData = new FormData(event.target);
-        const data = Object.fromEntries(formData.entries());
+    const onSubmit = async (data) => {
         // debugger;
-        console.log('Form submitted:', event);
+        console.log('Form submitted:', data);
 
         try {
             await fetch('http://localhost:3040/users/signup/', {
@@ -24,7 +22,7 @@ export default function BeSignupForm() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(event),
+                body: JSON.stringify(data),
             });
 
             reset();
@@ -37,7 +35,6 @@ export default function BeSignupForm() {
         <form className="be-form" onSubmit={handleSubmit(onSubmit)}>
             <div className="">
                 <h1 className="h2">Sign Up</h1>
-
                 <div className="row mt-4 g-4">
                     <div className="col-md-6">
                         <label htmlFor="first-name" className="form-label">

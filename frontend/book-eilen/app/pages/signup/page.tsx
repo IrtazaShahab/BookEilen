@@ -1,21 +1,29 @@
 'use client';
 
-import { useState } from 'react';
-import BeSignupForm from '@/global-components/signup-from';
-import 'antd/dist/reset.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useEffect, memo } from 'react';
+import { useAppDispatch } from '@/app/redux/hooks';
 import { useRouter } from 'next/navigation';
+import ReduxProvider from '@/app/ReduxProvider';
+import BeSignupForm from '@/global-components/signup-form';
 
 
+const Signup = () => {
+    const router = useRouter();
+    const dispatch = useAppDispatch();
 
-export default function SignUp({
-    children,
-}: Readonly<{
-    children: React.ReactNode;
-}>) {
+    useEffect(() => {
+        if (typeof window !== 'undefined' && !localStorage.getItem('accessToken')) {
+            router.push('/'); // Redirect to home if not authenticated
+        }
+    }, [router]);
+
     return (
-        <div className="form-content">
-             <BeSignupForm />
-        </div>
+        <main className="container-md">
+            <div  className='form-content'>
+                <BeSignupForm />
+            </div>
+        </main>
     );
-}
+};
+
+export default memo(Signup);

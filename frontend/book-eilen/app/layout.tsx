@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import '../src/styles/styles.scss';
-import Header from '../global-components/header';
+import Header from '@/global-components/header';
 import Footer from '@/global-components/footer';
 import ReduxProvider from './ReduxProvider';
 import { Inter, Montserrat } from 'next/font/google';
@@ -34,9 +34,9 @@ export default function RootLayout({
         <ReduxProvider>
             <html lang="en" className={`${inter.variable} ${montserrat.variable}`}>
                 <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-                    <Header />
+                    <Header/>
                     {children}
-                    <Footer />
+                    <Footer/>
                 </body>
             </html>
         </ReduxProvider>

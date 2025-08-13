@@ -167,9 +167,13 @@ export default function BeLoginForm() {
             <div className="text-center mt-3 sign-up-link">
                 <p>
                     Don’t have an account?{' '}
-                    <Link href="/pages/signup" className="text-primary fw-semibold">
-                        Sign up
-                    </Link>
+                    <button
+                      type="button"
+                      className="btn btn-link text-primary fw-semibold"
+                      onClick={() => router.push('/pages/signup')}
+                      >
+                       Sign up
+                    </button>
                 </p>
             </div>
         </form>
