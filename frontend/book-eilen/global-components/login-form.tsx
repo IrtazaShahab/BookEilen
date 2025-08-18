@@ -156,7 +156,6 @@ export default function BeLoginForm() {
                 </div>
             </div>
 
-
             <div className="d-flex justify-content-center gap-3 mt-5">
                 <button type="submit" className="be-btn be-btn-submit btn btn-primary">
                     Submit

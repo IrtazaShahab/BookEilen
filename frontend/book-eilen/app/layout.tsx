@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import '../src/styles/styles.scss';
-import Header from '@/global-components/header';
-import Footer from '@/global-components/footer';
+// import Header from '@/global-components/header';
+// import Footer from '@/global-components/footer';
+import Auth from './auth/auth';
 import ReduxProvider from './ReduxProvider';
 import { Inter, Montserrat } from 'next/font/google';
 
@@ -34,9 +35,9 @@ export default function RootLayout({
         <ReduxProvider>
             <html lang="en" className={`${inter.variable} ${montserrat.variable}`}>
                 <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-                    <Header/>
-                    {children}
-                    <Footer/>
+                    <Auth>
+                        {children}
+                    </Auth>
                 </body>
             </html>
         </ReduxProvider>
