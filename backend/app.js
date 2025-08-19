@@ -11,24 +11,28 @@ const db = require('./db');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+// Load env first
 env.config({
     path: `./.env.${process.env.NODE_ENV || 'development'}`,
 });
 
 var app = express();
 
-// CORS MUST BE FIRST - CRITICAL ORDER
+/**
+ * CORS — MUST come before any route/middleware that may handle requests.
+ * Don't send a naked 200 for OPTIONS — let cors() attach the headers.
+ */
 const corsOptions = {
-    origin: 'http://localhost:3000',
+    origin: 'http://localhost:3000',        // your Next.js dev
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
-    credentials: true,
-    optionsSuccessStatus: 200
+    credentials: true,                      // ok if you plan to use cookies; harmless otherwise
+    optionsSuccessStatus: 204,              // typical for preflight
 };
-
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));      // handle all preflights WITH headers
 
-// Body parsing - MUST be after CORS
+// Body parsers (after CORS)
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -41,10 +45,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-// Database test route
+// Simple health/db test route (fix table name to "users" to match your code)
 app.get('/', async (req, res) => {
     try {
-        const result = await db.query('SELECT * FROM user');
+        const result = await db.query('SELECT * FROM "users" LIMIT 5');
         res.json(result.rows);
     } catch (err) {
         console.error(err);
@@ -56,11 +60,12 @@ app.get('/', async (req, res) => {
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-// Error handlers
+// 404
 app.use(function (req, res, next) {
     next(createError(404));
 });
 
+// Error handler
 app.use(function (err, req, res, next) {
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
