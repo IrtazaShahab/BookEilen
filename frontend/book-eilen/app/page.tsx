@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Container from 'react-bootstrap/Container';
 import Index from './pages/index/page';
-import BeLoginForm from '@/global-components/login-form';
+import BeLoginForm from '@/app/auth/login-form/page';
 import ReduxProvider from './ReduxProvider';
 
 

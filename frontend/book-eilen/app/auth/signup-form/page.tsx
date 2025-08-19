@@ -1,42 +1,68 @@
 'use client';
+
+
 import { useForm } from 'react-hook-form';
-
 export default function BeSignupForm() {
-    const {
-        register,
-        handleSubmit,
-        watch,
-        formState: { errors },
-        reset,
-    } = useForm();
 
-    const password = watch('password'); // Watch the password field for comparison
+       const {
+            register,
+            handleSubmit,
+            watch,
+            formState: { errors },
+            reset,
+        } = useForm();
 
-    const onSubmit = async (data) => {
-        // debugger;
-        console.log('Form submitted:', data);
+        const password = watch('password'); // Watch the password field for comparison
 
-        try {
-            await fetch('http://localhost:3040/users/signup/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            });
+       const onSubmit = async (data) => {
+         console.log('Form submitted:', data);
 
-            reset();
-        } catch (error) {
-            console.error('Error submitting form:', error);
-        }
-    };
+         try {
+          const response = await fetch('http://localhost:3040/users/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include', // CRITICAL - matches backend credentials: true
+            body: JSON.stringify(data),
+          });
+
+          console.log('Response status:', response.status);
+
+          if (!response.ok) {
+            const errorData = await response.json();
+            console.error('Signup failed:', errorData);
+            alert(`Signup failed: ${errorData.message}`);
+            return;
+          }
+
+          const result = await response.json();
+          console.log('Signup successful:', result);
+
+          // Store the token if provided
+          if (result.accessToken) {
+            localStorage.setItem('token', result.accessToken);
+          }
+
+          alert('Signup successful!');
+          reset();
+
+          // Optionally redirect to dashboard
+          // router.push('/dashboard');
+
+         } catch (error) {
+         console.error('Error submitting form:', error);
+         }
+       };
 
     return (
-        <form className="be-form" onSubmit={handleSubmit(onSubmit)}>
-            <div className="">
-                <h1 className="h2">Sign Up</h1>
-                <div className="row mt-4 g-4">
-                    <div className="col-md-6">
+        <main className="container-md">
+            <div  className='form-content'>
+                <form className="be-form" onSubmit={handleSubmit(onSubmit)}>
+                  <div className="">
+                    <h1 className="h2">Sign Up</h1>
+                    <div className="row mt-4 g-4">
+                     <div className="col-md-6">
                         <label htmlFor="first-name" className="form-label">
                             First name
                         </label>
@@ -57,9 +83,9 @@ export default function BeSignupForm() {
                             })}
                         />
                         {errors.f_name && <p className="text-danger">{errors.f_name.message}</p>}
-                    </div>
+                     </div>
 
-                    <div className="col-md-6">
+                     <div className="col-md-6">
                         <label htmlFor="last-name" className="form-label">
                             Last name
                         </label>
@@ -80,9 +106,9 @@ export default function BeSignupForm() {
                             })}
                         />
                         {errors.l_name && <p className="text-danger">{errors.l_name.message}</p>}
-                    </div>
+                     </div>
 
-                    <div className="">
+                     <div className="">
                         <label htmlFor="email" className="form-label">
                             Email address
                         </label>
@@ -103,9 +129,9 @@ export default function BeSignupForm() {
                             })}
                         />
                         {errors.email && <p className="text-danger">{errors.email.message}</p>}
-                    </div>
+                     </div>
 
-                    <div className="">
+                     <div className="">
                         <label htmlFor="password" className="form-label">
                             Password
                         </label>
@@ -126,9 +152,9 @@ export default function BeSignupForm() {
                             })}
                         />
                         {errors.password && <p>{errors.password.message}</p>}
-                    </div>
+                     </div>
 
-                    <div className="">
+                     <div className="">
                         <label htmlFor="confirm-password" className="form-label">
                             Confirm Password
                         </label>
@@ -148,15 +174,16 @@ export default function BeSignupForm() {
                         />
 
                         {errors.confirmPassword && <p>{errors.confirmPassword.message}</p>}
+                     </div>
                     </div>
-                </div>
-            </div>
-
-            <div className="d-flex justify-content-center gap-3 mt-10">
+                  </div>
+                  <div className="d-flex justify-content-center gap-3 mt-10">
                 <button type="submit" className="be-btn be-btn-submit btn">
                     Submit
                 </button>
+                  </div>
+                </form>
             </div>
-        </form>
+        </main>
     );
 }

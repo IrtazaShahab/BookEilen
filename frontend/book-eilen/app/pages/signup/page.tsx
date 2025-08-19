@@ -4,7 +4,7 @@ import React, { useEffect, memo } from 'react';
 import { useAppDispatch } from '@/app/redux/hooks';
 import { useRouter } from 'next/navigation';
 import ReduxProvider from '@/app/ReduxProvider';
-import BeSignupForm from '@/global-components/signup-form';
+import BeSignupForm from '@/app/auth/signup-form/page';
 
 
 const Signup = () => {

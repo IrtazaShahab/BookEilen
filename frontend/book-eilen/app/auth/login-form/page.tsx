@@ -1,10 +1,9 @@
 'use client';
 import { useForm } from 'react-hook-form';
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { useAppDispatch } from '../app/redux/hooks';
-import { setUser } from '../app/redux/store';
+import { useAppDispatch } from '../../redux/hooks';
+import { setUser } from '../../redux/store';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link'; // Needed for sign up link
 
 export default function BeLoginForm() {
     const router = useRouter();
@@ -169,7 +168,7 @@ export default function BeLoginForm() {
                     <button
                       type="button"
                       className="btn btn-link text-primary fw-semibold"
-                      onClick={() => router.push('/pages/signup')}
+                      onClick={() => router.push('/auth/signup-form')}
                       >
                        Sign up
                     </button>
