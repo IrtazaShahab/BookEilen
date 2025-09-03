@@ -65,7 +65,9 @@ export default function BeLoginForm() {
     return (
         <form className="be-form" onSubmit={handleSubmit(onSubmit)}>
             <div className="">
-                <h1 className="h1 mb-5">Welcome To Book<span>Eilen</span></h1>
+                <h1 className="h1 mb-5">
+                    Welcome To Book<span>Eilen</span>
+                </h1>
                 <h1 className="h2">Login</h1>
 
                 <div className="row mt-4 g-4">
@@ -89,9 +91,7 @@ export default function BeLoginForm() {
                                 },
                             })}
                         />
-                        {errors.email && (
-                            <p className="text-danger small mt-1">{errors.email.message}</p>
-                        )}
+                        {errors.email && <p className="text-danger small mt-1">{errors.email.message}</p>}
                     </div>
 
                     {/* Password Field */}
@@ -115,42 +115,55 @@ export default function BeLoginForm() {
                                 })}
                             />
                             <button
-  type="button"
-  onClick={togglePasswordVisibility}
-  style={{
-    position: 'absolute',
-    right: '10px',
-    top: '50%',
-    transform: 'translateY(-50%)',
-    background: 'none',
-    border: 'none',
-    cursor: 'pointer',
-    padding: 0,
-  }}
-  aria-label="Toggle password visibility"
->
-  {showPassword ? (
-    // 👁️ Eye OFF SVG
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-      strokeLinecap="round" strokeLinejoin="round">
-      <path d="M17.94 17.94A10.5 10.5 0 0 1 12 19.5C7.305 19.5 3.135 16.305 1.5 12C2.366 9.825 3.84 7.95 5.76 6.6" />
-      <path d="M22.5 12C21.678 14.16 20.208 16.02 18.27 17.37" />
-      <path d="M1 1l22 22" />
-    </svg>
-  ) : (
-    // 👁️ Eye ON SVG
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-      strokeLinecap="round" strokeLinejoin="round">
-      <path d="M1 12S5 4 12 4s11 8 11 8-4 8-11 8S1 12 1 12z" />
-      <circle cx="12" cy="12" r="3" />
-    </svg>
-  )}
-</button>
-
+                                type="button"
+                                onClick={togglePasswordVisibility}
+                                style={{
+                                    position: 'absolute',
+                                    right: '10px',
+                                    top: '50%',
+                                    transform: 'translateY(-50%)',
+                                    background: 'none',
+                                    border: 'none',
+                                    cursor: 'pointer',
+                                    padding: 0,
+                                }}
+                                aria-label="Toggle password visibility"
+                            >
+                                {showPassword ? (
+                                    // 👁️ Eye OFF SVG
+                                    <svg
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    >
+                                        <path d="M17.94 17.94A10.5 10.5 0 0 1 12 19.5C7.305 19.5 3.135 16.305 1.5 12C2.366 9.825 3.84 7.95 5.76 6.6" />
+                                        <path d="M22.5 12C21.678 14.16 20.208 16.02 18.27 17.37" />
+                                        <path d="M1 1l22 22" />
+                                    </svg>
+                                ) : (
+                                    // 👁️ Eye ON SVG
+                                    <svg
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    >
+                                        <path d="M1 12S5 4 12 4s11 8 11 8-4 8-11 8S1 12 1 12z" />
+                                        <circle cx="12" cy="12" r="3" />
+                                    </svg>
+                                )}
+                            </button>
                         </div>
-                        {errors.password && (
-                            <p className="text-danger small mt-1">{errors.password.message}</p>
-                        )}
+                        {errors.password && <p className="text-danger small mt-1">{errors.password.message}</p>}
                     </div>
                 </div>
             </div>
@@ -165,12 +178,8 @@ export default function BeLoginForm() {
             <div className="text-center mt-3 sign-up-link">
                 <p>
                     Don’t have an account?{' '}
-                    <button
-                      type="button"
-                      className="btn btn-link text-primary fw-semibold"
-                      onClick={() => router.push('/auth/signup-form')}
-                      >
-                       Sign up
+                    <button type="button" className="btn btn-link fw-semibold" onClick={() => router.push('/auth/signup-form')}>
+                        Sign up
                     </button>
                 </p>
             </div>

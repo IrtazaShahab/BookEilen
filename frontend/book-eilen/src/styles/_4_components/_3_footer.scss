@@ -67,7 +67,8 @@
                 ul {
                     display: flex;
                     flex-direction: column;
-                    gap: 8px;
+                    gap: 5px;
+                    margin-bottom: 35px;
                     padding: 0 !important;
 
                     li {
@@ -92,22 +93,30 @@
 
             .be-search-input {
                 border: 1px solid $be-search-border;
-                border-radius: 30px;
+                border-radius: 20px;
                 font-weight: 500;
                 color: $be-white !important;
                 width: 200px !important;
                 height: 30px !important;
                 padding: 8px 30px 8px 12px !important;
                 margin-bottom: 20px;
+                transition: all 0.25s ease-in;
 
                 &:focus-visible {
                     outline: none;
                     border: 1px solid $be-white;
+                    transition: all 0.25s ease-in;
+
+                    &::placeholder {
+                        color: $be-gray-400 !important;
+                        transition: all 0.25s ease-in;
+                    }
                 }
 
                 &::placeholder {
                     color: $be-search-border !important;
                     font-size: 13px !important;
+                    transition: all 0.25s ease-in;
                 }
             }
 
@@ -118,12 +127,17 @@
 
                 .btn {
                     background-color: $be-primary;
-                    border-radius: 25px;
+                    border-radius: 20px;
                     color: $be-white;
                     font-weight: 600;
                     line-height: 1;
                     padding: 8px 0;
                     font-size: 13px;
+
+                    &:hover {
+                        background-color: $be-primary-hover;
+                        color: $be-gray-400;
+                    }
 
                     &:focus {
                         border: 1px solid transparent;
@@ -216,7 +230,7 @@
 
                 .bfc-content {
                     h5 {
-                        margin-bottom: 20px;
+                        margin-bottom: 15px;
                         font-size: 20px;
                     }
 

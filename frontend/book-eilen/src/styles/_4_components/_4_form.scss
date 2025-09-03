@@ -34,6 +34,10 @@
                 padding: 0;
                 text-decoration: none;
                 color: $be-primary !important;
+
+                &:hover {
+                    color: $be-primary-hover !important;
+                }
             }
         }
 
@@ -90,6 +94,7 @@
             &:hover {
                 background-color: $be-primary-hover;
                 border-color: $be-secondary;
+                color: $be-gray-400;
             }
         }
 
