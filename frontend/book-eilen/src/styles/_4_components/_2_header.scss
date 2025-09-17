@@ -9,7 +9,7 @@ body {
 .be-header {
     backdrop-filter: blur(5px);
     font-family: $font-family-sans-serif;
-    padding: 40px 25px 0;
+    padding: 30px 20px 0;
     position: fixed;
     left: 0;
     right: 0;
@@ -80,12 +80,12 @@ body {
 
     // logo
     .be-logo {
-        width: 110px;
+        width: 100px;
         height: 18px;
     }
 
     .be-nav {
-        margin: 0 15px;
+        margin: 0 20px;
         padding: 0;
         display: flex;
         justify-content: space-between;
@@ -188,29 +188,42 @@ body {
             }
 
             .be-list-content {
-                // border: 1px solid $be-secondary !important;
                 background-color: $be-secondary;
 
-                .be-list {
-                    display: flex;
-                    gap: 33px;
+                button {
+                    transition: all 0.2s ease-out;
+                    font-weight: $font-weight-normal;
 
-                    ul {
-                        padding: 0;
-                        gap: 10px;
+                    &:hover {
+                        color: $be-primary !important;
+                        transition: all 0.2s ease-in;
+                    }
+
+                    h5 {
+                        font-size: 20px;
+                    }
+
+                    .be-list {
                         display: flex;
-                        flex-direction: column;
-                        margin-bottom: 0;
+                        gap: 33px;
 
-                        a {
-                            text-decoration: none;
-                            color: $be-text-default;
-                            font-size: 15px;
-                            transition: all 0.2s ease-in;
+                        ul {
+                            padding: 0;
+                            gap: 10px;
+                            display: flex;
+                            flex-direction: column;
+                            margin-bottom: 0;
 
-                            &:hover {
-                                color: $be-primary !important;
-                                transition: all 0.2s ease-out;
+                            a {
+                                text-decoration: none;
+                                color: $be-text-default;
+                                font-size: 15px;
+                                transition: all 0.2s ease-in;
+
+                                &:hover {
+                                    color: $be-primary !important;
+                                    transition: all 0.2s ease-out;
+                                }
                             }
                         }
                     }
@@ -224,13 +237,13 @@ body {
         display: block;
 
         svg {
-            width: 23px;
-            height: 23px;
+            width: 28px;
+            height: 28px;
         }
     }
 
     button {
-        padding: 18px 0;
+        padding: 10px 0;
         font-weight: 600;
 
         &:focus-visible {
@@ -324,8 +337,8 @@ body {
             color: $be-white !important;
             white-space: nowrap;
             text-decoration: none;
-            padding: 6px 10px;
-            font-size: 10px;
+            padding: 8px 12px;
+            font-size: 12px;
             line-height: 1;
             border-radius: 20px;
             font-weight: 600;
@@ -433,18 +446,18 @@ body {
     .be-navbar-mobile {
         display: none;
         background-color: $be-secondary;
-        margin: 40px 25px 0;
         border-radius: $header-br;
         position: fixed;
         left: 0;
         right: 0;
         top: 0;
         z-index: 1000;
-        padding: 40px 60px;
+        margin: 30px 20px 0;
+        padding: 40px;
         height: 100vh;
 
         .be-navbar-content {
-            margin-top: 100px;
+            margin-top: 70px;
 
             .be-nav-content {
                 display: flex;
@@ -455,6 +468,7 @@ body {
             .be-dropdown {
                 &:hover .be-dropdown-content {
                     box-shadow: none;
+                    transition: 0.5s;
                 }
 
                 .be-dropdown-content {
@@ -464,14 +478,11 @@ body {
                     .be-list-content {
                         padding: 0px 25px 15px !important;
                         width: 100%;
+                        transition: 0.5s;
 
                         h5 {
                             margin-bottom: 10px !important;
                             font-size: 18px !important;
-                        }
-
-                        .be-list {
-                            gap: 44px;
                         }
                     }
                 }
@@ -481,6 +492,7 @@ body {
                     align-items: center;
                     gap: 5px;
                     padding: 0 !important;
+                    transition: 0.5s;
 
                     svg {
                         width: 18px;
@@ -493,11 +505,13 @@ body {
         .be-mobile-header {
             .mobile-close {
                 position: absolute;
-                right: 60px;
+                top: 24px;
+                right: 24px;
+                padding: 0;
 
                 svg {
-                    width: 30px;
-                    height: 30px;
+                    width: 28px;
+                    height: 28px;
                 }
             }
         }
@@ -507,8 +521,13 @@ body {
         display: block;
 
         .be-navbar-content .be-dropdown {
+            button {
+                transition: 0.5s;
+            }
+
             .be-dropdown-content {
                 display: block;
+                transition: 0.5s;
             }
         }
     }
@@ -523,7 +542,7 @@ body {
 
     @media screen and (max-width: 768px) {
         .be-navbar-mobile {
-            padding: 20px 30px;
+            padding: 0px 30px;
 
             .be-navbar-toggle {
                 display: block;
@@ -550,10 +569,10 @@ body {
     // responsive content
 
     @media (min-width: 768px) {
-        padding: 40px 30px 0;
+        padding: 40px 25px 0;
 
         .be-logo {
-            width: 125px;
+            width: 120px;
             height: 20px;
         }
 
@@ -591,8 +610,8 @@ body {
 
             .be-navbar-toggle {
                 svg {
-                    width: 28px;
-                    height: 28px;
+                    width: 30px;
+                    height: 30px;
                 }
             }
 
@@ -605,13 +624,18 @@ body {
         .be-nav {
             height: 60px;
         }
+
+        .be-navbar-mobile .be-mobile-header .mobile-close svg {
+            width: 30px;
+            height: 30px;
+        }
     }
 
     @media (min-width: 992px) {
-        padding: 40px 40px 0;
+        padding: 40px 30px 0;
 
         .be-nav {
-            margin: 0 30px;
+            margin: 0 25px;
 
             .be-nav-content {
                 display: block flex;
@@ -633,7 +657,7 @@ body {
                 }
 
                 .be-search-input {
-                    width: 165px !important;
+                    width: 200px !important;
                     height: 33px !important;
                     padding: 8px 30px 8px 12px !important;
 
@@ -662,7 +686,7 @@ body {
             // dropdown
             .be-dropdown {
                 .be-dropdown-content {
-                    width: 500px;
+                    width: 600px;
                     transition-delay: 0.1s;
                     transform: translateY(-10px);
                     border-radius: 25px;
@@ -678,6 +702,10 @@ body {
 
     @media (min-width: 1200px) {
         padding: 40px 50px 0;
+
+        .be-nav {
+            margin: 0 30px;
+        }
 
         .be-logo {
             width: 135px !important;
@@ -729,8 +757,8 @@ body {
 
         // dropdown
         .be-dropdown {
-            .be-dropdown-content {
-                width: 800px;
+            .be-dropdown-content .be-list-content {
+                width: 700px;
             }
         }
     }

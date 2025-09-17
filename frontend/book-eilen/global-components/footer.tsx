@@ -174,11 +174,7 @@ export default function Footer() {
                                     bookeilen@gmail.com
                                 </a>
                             </li>
-                            <li className="">
-                                <a href="#" className="">
-                                    Shipping & Delivery charges
-                                </a>
-                            </li>
+                            <li className="">Shipping & Delivery charges</li>
                         </ul>
                     </div>
                     <div className="bfc-content col-md-6 col-lg-2 ">
@@ -206,7 +202,7 @@ export default function Footer() {
                             </li>
                         </ul>
                     </div>
-                    <div className="bfc-content n-content col-md-6 col-lg-1">
+                    <div className="bfc-content n-content col-md-6 col-lg-2">
                         <div className="newsletter-content">
                             <h5>Newsletter</h5>
                             <input type="text" placeholder="Search here" className="be-search-input" />

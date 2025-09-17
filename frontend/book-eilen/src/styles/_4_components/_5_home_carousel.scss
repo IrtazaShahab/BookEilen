@@ -48,49 +48,74 @@
         }
     }
 
-    .bottom-section {
-        div:last-child {
-            margin-bottom: 0 !important;
-        }
+    // .bottom-section {
+    //     div:last-child {
+    //         margin-bottom: 0 !important;
+    //     }
 
-        .carousel {
-            margin-bottom: 40px;
-            gap: 11px;
+    //     .carousel {
+    //         margin-bottom: 40px;
+    //         gap: 11px;
 
-            .col-xl-2 {
-                width: 18.667%;
+    //         .col-xl-2 {
+    //             width: 18.667%;
 
-                img {
-                    height: 290px;
-                }
-            }
+    //             img {
+    //                 height: 290px;
+    //             }
+    //         }
 
-            .book-card {
-                display: inline-block;
-                border-radius: 20px;
-                overflow: hidden;
-                height: 290px !important;
+    //         .book-card {
+    //             display: inline-block;
+    //             border-radius: 20px;
+    //             overflow: hidden;
+    //             height: 290px !important;
 
-                img {
-                    width: 100%;
-                    height: 290px !important;
-                    height: auto;
-                    border-radius: 20px;
-                    object-fit: cover;
-                }
-            }
-        }
-    }
+    //             img {
+    //                 width: 100%;
+    //                 height: 290px !important;
+    //                 height: auto;
+    //                 border-radius: 20px;
+    //                 object-fit: cover;
+    //             }
+    //         }
+    //     }
+    // }
 
-    @media (min-width: 1400px) {
-        .be-home-carousel {
-            width: 1300px;
-            height: 350px;
+    // @media (min-width: 1400px) {
+    //     .be-home-carousel {
+    //         width: 1400px;
+    //         height: 400px;
 
-            img {
-                width: 1200px;
-                height: 350px;
-            }
-        }
+    //         .slick-slider {
+    //             .slick-prev {
+    //                 left: 175px;
+    //             }
+
+    //             .slick-list {
+
+    //             }
+
+    //             .slick-next {
+    //                 right: 175px;
+    //             }
+    //         }
+
+    //         img {
+    //             width: 1400px;
+    //             height: 400px;
+    //         }
+    //     }
+    // }
+}
+
+.ant-carousel {
+    width: 100%;
+}
+
+.min-h-screen {
+    button {
+        border-radius: 20px;
+        font-weight: 500;
     }
 }

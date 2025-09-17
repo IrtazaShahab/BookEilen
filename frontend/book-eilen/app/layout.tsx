@@ -3,13 +3,12 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import '../src/styles/styles.scss';
 import Header from '@/global-components/header';
 import Footer from '@/global-components/footer';
-import Auth from './auth/auth';
+// import Auth from './auth/auth';
 import ReduxProvider from './ReduxProvider';
 import { Inter, Montserrat } from 'next/font/google';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const montserrat = Montserrat({ subsets: ['latin'], variable: '--font-montserrat' });
-
 
 const geistSans = Geist({
     variable: '--font-geist-sans',
@@ -35,14 +34,11 @@ export default function RootLayout({
         <ReduxProvider>
             <html lang="en" className={`${inter.variable} ${montserrat.variable}`}>
                 <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-                    <Auth>
-                        <Header />
-                        {children}
-                        <Footer />
-                    </Auth>
+                    <Header />
+                    {children}
+                    <Footer />
                 </body>
             </html>
         </ReduxProvider>
-
     );
 }

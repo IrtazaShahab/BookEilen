@@ -6,6 +6,7 @@ import { ChevronDownIcon, ChevronUpIcon, Bars3Icon, XMarkIcon } from '@heroicons
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
 import SearchIcon from 'images/search-icon.svg';
 import DropdownIcon from 'images/dropdown-icon.svg';
 import LogoutIcon from 'images/log-out.svg';
@@ -14,12 +15,26 @@ import ReadListIcon from 'images/read-list.svg';
 import MyBooksIcon from 'images/open-book.svg';
 import PersonIcon from 'images/person.svg';
 import BookEilen from 'images/BookEilen.png';
+import romanceBook from 'images/romance-book.jpg';
+import fictionBook from 'images/fiction-book.jpg';
+import fantasyBook from 'images/boy-fantasy-world.jpg';
+import historyBook from 'images/history.jpg';
+import humour from 'images/humour.jpg';
+import sciFi from 'images/open-book-with-fairytale-scene.jpg';
+import poetry from 'images/poetry.jpg';
+import editorsPick from 'images/group-grover.png';
+import thriller from 'images/horse-rider-img.webp';
+import DropdownBook from 'images/fiction-book.jpg';
+import horror from 'images/horrer.jpg';
+import mystry from 'images/man-in-rain.webp';
+
 import Image from 'next/image';
 
 export default function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [hoverOpen, setHoverOpen] = useState(false);
+    const [selectedCategory, setSelectedCategory] = useState(null);
 
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
@@ -30,6 +45,26 @@ export default function Header() {
     const buttonRef = useRef(null);
     const [isMobile, setIsMobile] = useState(false);
     const router = useRouter();
+
+    // You can expand this with real book covers from your DB/API
+    const categories = [
+        { name: 'Romance', image: romanceBook },
+        { name: 'Fan-Fiction', image: fictionBook },
+        { name: 'Fantasy', image: fantasyBook },
+        { name: 'Historical Fic', image: historyBook },
+        { name: 'Humor', image: humour },
+        { name: 'Sci-Fi', image: sciFi },
+        { name: 'Paranormal', image: horror },
+        { name: 'Mystry', image: mystry },
+        { name: 'Poetry', image: poetry },
+        { name: 'Adventure', image: fantasyBook },
+        { name: 'Thriller', image: thriller },
+        { name: 'Teen Fiction', image: romanceBook },
+        { name: 'Diverse Lit', image: poetry },
+        { name: 'Editors Picks', image: editorsPick },
+        { name: 'Non-Fiction', image: fictionBook },
+        { name: 'Short Fiction', image: fictionBook },
+    ];
 
     // Close if clicking outside input and outside button
     useEffect(() => {
@@ -70,8 +105,8 @@ export default function Header() {
 
     return (
         <header className="be-header">
-            <div>
-                <nav aria-label="Global" className="be-nav shadow-xl">
+            <div className="shadow-xl">
+                <nav aria-label="Global" className="be-nav">
                     {/* Logo */}
                     <div className="be-logo">
                         <Link href="/" className="be-link">
@@ -83,26 +118,31 @@ export default function Header() {
                     <PopoverGroup className="be-nav-content">
                         <Popover className="be-dropdown">
                             {({ open }) => (
-                                <div className="relative" onMouseEnter={() => setHoverOpen(true)} onMouseLeave={() => setHoverOpen(false)}>
-                                    <PopoverButton className={`be-link flex items-center gap-1 ${hoverOpen ? 'active' : ''}`}>
+                                <div
+                                    className="relative"
+                                    onMouseEnter={() => setHoverOpen(true)}
+                                    onMouseLeave={() => {
+                                        setHoverOpen(false);
+                                        setSelectedCategory(null);
+                                    }}
+                                >
+                                    {/* Browse Button */}
+                                    <PopoverButton
+                                        onClick={(h) => {
+                                            h.preventDefault();
+                                            router.push('/dashboard');
+                                        }}
+                                        className={`be-link flex items-center gap-1 ${hoverOpen ? 'active' : ''}`}
+                                    >
                                         Browse
                                         {hoverOpen ? (
-                                            <ChevronUpIcon
-                                                className="transition-transform duration-200"
-                                                aria-hidden="true"
-                                                width={20}
-                                                height={20}
-                                            />
+                                            <ChevronUpIcon className="transition-transform duration-200" width={20} height={20} />
                                         ) : (
-                                            <ChevronDownIcon
-                                                className="transition-transform duration-200"
-                                                aria-hidden="true"
-                                                width={20}
-                                                height={20}
-                                            />
+                                            <ChevronDownIcon className="transition-transform duration-200" width={20} height={20} />
                                         )}
                                     </PopoverButton>
 
+                                    {/* Dropdown Content */}
                                     <Transition
                                         as={Fragment}
                                         show={hoverOpen}
@@ -113,64 +153,46 @@ export default function Header() {
                                         leaveFrom="opacity-100 translate-y-0 scale-100"
                                         leaveTo="opacity-0 translate-y-3 scale-95"
                                     >
-                                        <PopoverPanel static className="absolute left-0 mt-2 w-64 be-dropdown-content bg-white shadow-xl">
-                                            <div className="p-4 be-list-content">
-                                                <h5 className="mb-4 font-semibold">Browse</h5>
-                                                <div className="be-list">
-                                                    <ul>
-                                                        <li>
-                                                            <a href="#">Romance</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#">Fan-Fiction</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#">Fantasy</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#">Historical Fic</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#">Humor</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#">Sci-Fi</a>
-                                                        </li>
-                                                    </ul>
-                                                    <ul>
-                                                        <li>
-                                                            <a href="#">Paranormal</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#">Mystry</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#">Poetry</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#">Adventure</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#">Thriller</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#">Teen Fiction</a>
-                                                        </li>
-                                                    </ul>
-                                                    <ul>
-                                                        <li>
-                                                            <a href="#">Diverse Lit</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#">Editors Picks</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#">Non-Fiction</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#">Short Fiction</a>
-                                                        </li>
-                                                    </ul>
+                                        <PopoverPanel
+                                            static
+                                            className="absolute left-0 mt-2 w-[500px] be-dropdown-content bg-white shadow-xl rounded-xl"
+                                        >
+                                            <div className="flex p-4 be-list-content">
+                                                {/* Category List */}
+                                                <div className="grid grid-cols-3 w-2/3">
+                                                    {categories.map((cat) => (
+                                                        <button
+                                                            key={cat.name}
+                                                            className={`text-left transition font-normal ${
+                                                                selectedCategory?.name === cat.name ? 'font-semibold' : ''
+                                                            }`}
+                                                            onMouseEnter={() => setSelectedCategory(cat)}
+                                                        >
+                                                            {cat.name}
+                                                        </button>
+                                                    ))}
+                                                </div>
+
+                                                {/* Image Preview */}
+                                                <div className="flex-1 flex justify-center items-center">
+                                                    <AnimatePresence mode="wait">
+                                                        <motion.div
+                                                            key={selectedCategory?.name || 'default'}
+                                                            initial={{ opacity: 0, scale: 0.95 }}
+                                                            animate={{ opacity: 1, scale: 1 }}
+                                                            exit={{ opacity: 0, scale: 0.95 }}
+                                                            transition={{ duration: 0.3 }}
+                                                            className="w-48 h-60 rounded-lg overflow-hidden shadow-md"
+                                                        >
+                                                            <Image
+                                                                src={selectedCategory?.image || DropdownBook}
+                                                                alt={selectedCategory?.name || 'Default'}
+                                                                width={260}
+                                                                height={260}
+                                                                className="object-cover w-full h-full"
+                                                            />
+                                                        </motion.div>
+                                                    </AnimatePresence>
                                                 </div>
                                             </div>
                                         </PopoverPanel>
@@ -178,15 +200,17 @@ export default function Header() {
                                 </div>
                             )}
                         </Popover>
-                        <Link href="#" className="be-link">
+
+                        {/* Other Links */}
+                        <a href="/pages/dashboard" className="be-link">
                             Features
-                        </Link>
-                        <Link href="#" className="be-link">
+                        </a>
+                        <a href="#" className="be-link">
                             Community
-                        </Link>
-                        <Link href="#" className="be-link">
+                        </a>
+                        <a href="#" className="be-link">
                             Blogs
-                        </Link>
+                        </a>
                     </PopoverGroup>
 
                     {/* Right Content */}
@@ -216,10 +240,7 @@ export default function Header() {
                             </button>
                         )}
 
-                        <a href="#" className="be-login-btn be-link">
-                            Log in
-                        </a>
-                        {/*
+                        {/* be-profile-dropdown */}
                         <PopoverGroup className="be-profile-dropdown">
                             <Popover className="be-dropdown">
                                 <PopoverButton className="be-link">
@@ -264,6 +285,10 @@ export default function Header() {
                                 </PopoverPanel>
                             </Popover>
                         </PopoverGroup>
+
+                        <a href="#" className="be-login-btn be-link">
+                            Log in
+                        </a>
 
                         {/* Toggler button (Mobile only) */}
                         <div className="be-navbar-toggle d-block d-lg-none">
@@ -333,7 +358,6 @@ export default function Header() {
                                             >
                                                 <PopoverPanel static className="w-full be-dropdown-content rounded-md bg-white">
                                                     <div className="p-4 be-list-content">
-                                                        <h5 className="font-semibold">Browse</h5>
                                                         <div className="be-list">
                                                             <ul>
                                                                 <li>
