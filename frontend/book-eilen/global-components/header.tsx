@@ -244,14 +244,14 @@ export default function Header() {
                         <PopoverGroup className="be-profile-dropdown">
                             <Popover className="be-dropdown">
                                 <PopoverButton className="be-link">
-                                    <Image src={DropdownIcon} width="36" height="36" alt="dropdown" className="profile-img" />
+                                    <Image src={DropdownIcon} width="32" height="32" alt="dropdown" className="profile-img" />
                                     <h6 className="dropdown-username">Muaz Rehan</h6>
                                     <ChevronDownIcon aria-hidden="true" />
                                 </PopoverButton>
                                 <PopoverPanel className="be-dropdown-content">
                                     <div className="p-4 be-list-content">
-                                        <h5>
-                                            <Image src={PersonIcon} width="26" height="26" alt="person-icon" /> My Profile
+                                        <h5 className="font-semibold">
+                                            <Image src={PersonIcon} width="30" height="30" alt="person-icon" /> My Profile
                                         </h5>
                                         <div className="be-list">
                                             <ul>

@@ -60,6 +60,7 @@ body {
 
             input {
                 font-size: 13px;
+
                 &:focus-visible {
                     outline: none;
                 }
@@ -162,6 +163,7 @@ body {
         // when the dropdown appears
         .relative {
             border: 1px solid transparent;
+
             .active {
                 color: $be-white;
                 opacity: 1;
@@ -262,13 +264,11 @@ body {
         align-items: center;
         gap: 6px;
         position: relative;
-        top: -2px;
 
         // search-input
         .be-input {
             position: relative;
             right: 0;
-            top: -1px;
 
             .be-search-input {
                 border: 1px solid $be-search-border;
@@ -351,7 +351,15 @@ body {
         // dropdown
         .be-profile-dropdown {
             position: relative;
-            display: none;
+            display: block;
+
+            .be-link {
+                padding: 0;
+
+                svg {
+                    width: 18px;
+                }
+            }
 
             button {
                 display: flex;
@@ -382,6 +390,10 @@ body {
                 opacity: 1;
                 transform: translateY(0);
                 transition: all 0.25s ease-in;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                width: 95px;
             }
 
             /* Show it when dropdown is open */
@@ -393,23 +405,27 @@ body {
             .be-dropdown-content {
                 position: absolute;
                 left: -7px;
-                top: 77px;
+                top: 65px;
                 background-color: $be-secondary;
                 border-radius: 25px;
+                width: fit-content;
 
                 svg {
-                    width: 20px;
+                    width: 25px;
                 }
 
                 h5 {
                     display: flex;
                     align-items: center;
-                    justify-content: space-between;
+                    gap: 5px;
+                    margin-bottom: 15px;
+                    font-family: $font-family-monospace;
+                    font-weight: $font-weight-semibold;
                 }
 
                 .be-list-content {
-                    width: 170px;
-                    padding: 25px !important;
+                    width: 194px;
+                    padding: 25px 20px 25px 20px !important;
                     border-radius: $be-btn-border-radius;
 
                     .be-list {
@@ -418,7 +434,7 @@ body {
 
                         ul {
                             padding: 0;
-                            gap: 14px;
+                            gap: 13px;
                             display: flex;
                             flex-direction: column;
                             margin-bottom: 0;
@@ -566,6 +582,7 @@ body {
             }
         }
     }
+
     // responsive content
 
     @media (min-width: 768px) {
@@ -674,7 +691,7 @@ body {
 
                 .be-login-btn {
                     font-size: 15px;
-                    padding: 10px 20px;
+                    padding: 9px 20px;
                 }
             }
 
@@ -686,7 +703,6 @@ body {
             // dropdown
             .be-dropdown {
                 .be-dropdown-content {
-                    width: 600px;
                     transition-delay: 0.1s;
                     transform: translateY(-10px);
                     border-radius: 25px;
@@ -719,23 +735,20 @@ body {
 
         // navbar right content
         .be-right-content {
-            gap: 50px;
+            gap: 35px !important;
 
             .be-input {
-                display: block;
-                top: 3px;
-
                 .search-icon {
                     top: 3px !important;
                     position: absolute;
-                    width: 28px;
-                    height: 28px;
+                    width: 27px;
+                    height: 27px;
                 }
             }
 
             .be-search-input {
                 width: 250px !important;
-                height: 33px !important;
+                height: 32px !important;
                 padding: 8px 30px 8px 12px !important;
 
                 &::placeholder {
@@ -760,6 +773,10 @@ body {
             .be-dropdown-content .be-list-content {
                 width: 700px;
             }
+        }
+
+        // Profile dropdown
+        .be-profile-dropdown {
         }
     }
 }
