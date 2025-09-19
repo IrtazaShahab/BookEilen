@@ -34,6 +34,8 @@ export default function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [hoverOpen, setHoverOpen] = useState(false);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+
     const [selectedCategory, setSelectedCategory] = useState(null);
 
     const handleSearchChange = (e) => {
@@ -243,52 +245,85 @@ export default function Header() {
                         {/* be-profile-dropdown */}
                         <PopoverGroup className="be-profile-dropdown">
                             <Popover className="be-dropdown">
-                                <PopoverButton className="be-link">
-                                    <Image src={DropdownIcon} width="32" height="32" alt="dropdown" className="profile-img" />
-                                    <h6 className="dropdown-username">Muaz Rehan</h6>
-                                    <ChevronDownIcon aria-hidden="true" />
-                                </PopoverButton>
-                                <PopoverPanel className="be-dropdown-content">
-                                    <div className="p-4 be-list-content">
-                                        <h5 className="font-semibold">
-                                            <Image src={PersonIcon} width="30" height="30" alt="person-icon" /> My Profile
-                                        </h5>
-                                        <div className="be-list">
-                                            <ul>
-                                                <li>
-                                                    <a href="#">
-                                                        <Image src={MyBooksIcon} width="22" height="22" alt="" />
-                                                        My Books
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <Image src={ReadListIcon} width="24" height="24" alt="" />
-                                                        Read List
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <Image src={SettingsIcon} width="24" height="24" alt="" />
-                                                        Settings
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <Image src={LogoutIcon} width="24" height="24" alt="" />
-                                                        Log Out
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                {({ open }) => (
+                                    <div
+                                        className="relative"
+                                        onMouseEnter={() => setDropdownOpen(true)}
+                                        onMouseLeave={() => {
+                                            setDropdownOpen(false);
+                                            setSelectedCategory(null);
+                                        }}
+                                    >
+                                        <PopoverButton
+                                            onClick={(m) => {
+                                                m.preventDefault();
+                                                router.push('/profile');
+                                            }}
+                                            className={`be-link flex items-center ${dropdownOpen ? 'active' : ''}`}
+                                        >
+                                            <Image src={DropdownIcon} width="32" height="32" alt="dropdown" className="profile-img" />
+                                            <h6 className="dropdown-username">Muaz Rehan</h6>
+                                            {dropdownOpen ? (
+                                                <ChevronUpIcon className="transition-transform duration-200" width={20} height={20} />
+                                            ) : (
+                                                <ChevronDownIcon className="transition-transform duration-200" width={20} height={20} />
+                                            )}
+                                        </PopoverButton>
+
+                                        <Transition
+                                            as={Fragment}
+                                            show={dropdownOpen}
+                                            enter="transition ease-out duration-300"
+                                            enterFrom="opacity-0 translate-y-3 scale-95"
+                                            enterTo="opacity-100 translate-y-0 scale-100"
+                                            leave="transition ease-in duration-200"
+                                            leaveFrom="opacity-100 translate-y-0 scale-100"
+                                            leaveTo="opacity-0 translate-y-3 scale-95"
+                                        >
+                                            <PopoverPanel static className="absolute left-0 mt-2 be-dropdown-content shadow-xl rounded-xl">
+                                                <div className="p-4 be-list-content">
+                                                    <h5 className="font-semibold">
+                                                        <Image src={PersonIcon} width="30" height="30" alt="person-icon" /> My Profile
+                                                    </h5>
+                                                    <div className="be-list">
+                                                        <ul>
+                                                            <li>
+                                                                <a href="#">
+                                                                    <Image src={MyBooksIcon} width="22" height="22" alt="" />
+                                                                    My Books
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    <Image src={ReadListIcon} width="24" height="24" alt="" />
+                                                                    Read List
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    <Image src={SettingsIcon} width="24" height="24" alt="" />
+                                                                    Settings
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <Link rel="stylesheet" href="/auth/si">
+                                                                    <Image src={LogoutIcon} width="24" height="24" alt="" />
+                                                                    Log Out
+                                                                </Link>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </PopoverPanel>
+                                        </Transition>
                                     </div>
-                                </PopoverPanel>
+                                )}
                             </Popover>
                         </PopoverGroup>
 
-                        <a href="#" className="be-login-btn be-link">
+                        <Link href="/auth/login-form" className="be-login-btn be-link">
                             Log in
-                        </a>
+                        </Link>
 
                         {/* Toggler button (Mobile only) */}
                         <div className="be-navbar-toggle d-block d-lg-none">

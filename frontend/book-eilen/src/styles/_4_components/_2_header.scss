@@ -380,20 +380,18 @@ body {
                 display: none;
                 opacity: 0;
                 transition: opacity 0.3s ease;
-                transform: translateY(-5px);
                 transition: all 0.25s ease-out;
             }
 
             /* Show it when dropdown is open */
-            .be-link[aria-expanded="true"] .dropdown-username {
-                display: inline-block;
+            .active .dropdown-username {
+                display: inline-block !important;
                 opacity: 1;
-                transform: translateY(0);
                 transition: all 0.25s ease-in;
                 white-space: nowrap;
                 text-overflow: ellipsis;
                 overflow: hidden;
-                width: 95px;
+                width: 90px;
             }
 
             /* Show it when dropdown is open */

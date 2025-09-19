@@ -34,15 +34,17 @@
                 }
             }
 
-            .slick-list .slick-slide {
-                display: flex;
-                justify-content: center;
-                overflow: hidden;
+            .slick-list {
+                .slick-slide {
+                    display: flex;
+                    justify-content: center;
+                    overflow: hidden;
 
-                img {
-                    width: 100%;
-                    height: 100%;
-                    border-radius: 20px;
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 20px;
+                    }
                 }
             }
         }
@@ -111,6 +113,9 @@
 
 .ant-carousel {
     width: 100%;
+    .slick-list {
+        border-radius: 20px;
+    }
 }
 
 .min-h-screen {

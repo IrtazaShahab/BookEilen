@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import Container from 'react-bootstrap/Container';
 import Index from './pages/index/page';
-import BeLoginForm from '@/app/auth/login-form/page';
+// import BeLoginForm from '@/app/auth/login-form/page';
+import Dashboard from '@/app/dashboard/page';
 import ReduxProvider from './ReduxProvider';
-
 
 export const metadata: Metadata = {
     title: 'Book Eilen',
@@ -16,9 +16,9 @@ export default function Home({
     children: React.ReactNode;
 }>) {
     return (
-        <div  className="form-content">
-                {/* <Index /> */}
-                <BeLoginForm />
+        <div className="form-content">
+            {/* <Index /> */}
+            <Dashboard />
         </div>
     );
 }

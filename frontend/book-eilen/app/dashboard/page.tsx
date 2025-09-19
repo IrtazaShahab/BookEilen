@@ -15,10 +15,10 @@ import romancebook from '@/assets/images/romance-book.jpg';
 
 export default function Dashboard() {
     const [categories] = useState([
-        { title: 'Fiction', books: ['/frontend/book-eilen/assets/images/fantasy-anime-style-scene.jpg', '/fiction3.jpg'] },
-        { title: 'Romance', books: ['/rom1.jpg', '/rom2.jpg', '/rom3.jpg'] },
-        { title: 'Self Improvement', books: ['/self1.jpg', '/self2.jpg', '/self3.jpg'] },
-        { title: 'Fanfiction', books: ['/fan1.jpg', '/fan2.jpg', '/fan3.jpg'] },
+        { title: 'Fiction', books: [] },
+        { title: 'Romance', books: [] },
+        { title: 'Self Improvement', books: [] },
+        { title: 'Fanfiction', books: [] },
     ]);
 
     return (
@@ -52,7 +52,7 @@ export default function Dashboard() {
                             alt={`book-${i}`}
                             width={200}
                             height={220}
-                            className="rounded-lg hover:scale-105 transition-transform curser-pointer"
+                            className="rounded-lg hover:scale-102 transition-transform curser-pointer"
                         />
                     ))}
                 </div>
@@ -70,7 +70,7 @@ export default function Dashboard() {
                                 alt={`${cat.title}-${i}`}
                                 width={180}
                                 height={200}
-                                className="rounded-lg hover:scale-105 transition-transform curser-pointer"
+                                className="rounded-lg hover:scale-102 transition-transform curser-pointer"
                             />
                         ))}
                         {[fantasy1, fictionBook, boyFantasy, romancebook].map((src, i) => (
@@ -80,7 +80,7 @@ export default function Dashboard() {
                                 alt={`${cat.title}-${i}`}
                                 width={180}
                                 height={200}
-                                className="rounded-lg hover:scale-105 transition-transform curser-pointer"
+                                className="rounded-lg hover:scale-102 transition-transform curser-pointer"
                             />
                         ))}
                     </div>
