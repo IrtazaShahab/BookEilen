@@ -10,6 +10,7 @@ const db = require('./db');
 // Import routes
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var booksRouter = require('./routes/books');
 
 // Load env first
 env.config({
@@ -23,7 +24,7 @@ var app = express();
  * Don't send a naked 200 for OPTIONS — let cors() attach the headers.
  */
 const corsOptions = {
-    origin: 'http://localhost:3000',        // your Next.js dev
+    origin: 'http://localhost:3020',        // your Next.js dev
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
     credentials: true,                      // ok if you plan to use cookies; harmless otherwise
@@ -59,6 +60,11 @@ app.get('/', async (req, res) => {
 // Routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/api/books', booksRouter);
+
+// Start server
+// const PORT = process.env.PORT || 3040;
+// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 // 404
 app.use(function (req, res, next) {
