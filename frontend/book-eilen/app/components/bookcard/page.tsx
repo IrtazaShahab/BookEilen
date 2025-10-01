@@ -1,8 +1,6 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
-import placeholderImage from '@/assets/images/open-book-with-fairytale-scene.jpg';
 
 interface BookCardProps {
     book: any;
@@ -11,40 +9,42 @@ interface BookCardProps {
 const PLACEHOLDER_BOOK = 'https://via.placeholder.com/200x240/4A5568/FFFFFF?text=No+Image';
 
 const BookCard: React.FC<BookCardProps> = ({ book }) => {
-    const bookInfo = book.volumeInfo;
-    const accessInfo = book.accessInfo;
+    const bookInfo = book?.volumeInfo ?? {};
+    const accessInfo = book?.accessInfo ?? {};
 
-    // Get different types of links
-    const previewLink = bookInfo?.previewLink;
-    const infoLink = bookInfo?.infoLink;
+    const title = typeof bookInfo.title === 'string' && bookInfo.title.trim() !== '' ? bookInfo.title : 'Unknown Title';
 
-    // Check if book is available for reading
-    const isReadable = accessInfo?.viewability === 'PARTIAL' || accessInfo?.viewability === 'ALL_PAGES';
+    const authors = Array.isArray(bookInfo.authors) ? bookInfo.authors.join(', ') : 'Unknown Author';
+
+    const cover = typeof bookInfo?.imageLinks?.thumbnail === 'string' ? bookInfo.imageLinks.thumbnail : PLACEHOLDER_BOOK;
+
+    const previewLink = bookInfo?.previewLink ?? null;
+    const infoLink = bookInfo?.infoLink ?? null;
 
     return (
-        <div className="overflow-hidden h-[505px] bg-[#282828] rounded-lg p-[20px] hover:bg-[#281516] transition-colors transition-transform duration-300 hover:scale-[1.01]">
-            {/* Book Cover */}
-            <div className="mb-4">
-                <img
-                    src={bookInfo?.imageLinks?.thumbnail || PLACEHOLDER_BOOK}
-                    alt={bookInfo?.title || 'Book cover'}
-                    className="w-[100%] h-[300px] object-cover rounded"
-                    onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.src = 'PLACEHOLDER_BOOK';
-                    }}
-                />
-            </div>
+        <div className="relative overflow-hidden rounded-lg hover:bg-[#281516] transition-transform duration-300 hover:scale-140">
+            {/* Book Cover (no Link here, just image) */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+                src={cover}
+                alt={title}
+                className="w-full h-[300px] object-cover rounded mb-4"
+                onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = PLACEHOLDER_BOOK;
+                }}
+            />
 
             {/* Book Info */}
-            <div className="text-white">
-                <h5 className="!font-semibold text-[25px] mb-1 whitespace-nowrap overflow-hidden text-ellipsis">{bookInfo?.title || 'Unknown Title'}</h5>
+            <div className="text-white absolute !bottom-0 padding-[20px] !bg-[rgba(36, 28, 28, 0.5)] opacity-0 !group-hover:opacity-100 transition-opacity duration-300 pointer-events-none group-hover:pointer-events-auto">
+                <h5 className="!font-semibold text-[25px] mb-1 whitespace-nowrap overflow-hidden text-ellipsis">{title}</h5>
 
-                <p className="!font-normal text-gray-500 text-[16px] mb-3 opacity-[0.8] whitespace-nowrap overflow-hidden text-ellipsis">by {bookInfo?.authors?.join(', ') || 'Unknown Author'}</p>
+                <p className="!font-normal text-gray-500 text-[16px] mb-3 opacity-80 whitespace-nowrap overflow-hidden text-ellipsis">
+                    by {authors}
+                </p>
 
-                {/* Book Links Section */}
+                {/* External Links */}
                 <div className="flex justify-between gap-2">
-                    {/* Preview Link - Most Important */}
                     {previewLink && (
                         <a
                             href={previewLink}
@@ -56,7 +56,6 @@ const BookCard: React.FC<BookCardProps> = ({ book }) => {
                         </a>
                     )}
 
-                    {/* Google Books Info Link */}
                     {infoLink && (
                         <a
                             href={infoLink}
@@ -76,7 +75,6 @@ const BookCard: React.FC<BookCardProps> = ({ book }) => {
                     </div>
                 )}
 
-                {/* Published Date */}
                 {bookInfo?.publishedDate && <div className="mt-1 text-gray-500 text-xs">Published: {bookInfo.publishedDate}</div>}
             </div>
         </div>

@@ -2,7 +2,10 @@
 import { useEffect, useState } from 'react';
 import { Carousel } from 'antd';
 import Image from 'next/image';
+import Link from 'next/link';
 import BookCard from '../components/bookcard/page';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 // images
 import CarousalImage1 from '@/assets/images/horse-rider-img.webp';
@@ -10,8 +13,9 @@ import CarousalImage2 from '@/assets/images/man-in-rain.webp';
 import CarousalImage3 from '@/assets/images/white-unicorn-with-pink-hair.webp';
 import CarousalImage4 from '@/assets/images/traded-company-wall-street.webp';
 
-const API_BASE = 'http://localhost:3040/api/books'; // backend route
+const API_BASE = 'http://localhost:3040/api/books';
 const CATEGORY_LIST = ['All', 'Fiction', 'Romance', 'Mystery', 'Science Fiction', 'Fantasy', 'Biography', 'History', 'Self Help'];
+const MAX_PAGES = 50; // Limit maximum pages
 
 export default function Dashboard() {
     const [categories, setCategories] = useState<Record<string, any[]>>({});
@@ -19,49 +23,68 @@ export default function Dashboard() {
     const [books, setBooks] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const router = useRouter();
 
-    // Fetch books by query
-    async function fetchBooksFromBackend(qParam: string, max = 12) {
+    // Pagination states
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalResults, setTotalResults] = useState(0);
+    const [categoryPages, setCategoryPages] = useState<Record<string, number>>({});
+
+    // Fetch books by query with pagination
+    async function fetchBooksFromBackend(qParam: string, max = 12, startIndex = 0) {
         try {
-            const url = `${API_BASE}?q=${encodeURIComponent(qParam)}&maxResults=${max}`;
+            const url = `${API_BASE}?q=${encodeURIComponent(qParam)}&maxResults=${max}&startIndex=${startIndex}`;
             const res = await fetch(url);
             if (!res.ok) {
                 const txt = await res.text();
                 throw new Error(`Backend error ${res.status}: ${txt}`);
             }
             const data = await res.json();
-            return data.items || [];
+            return {
+                items: data.items || [],
+                totalItems: data.totalItems || 0,
+            };
         } catch (err: any) {
             console.error('fetchBooksFromBackend error:', err);
             throw err;
         }
     }
 
-    // Handle category click
-    const handleCategoryClick = async (category: string) => {
+    // Handle category click for single category view
+    const handleCategoryClick = async (category: string, page = 1) => {
         try {
             setLoading(true);
             setError(null);
+            setCurrentPage(page);
 
             if (category === 'All') {
                 setSelectedCategory('All');
-
                 const data: Record<string, any[]> = {};
+                const pages: Record<string, number> = {};
+
                 for (const cat of CATEGORY_LIST.filter((c) => c !== 'All')) {
                     try {
-                        const items = await fetchBooksFromBackend(`subject:${cat}`, 8);
-                        data[cat] = items;
+                        const result = await fetchBooksFromBackend(`subject:${cat}`, 20, 0);
+                        data[cat] = result.items;
+                        pages[cat] = 1;
                     } catch {
                         data[cat] = [];
+                        pages[cat] = 1;
                     }
                 }
                 setCategories(data);
-                setBooks([]); // clear grid
+                setCategoryPages(pages);
+                setBooks([]);
+                setTotalResults(0);
             } else {
                 setSelectedCategory(category);
-                const categoryBooks = await fetchBooksFromBackend(`subject:${category}`, 20);
-                setBooks(categoryBooks);
-                setCategories({}); // clear rows
+                const startIndex = (page - 1) * 20;
+                const result = await fetchBooksFromBackend(`subject:${category}`, 20, startIndex);
+                setBooks(result.items);
+                // Limit total results to show max 50 pages
+                const limitedTotal = Math.min(result.totalItems, MAX_PAGES * 20);
+                setTotalResults(limitedTotal);
+                setCategories({});
             }
         } catch (err) {
             console.error('Category click error:', err);
@@ -69,6 +92,71 @@ export default function Dashboard() {
         } finally {
             setLoading(false);
         }
+    };
+
+    // Handle "load more" for category in All Categories view
+    const handleLoadMoreBooks = async (category: string) => {
+        try {
+            setLoading(true);
+            const currentCatPage = categoryPages[category] || 1;
+            const startIndex = currentCatPage * 8; // load next set
+
+            const result = await fetchBooksFromBackend(`subject:${category}`, 8, startIndex);
+
+            setCategories((prev) => ({
+                ...prev,
+                [category]: [...(prev[category] || []), ...result.items], // append instead of replace
+            }));
+
+            setCategoryPages((prev) => ({
+                ...prev,
+                [category]: currentCatPage + 1, // increment page count
+            }));
+        } catch (err) {
+            console.error('Load more error:', err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Handle page change for single category view
+    const handlePageChange = (page: number) => {
+        handleCategoryClick(selectedCategory, page);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    // Calculate total pages (max 50)
+    const totalPages = Math.min(Math.ceil(totalResults / 20), MAX_PAGES);
+
+    // Generate page numbers to display
+    const getPageNumbers = () => {
+        const pages = [];
+        const maxPagesToShow = 5;
+
+        if (totalPages <= maxPagesToShow) {
+            for (let i = 1; i <= totalPages; i++) {
+                pages.push(i);
+            }
+        } else {
+            if (currentPage <= 3) {
+                for (let i = 1; i <= 4; i++) pages.push(i);
+                pages.push('...');
+                pages.push(totalPages);
+            } else if (currentPage >= totalPages - 2) {
+                pages.push(1);
+                pages.push('...');
+                for (let i = totalPages - 3; i <= totalPages; i++) pages.push(i);
+            } else {
+                pages.push(1);
+                pages.push('...');
+                pages.push(currentPage - 1);
+                pages.push(currentPage);
+                pages.push(currentPage + 1);
+                pages.push('...');
+                pages.push(totalPages);
+            }
+        }
+        return pages;
     };
 
     // Load "All" by default
@@ -101,16 +189,16 @@ export default function Dashboard() {
                     {CATEGORY_LIST.map((cat) => (
                         <button
                             key={cat}
-                            onClick={() => handleCategoryClick(cat)}
+                            onClick={() => handleCategoryClick(cat, 1)}
                             className={`relative inline-block pb-1
-          after:absolute after:left-0 after:bottom-0
-          after:h-[2px] after:w-0 after:bg-white
-          after:transition-all after:duration-300
-        //   hover:after:w-full  font-semibold  transition-colors  rounded-none transition-all duration-250 ease-out ${
-            selectedCategory === cat
-                ? 'text-[#e50914] border-b-[2px] border-b-white rounded-none after:hidden'
-                : 'after:w-0 hover:after:w-full hover:text-[#e50914]'
-        }`}
+                                after:absolute after:left-0 after:bottom-0
+                                after:h-[2px] after:w-0 after:bg-white
+                                after:transition-all after:duration-300
+                                font-semibold transition-colors rounded-none transition-all duration-250 ease-out ${
+                                    selectedCategory === cat
+                                        ? 'text-[#e50914] border-b-[2px] border-b-white rounded-none after:hidden'
+                                        : 'after:w-0 hover:after:w-full hover:text-[#e50914]'
+                                }`}
                         >
                             {cat === 'All' ? 'All Categories' : cat}
                         </button>
@@ -132,73 +220,160 @@ export default function Dashboard() {
             {/* Render logic */}
             {!loading && !error && (
                 <>
-                    {/* Single category */}
+                    {/* Single category with pagination */}
                     {selectedCategory !== 'All' && (
                         <>
                             <div className="mt-3 mb-4 text-gray-300">
-                                Showing:
-                                {books.length > 0 && <span className="ml-2 text-gray-400">({books.length} books)</span>}
+                                Showing: Page {currentPage} of {totalPages}
+                                {books.length > 0 && (
+                                    <span className="ml-2 text-gray-400">
+                                        ({totalResults} total books, max {MAX_PAGES} pages)
+                                    </span>
+                                )}
                             </div>
                             <span className="text-white text-3xl font-semibold mb-4">{selectedCategory}</span>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-x-[40px] gap-y-[50px] mt-4 mb-10">
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-x-[40px] gap-y-[50px] mt-4 mb-10">
                                 {books.map((book, index) => (
-                                    <BookCard key={book.id || index} book={book} />
+                                    <div key={book.id || index} onClick={() => router.push(`/book/${book.id}`)}>
+                                        <div className="cursor-pointer transform transition-transform hover:scale-105">
+                                            <BookCard book={book} />
+                                        </div>
+                                    </div>
                                 ))}
                             </div>
+
+                            {/* Pagination Controls */}
+                            {totalPages > 1 && (
+                                <div className="flex justify-center items-center gap-2 my-8">
+                                    <button
+                                        onClick={() => handlePageChange(currentPage - 1)}
+                                        disabled={currentPage === 1}
+                                        className={`flex items-center gap-1 px-4 py-2 rounded-lg ${
+                                            currentPage === 1
+                                                ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                                                : 'bg-[#282828] text-white hover:bg-[#e50914]'
+                                        }`}
+                                    >
+                                        <ChevronLeft size={20} />
+                                        Previous
+                                    </button>
+
+                                    <div className="flex gap-2">
+                                        {getPageNumbers().map((page, index) => (
+                                            <button
+                                                key={index}
+                                                onClick={() => typeof page === 'number' && handlePageChange(page)}
+                                                disabled={page === '...'}
+                                                className={`px-4 py-2 rounded-lg ${
+                                                    page === currentPage
+                                                        ? 'bg-[#e50914] text-white'
+                                                        : page === '...'
+                                                        ? 'bg-transparent text-gray-400 cursor-default'
+                                                        : 'bg-[#282828] text-white hover:bg-[#e50914]'
+                                                }`}
+                                            >
+                                                {page}
+                                            </button>
+                                        ))}
+                                    </div>
+
+                                    <button
+                                        onClick={() => handlePageChange(currentPage + 1)}
+                                        disabled={currentPage === totalPages}
+                                        className={`flex items-center gap-1 px-4 py-2 rounded-lg ${
+                                            currentPage === totalPages
+                                                ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                                                : 'bg-[#282828] text-white hover:bg-[#e50914]'
+                                        }`}
+                                    >
+                                        Next
+                                        <ChevronRight size={20} />
+                                    </button>
+                                </div>
+                            )}
                         </>
                     )}
 
-                    {/* All categories */}
+                    {/* All categories with pagination for each row */}
                     {selectedCategory === 'All' && (
                         <>
-                            {Object.entries(categories).map(([cat, books]) => (
-                                <section key={cat} className="mb-8">
-                                    <h3 className="text-xl font-semibold mb-[30px]">{cat}</h3>
-                                    <div className="flex gap-4 overflow-x-auto pb-4">
-                                        {books.map((book, index) => (
-                                            <div key={index} className="w-[300px] shadow-md hover:shadow-lg transition">
-                                                {/* Book Image */}
-                                                {book.volumeInfo.imageLinks?.thumbnail && (
-                                                    <img
-                                                        src={book.volumeInfo.imageLinks.thumbnail}
-                                                        alt={book.volumeInfo.title}
-                                                        className="w-[300px] h-[300px] mb-[20px] object-contain"
-                                                    />
-                                                )}
+                            {Object.entries(categories).map(([cat, books]) => {
+                                const visibleIndex = categoryPages[cat] || 0; // track scroll offset
+                                const visibleBooks = books.slice(visibleIndex, visibleIndex + 6);
 
-                                                {/* Book Title (clickable link) */}
-                                                <a
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="text-[25px] font-semibold text-blue-600 hover:underline"
+                                return (
+                                    <section key={cat} className="mb-12">
+                                        {/* Header with arrows */}
+                                        <div className="flex justify-between items-center mb-[20px]">
+                                            <h3 className="text-xl font-semibold">{cat}</h3>
+                                            <div className="flex gap-2">
+                                                {/* Left button */}
+                                                <button
+                                                    onClick={() =>
+                                                        setCategoryPages((prev) => ({
+                                                            ...prev,
+                                                            [cat]: Math.max((prev[cat] || 0) - 1, 0), // move one "page" left
+                                                        }))
+                                                    }
+                                                    disabled={(categoryPages[cat] || 0) === 0}
+                                                    className="p-2 rounded-lg bg-[#282828] text-white hover:bg-[#e50914] disabled:opacity-40 disabled:cursor-not-allowed"
                                                 >
-                                                    {book.volumeInfo.title}
-                                                </a>
+                                                    <ChevronLeft size={20} />
+                                                </button>
 
-                                                {/* Authors */}
-                                                {book.volumeInfo.authors && (
-                                                    <p className="text-xs text-gray-700 my-10">by {book.volumeInfo.authors.join(', ')}</p>
-                                                )}
+                                                {/* Right button */}
+                                                <button
+                                                    onClick={async () => {
+                                                        const nextPage = (categoryPages[cat] || 0) + 1;
+                                                        const startIndex = nextPage * 8;
 
-                                                {/* Preview link */}
-                                                <a
-                                                    href={book.volumeInfo.infoLink}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded text-xs transition-colors"
+                                                        // if not enough books, fetch more
+                                                        if (books.length < startIndex + 8) {
+                                                            const result = await fetchBooksFromBackend(`subject:${cat}`, 8, books.length);
+                                                            if (result.items.length > 0) {
+                                                                setCategories((prev) => ({
+                                                                    ...prev,
+                                                                    [cat]: [...books, ...result.items],
+                                                                }));
+                                                            }
+                                                        }
+
+                                                        setCategoryPages((prev) => ({
+                                                            ...prev,
+                                                            [cat]: nextPage,
+                                                        }));
+                                                    }}
+                                                    className="p-2 rounded-lg bg-[#282828] text-white hover:bg-[#e50914]"
                                                 >
-                                                    More Info
-                                                </a>
-
-                                                {/* Publisher + Year */}
-                                                <p className="text-xs text-gray-500">
-                                                    {book.volumeInfo.publisher} ({book.volumeInfo.publishedDate})
-                                                </p>
+                                                    <ChevronRight size={20} />
+                                                </button>
                                             </div>
-                                        ))}
-                                    </div>
-                                </section>
-                            ))}
+                                        </div>
+
+                                        {/* Horizontal scroll */}
+                                        <div className="relative overflow-hidden">
+                                            <div
+                                                className="flex gap-6 transition-transform duration-500 ease-out"
+                                                style={{
+                                                    transform: `translateX(-${(categoryPages[cat] || 0) * (170 * 8)}px)`,
+                                                    // 170px ≈ BookCard width (150) + gap (20). Adjust this to match your BookCard
+                                                }}
+                                            >
+                                                {books.map((book, index) => (
+                                                    <Link
+                                                        key={book.id || index}
+                                                        href={`/book/${book.id}`}
+                                                        className="flex-shrink-0 w-[250px]"
+                                                    >
+                                                        <BookCard book={book} />
+                                                    </Link>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </section>
+                                );
+                            })}
                         </>
                     )}
                 </>
