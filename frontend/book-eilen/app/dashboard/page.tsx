@@ -91,13 +91,13 @@ export default function Dashboard() {
                 </Carousel>
                 <div className="absolute bottom-10 left-10 z-20 text-white">
                     <h2 className="text-3xl font-bold">Discover New Stories</h2>
-                    <button className="px-6 py-2 bg-[#e50914] font-medium rounded-xl">Explore</button>
+                    <button className="px-6 py-1 hover:bg-[#ad0810] bg-[#e50914] font-medium rounded-[25px]">Explore</button>
                 </div>
             </div>
 
             {/* Category buttons */}
             <div className="category-buttons flex justify-center my-10">
-                <div className="flex justify-center w-[1080px] bg-[#282828] rounded-[25px] gap-[30px] py-[15px]">
+                <div className="flex justify-center flex-wrap w-[1080px] bg-[#282828] rounded-[25px] gap-[30px] py-[15px]">
                     {CATEGORY_LIST.map((cat) => (
                         <button
                             key={cat}
@@ -140,7 +140,7 @@ export default function Dashboard() {
                                 {books.length > 0 && <span className="ml-2 text-gray-400">({books.length} books)</span>}
                             </div>
                             <span className="text-white text-3xl font-semibold mb-4">{selectedCategory}</span>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-x-[40px] gap-y-[50px] mt-4 mb-10">
                                 {books.map((book, index) => (
                                     <BookCard key={book.id || index} book={book} />
                                 ))}
@@ -187,7 +187,7 @@ export default function Dashboard() {
                                                     rel="noopener noreferrer"
                                                     className="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded text-xs transition-colors"
                                                 >
-                                                    ℹ️ More Info
+                                                    More Info
                                                 </a>
 
                                                 {/* Publisher + Year */}

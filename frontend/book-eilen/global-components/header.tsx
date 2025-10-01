@@ -254,7 +254,7 @@ export default function Header() {
                                             setSelectedCategory(null);
                                         }}
                                     >
-                                        <PopoverButton
+                                        <a
                                             onClick={(m) => {
                                                 m.preventDefault();
                                                 router.push('/profile');
@@ -262,13 +262,12 @@ export default function Header() {
                                             className={`be-link flex items-center ${dropdownOpen ? 'active' : ''}`}
                                         >
                                             <Image src={DropdownIcon} width="32" height="32" alt="dropdown" className="profile-img" />
-                                            <h6 className="dropdown-username">Muaz Rehan</h6>
                                             {dropdownOpen ? (
                                                 <ChevronUpIcon className="transition-transform duration-200" width={20} height={20} />
                                             ) : (
                                                 <ChevronDownIcon className="transition-transform duration-200" width={20} height={20} />
                                             )}
-                                        </PopoverButton>
+                                        </a>
 
                                         <Transition
                                             as={Fragment}
