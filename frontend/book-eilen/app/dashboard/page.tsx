@@ -194,10 +194,9 @@ export default function Dashboard() {
                                 after:absolute after:left-0 after:bottom-0
                                 after:h-[2px] after:w-0 after:bg-white
                                 after:transition-all after:duration-300
-                                font-semibold transition-colors rounded-none transition-all duration-250 ease-out ${
-                                    selectedCategory === cat
-                                        ? 'text-[#e50914] border-b-[2px] border-b-white rounded-none after:hidden'
-                                        : 'after:w-0 hover:after:w-full hover:text-[#e50914]'
+                                font-semibold transition-colors rounded-none transition-all duration-250 ease-out ${selectedCategory === cat
+                                    ? 'text-[#e50914] border-b-[2px] border-b-white rounded-none after:hidden'
+                                    : 'after:w-0 hover:after:w-full hover:text-[#e50914]'
                                 }`}
                         >
                             {cat === 'All' ? 'All Categories' : cat}
@@ -225,53 +224,47 @@ export default function Dashboard() {
                         <>
                             <div className="mt-3 mb-4 text-gray-300">
                                 Showing: Page {currentPage} of {totalPages}
-                                {books.length > 0 && (
-                                    <span className="ml-2 text-gray-400">
-                                        ({totalResults} total books, max {MAX_PAGES} pages)
-                                    </span>
-                                )}
+                                {books.length > 0 && <span className="ml-2 text-gray-400"></span>}
                             </div>
                             <span className="text-white text-3xl font-semibold mb-4">{selectedCategory}</span>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-x-[40px] gap-y-[50px] mt-4 mb-10">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-x-[30px] gap-y-[80px] mt-4 mb-10">
                                 {books.map((book, index) => (
-                                    <div key={book.id || index} onClick={() => router.push(`/book/${book.id}`)}>
+                                    <Link key={index} href={`/book-inner/${book.id}`}>
                                         <div className="cursor-pointer transform transition-transform hover:scale-105">
                                             <BookCard book={book} />
                                         </div>
-                                    </div>
+                                    </Link>
                                 ))}
                             </div>
 
                             {/* Pagination Controls */}
                             {totalPages > 1 && (
-                                <div className="flex justify-center items-center gap-2 my-8">
+                                <div className="flex justify-between items-center gap-2 my-8">
                                     <button
                                         onClick={() => handlePageChange(currentPage - 1)}
                                         disabled={currentPage === 1}
-                                        className={`flex items-center gap-1 px-4 py-2 rounded-lg ${
-                                            currentPage === 1
-                                                ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                                        className={`flex items-center gap-1 font-semibold !rounded-[20px] py-[7px] pl-[18px] pr-[25px] transition-transform duration-500 ease-out ${currentPage === 1
+                                                ? 'bg-[#761a1a] text-gray-300 cursor-not-allowed'
                                                 : 'bg-[#282828] text-white hover:bg-[#e50914]'
-                                        }`}
+                                            }`}
                                     >
                                         <ChevronLeft size={20} />
                                         Previous
                                     </button>
 
-                                    <div className="flex gap-2">
+                                    <div className="flex gap-[12px]">
                                         {getPageNumbers().map((page, index) => (
                                             <button
                                                 key={index}
                                                 onClick={() => typeof page === 'number' && handlePageChange(page)}
                                                 disabled={page === '...'}
-                                                className={`px-4 py-2 rounded-lg ${
-                                                    page === currentPage
+                                                className={`px-[15px] py-[5px] !rounded-[12px] text-[13px] ${page === currentPage
                                                         ? 'bg-[#e50914] text-white'
                                                         : page === '...'
-                                                        ? 'bg-transparent text-gray-400 cursor-default'
-                                                        : 'bg-[#282828] text-white hover:bg-[#e50914]'
-                                                }`}
+                                                            ? 'bg-transparent text-gray-400 cursor-default'
+                                                            : 'bg-[#282828] text-white hover:bg-[#e50914]'
+                                                    }`}
                                             >
                                                 {page}
                                             </button>
@@ -281,11 +274,10 @@ export default function Dashboard() {
                                     <button
                                         onClick={() => handlePageChange(currentPage + 1)}
                                         disabled={currentPage === totalPages}
-                                        className={`flex items-center gap-1 px-4 py-2 rounded-lg ${
-                                            currentPage === totalPages
-                                                ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                                        className={`flex items-center gap-1 font-semibold  !rounded-[20px] py-[7px] pr-[18px] pl-[25px] transition-transform duration-500 ease-out ${currentPage === totalPages
+                                                ? 'bg-[#761a1a] text-gray-300 cursor-not-allowed'
                                                 : 'bg-[#282828] text-white hover:bg-[#e50914]'
-                                        }`}
+                                            }`}
                                     >
                                         Next
                                         <ChevronRight size={20} />
@@ -352,7 +344,7 @@ export default function Dashboard() {
                                         </div>
 
                                         {/* Horizontal scroll */}
-                                        <div className="relative overflow-hidden">
+                                        <div className="book-category-scroll relative overflow-hidden">
                                             <div
                                                 className="flex gap-6 transition-transform duration-500 ease-out"
                                                 style={{
@@ -361,13 +353,10 @@ export default function Dashboard() {
                                                 }}
                                             >
                                                 {books.map((book, index) => (
-                                                    <Link
-                                                        key={book.id || index}
-                                                        href={`/book/${book.id}`}
-                                                        className="flex-shrink-0 w-[250px]"
-                                                    >
-                                                        <BookCard book={book} />
-                                                    </Link>
+
+                                                <Link key={index} href={`/book-inner/${book.id}`} className="flex-shrink-0 w-[250px]">
+                                                    <BookCard book={book} />
+                                                </Link>
                                                 ))}
                                             </div>
                                         </div>

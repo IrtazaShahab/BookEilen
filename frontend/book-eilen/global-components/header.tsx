@@ -157,7 +157,7 @@ export default function Header() {
                                     >
                                         <PopoverPanel
                                             static
-                                            className="absolute left-0 mt-2 w-[500px] be-dropdown-content bg-white shadow-xl rounded-xl"
+                                            className="absolute mt-[10px] left-0 w-[500px] be-dropdown-content bg-white shadow-xl rounded-xl"
                                         >
                                             <div className="flex p-4 be-list-content">
                                                 {/* Category List */}
@@ -259,7 +259,7 @@ export default function Header() {
                                                 m.preventDefault();
                                                 router.push('/profile');
                                             }}
-                                            className={`be-link flex items-center ${dropdownOpen ? 'active' : ''}`}
+                                            className={`be-link flex items-center cursor-pointer ${dropdownOpen ? 'active' : ''}`}
                                         >
                                             <Image src={DropdownIcon} width="32" height="32" alt="dropdown" className="profile-img" />
                                             {dropdownOpen ? (
@@ -279,7 +279,10 @@ export default function Header() {
                                             leaveFrom="opacity-100 translate-y-0 scale-100"
                                             leaveTo="opacity-0 translate-y-3 scale-95"
                                         >
-                                            <PopoverPanel static className="absolute left-0 mt-2 be-dropdown-content shadow-xl rounded-xl">
+                                            <PopoverPanel
+                                                static
+                                                className="absolute top-60 left-50 be-dropdown-content shadow-xl rounded-xl"
+                                            >
                                                 <div className="p-4 be-list-content">
                                                     <h5 className="font-semibold">
                                                         <Image src={PersonIcon} width="30" height="30" alt="person-icon" /> My Profile

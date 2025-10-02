@@ -6,7 +6,7 @@ interface BookCardProps {
     book: any;
 }
 
-const PLACEHOLDER_BOOK = 'https://via.placeholder.com/200x240/4A5568/FFFFFF?text=No+Image';
+const PLACEHOLDER_BOOK = 'https://picsum.photos/200/300';
 
 const BookCard: React.FC<BookCardProps> = ({ book }) => {
     const bookInfo = book?.volumeInfo ?? {};
@@ -22,13 +22,13 @@ const BookCard: React.FC<BookCardProps> = ({ book }) => {
     const infoLink = bookInfo?.infoLink ?? null;
 
     return (
-        <div className="relative overflow-hidden rounded-lg hover:bg-[#281516] transition-transform duration-300 hover:scale-140">
+        <div className="bookcard group relative overflow-hidden rounded-lg transition-transform duration-300 hover:scale-110">
             {/* Book Cover (no Link here, just image) */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
                 src={cover}
                 alt={title}
-                className="w-full h-[300px] object-cover rounded mb-4"
+                className="w-full h-[300px] object-cover rounded"
                 onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     target.src = PLACEHOLDER_BOOK;
@@ -36,7 +36,7 @@ const BookCard: React.FC<BookCardProps> = ({ book }) => {
             />
 
             {/* Book Info */}
-            <div className="text-white absolute !bottom-0 padding-[20px] !bg-[rgba(36, 28, 28, 0.5)] opacity-0 !group-hover:opacity-100 transition-opacity duration-300 pointer-events-none group-hover:pointer-events-auto">
+            <div className="bookcard-wrapper text-white absolute w-[100%] !bottom-0 p-[20px] !bg-opacity-80 !group-hover:bg-opacity-80 opacity-0 transition-opacity duration-250 ease-out pointer-events-none group-hover:pointer-events-auto">
                 <h5 className="!font-semibold text-[25px] mb-1 whitespace-nowrap overflow-hidden text-ellipsis">{title}</h5>
 
                 <p className="!font-normal text-gray-500 text-[16px] mb-3 opacity-80 whitespace-nowrap overflow-hidden text-ellipsis">
@@ -68,14 +68,7 @@ const BookCard: React.FC<BookCardProps> = ({ book }) => {
                     )}
                 </div>
 
-                {/* Rating */}
-                {bookInfo?.averageRating && (
-                    <div className="mt-2 text-yellow-400 text-sm">
-                        ⭐ {bookInfo.averageRating} ({bookInfo.ratingsCount || 0} reviews)
-                    </div>
-                )}
-
-                {bookInfo?.publishedDate && <div className="mt-1 text-gray-500 text-xs">Published: {bookInfo.publishedDate}</div>}
+                {bookInfo?.publishedDate && <div className="mt-1 text-gray-200 text-xs">Published: {bookInfo.publishedDate}</div>}
             </div>
         </div>
     );

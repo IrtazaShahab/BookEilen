@@ -1,0 +1,17 @@
+//-------------------------------------------------------------------------------/
+// ### Styles -> Components -> Bookcard
+//-------------------------------------------------------------------------------/
+
+.form-content {
+    .grid .bookcard:hover .bookcard-wrapper {
+        opacity: 1 !important;
+        background-color: rgba(40, 40, 40, 0.9);
+    }
+}
+
+.form-content {
+    .book-category-scroll .flex .flex-shrink-0 .bookcard:hover .bookcard-wrapper {
+        opacity: 1 !important;
+        background-color: rgba(40, 40, 40, 0.9);
+    }
+}

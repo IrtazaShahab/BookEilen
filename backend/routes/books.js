@@ -7,47 +7,70 @@ const router = express.Router();
 
 // GET books by query
 router.get("/", async (req, res) => {
-  const { q, startIndex = 0, maxResults = 10 } = req.query;
+    const { q, startIndex = 0, maxResults = 10 } = req.query;
 
-  if (!q) {
-    return res.status(400).json({ error: "Query parameter 'q' is required" });
-  }
-
-  try {
-    const url = `${process.env.GOOGLE_API_URL}?q=${encodeURIComponent(q)}&startIndex=${startIndex}&maxResults=${maxResults}&key=${process.env.GOOGLE_API_KEY}`;
-    const response = await fetch(url); // Built-in fetch, no import needed
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+    if (!q) {
+        return res.status(400).json({ error: "Query parameter 'q' is required" });
     }
 
-    const data = await response.json();
-    res.json(data);
-  } catch (error) {
-    console.error("Error fetching books:", error);
-    res.status(500).json({ error: "Error fetching books" });
-  }
+    try {
+        const url = `${process.env.GOOGLE_API_URL}?q=${encodeURIComponent(q)}&startIndex=${startIndex}&maxResults=${maxResults}&key=${process.env.GOOGLE_API_KEY}`;
+        const response = await fetch(url); // Built-in fetch, no import needed
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        res.json(data);
+    } catch (error) {
+        console.error("Error fetching books:", error);
+        res.status(500).json({ error: "Error fetching books" });
+    }
 });
 
 // GET books by category
 router.get("/category/:category", async (req, res) => {
-  const { category } = req.params;
-  const { startIndex = 0, maxResults = 10 } = req.query;
+    const { category } = req.params;
+    const { startIndex = 0, maxResults = 10 } = req.query;
 
-  try {
-    const url = `${process.env.GOOGLE_API_URL}?q=subject:${encodeURIComponent(category)}&startIndex=${startIndex}&maxResults=${maxResults}&key=${process.env.GOOGLE_API_KEY}`;
-    const response = await fetch(url); // Built-in fetch
+    try {
+        const url = `${process.env.GOOGLE_API_URL}?q=subject:${encodeURIComponent(category)}&startIndex=${startIndex}&maxResults=${maxResults}&key=${process.env.GOOGLE_API_KEY}`;
+        const response = await fetch(url); // Built-in fetch
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        res.json(data);
+    } catch (error) {
+        console.error("Error fetching category books:", error);
+        res.status(500).json({ error: "Error fetching category books" });
     }
+});
 
-    const data = await response.json();
-    res.json(data);
-  } catch (error) {
-    console.error("Error fetching category books:", error);
-    res.status(500).json({ error: "Error fetching category books" });
-  }
+// Get single book by ID
+router.get('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        console.log('Fetching book with ID:', id); // Debug log
+
+        const url = `https://www.googleapis.com/books/v1/volumes/${id}`;
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error(`Google Books API error: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('Book data received:', data.volumeInfo?.title); // Debug log
+
+        res.json(data);
+    } catch (error) {
+        console.error('Error fetching book:', error);
+        res.status(500).json({ error: 'Failed to fetch book details' });
+    }
 });
 
 module.exports = router;
