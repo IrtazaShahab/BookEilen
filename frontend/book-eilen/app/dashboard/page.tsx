@@ -14,7 +14,7 @@ import CarousalImage3 from '@/assets/images/white-unicorn-with-pink-hair.webp';
 import CarousalImage4 from '@/assets/images/traded-company-wall-street.webp';
 
 const API_BASE = 'http://localhost:3040/api/books';
-const CATEGORY_LIST = ['All', 'Fiction', 'Romance', 'Mystery', 'Science Fiction', 'Fantasy', 'Biography', 'History', 'Self Help'];
+const CATEGORY_LIST = ['All', 'Fiction', 'Mystery', 'Science Fiction', 'Fantasy', 'Biography', 'History', 'Self Help', 'Romance'];
 const MAX_PAGES = 50; // Limit maximum pages
 
 export default function Dashboard() {
@@ -194,9 +194,10 @@ export default function Dashboard() {
                                 after:absolute after:left-0 after:bottom-0
                                 after:h-[2px] after:w-0 after:bg-white
                                 after:transition-all after:duration-300
-                                font-semibold transition-colors rounded-none transition-all duration-250 ease-out ${selectedCategory === cat
-                                    ? 'text-[#e50914] border-b-[2px] border-b-white rounded-none after:hidden'
-                                    : 'after:w-0 hover:after:w-full hover:text-[#e50914]'
+                                font-semibold transition-colors rounded-none transition-all duration-250 ease-out ${
+                                    selectedCategory === cat
+                                        ? 'text-[#e50914] border-b-[2px] border-b-white rounded-none after:hidden'
+                                        : 'after:w-0 hover:after:w-full hover:text-[#e50914]'
                                 }`}
                         >
                             {cat === 'All' ? 'All Categories' : cat}
@@ -244,10 +245,11 @@ export default function Dashboard() {
                                     <button
                                         onClick={() => handlePageChange(currentPage - 1)}
                                         disabled={currentPage === 1}
-                                        className={`flex items-center gap-1 font-semibold !rounded-[20px] py-[7px] pl-[18px] pr-[25px] transition-transform duration-500 ease-out ${currentPage === 1
+                                        className={`flex items-center gap-1 font-semibold !rounded-[20px] py-[7px] pl-[18px] pr-[25px] transition-transform duration-500 ease-out ${
+                                            currentPage === 1
                                                 ? 'bg-[#761a1a] text-gray-300 cursor-not-allowed'
                                                 : 'bg-[#282828] text-white hover:bg-[#e50914]'
-                                            }`}
+                                        }`}
                                     >
                                         <ChevronLeft size={20} />
                                         Previous
@@ -259,12 +261,13 @@ export default function Dashboard() {
                                                 key={index}
                                                 onClick={() => typeof page === 'number' && handlePageChange(page)}
                                                 disabled={page === '...'}
-                                                className={`px-[15px] py-[5px] !rounded-[12px] text-[13px] ${page === currentPage
+                                                className={`px-[15px] py-[5px] !rounded-[12px] text-[13px] ${
+                                                    page === currentPage
                                                         ? 'bg-[#e50914] text-white'
                                                         : page === '...'
-                                                            ? 'bg-transparent text-gray-400 cursor-default'
-                                                            : 'bg-[#282828] text-white hover:bg-[#e50914]'
-                                                    }`}
+                                                        ? 'bg-transparent text-gray-400 cursor-default'
+                                                        : 'bg-[#282828] text-white hover:bg-[#e50914]'
+                                                }`}
                                             >
                                                 {page}
                                             </button>
@@ -274,10 +277,11 @@ export default function Dashboard() {
                                     <button
                                         onClick={() => handlePageChange(currentPage + 1)}
                                         disabled={currentPage === totalPages}
-                                        className={`flex items-center gap-1 font-semibold  !rounded-[20px] py-[7px] pr-[18px] pl-[25px] transition-transform duration-500 ease-out ${currentPage === totalPages
+                                        className={`flex items-center gap-1 font-semibold  !rounded-[20px] py-[7px] pr-[18px] pl-[25px] transition-transform duration-500 ease-out ${
+                                            currentPage === totalPages
                                                 ? 'bg-[#761a1a] text-gray-300 cursor-not-allowed'
                                                 : 'bg-[#282828] text-white hover:bg-[#e50914]'
-                                            }`}
+                                        }`}
                                     >
                                         Next
                                         <ChevronRight size={20} />
@@ -353,10 +357,9 @@ export default function Dashboard() {
                                                 }}
                                             >
                                                 {books.map((book, index) => (
-
-                                                <Link key={index} href={`/book-inner/${book.id}`} className="flex-shrink-0 w-[250px]">
-                                                    <BookCard book={book} />
-                                                </Link>
+                                                    <Link key={index} href={`/book-inner/${book.id}`} className="flex-shrink-0 w-[250px]">
+                                                        <BookCard book={book} />
+                                                    </Link>
                                                 ))}
                                             </div>
                                         </div>

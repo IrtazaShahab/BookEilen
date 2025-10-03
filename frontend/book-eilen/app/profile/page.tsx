@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import profileImage from '@/assets/images/Irtaza.webp';
 
-import { User, BookMarked, Heart, Settings, Bell, Trash2, LogOut, Book } from 'lucide-react';
+import { User, BookMarked, Heart, Settings, Bell, Trash2, LogOut } from 'lucide-react';
 
 export default function ProfilePage() {
     const [activeSection, setActiveSection] = useState('profile');

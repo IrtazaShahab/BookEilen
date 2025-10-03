@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+// import { useState } from 'react';
 import BeHomeCarousel from '@/app/components/home-carousel';
 import 'antd/dist/reset.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
