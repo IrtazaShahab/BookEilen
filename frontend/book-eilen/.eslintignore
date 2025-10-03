@@ -1,2 +1,2 @@
-# Ignore test/bootstrap files
+# Ignore bootstrap test files
 src/styles/__bootstrap/tests/**
