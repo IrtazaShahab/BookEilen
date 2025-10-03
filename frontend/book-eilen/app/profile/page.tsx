@@ -219,7 +219,7 @@ function ReadList() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {mockBooks.map((book) => (
                     <div key={book.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                        <img src={book.cover} alt={book.title} className="w-full h-64 object-cover" />
+                        <Image src={book.cover} alt={book.title} className="w-full h-64 object-cover" />
                         <div className="p-4">
                             <h3 className="font-semibold text-gray-800 mb-1">{book.title}</h3>
                             <p className="text-sm text-gray-600 mb-2">{book.author}</p>
