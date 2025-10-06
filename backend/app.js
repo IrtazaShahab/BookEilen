@@ -12,7 +12,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var booksRouter = require('./routes/books');
 
-// Load env first
+// Load env
 env.config({
     path: `./.env.${process.env.NODE_ENV || 'development'}`,
 });
@@ -20,20 +20,43 @@ env.config({
 var app = express();
 
 /**
- * CORS — MUST come before any route/middleware that may handle requests.
- * Don't send a naked 200 for OPTIONS — let cors() attach the headers.
+ * CORS Configuration
+ * Updated to work with both local development and Vercel deployment
  */
+const allowedOrigins = [
+    'http://localhost:3020',                    // Local Next.js dev
+    'http://localhost:3000',                    // Alternative local port
+    'https://bookeilen.vercel.app',            // Your production frontend
+    'https://bookeilen-frontend.vercel.app',   // Alternative frontend name
+];
+
+// Add all Vercel preview deployments
+if (process.env.VERCEL_URL) {
+    allowedOrigins.push(`https://${process.env.VERCEL_URL}`);
+}
+
 const corsOptions = {
-    origin: 'http://localhost:3020',        // your Next.js dev
+    origin: function (origin, callback) {
+        // Allow requests with no origin (mobile apps, Postman, etc.)
+        if (!origin) return callback(null, true);
+        
+        // Check if origin is in allowed list or is a Vercel deployment
+        if (allowedOrigins.indexOf(origin) !== -1 || /\.vercel\.app$/.test(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
-    credentials: true,                      // ok if you plan to use cookies; harmless otherwise
-    optionsSuccessStatus: 204,              // typical for preflight
+    credentials: true,
+    optionsSuccessStatus: 204,
 };
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));      // handle all preflights WITH headers
 
-// Body parsers (after CORS)
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
+
+// Body parsers
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -46,27 +69,32 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-// Simple health/db test route (fix table name to "users" to match your code)
+// Health check route (root)
 app.get('/', async (req, res) => {
     try {
         const result = await db.query('SELECT * FROM "users" LIMIT 5');
-        res.json(result.rows);
+        res.json({
+            status: 'ok',
+            message: 'Backend is running!',
+            users: result.rows,
+            environment: process.env.NODE_ENV || 'development'
+        });
     } catch (err) {
-        console.error(err);
-        res.status(500).send('Internal Server Error');
+        console.error('Database error:', err);
+        res.status(500).json({
+            status: 'error',
+            message: 'Database connection failed',
+            error: process.env.NODE_ENV === 'development' ? err.message : 'Internal server error'
+        });
     }
 });
 
-// Routes
+// API Routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/books', booksRouter);
 
-// Start server
-// const PORT = process.env.PORT || 3040;
-// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-// 404
+// 404 handler
 app.use(function (req, res, next) {
     next(createError(404));
 });
@@ -75,8 +103,28 @@ app.use(function (req, res, next) {
 app.use(function (err, req, res, next) {
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
+    
     res.status(err.status || 500);
-    res.render('error');
+    
+    // For API routes, send JSON instead of rendering
+    if (req.path.startsWith('/api/')) {
+        res.json({
+            error: err.message,
+            status: err.status || 500
+        });
+    } else {
+        res.render('error');
+    }
 });
 
+// For local development only
+if (process.env.NODE_ENV !== 'production') {
+    const PORT = process.env.PORT || 3040;
+    app.listen(PORT, () => {
+        console.log(`✅ Server running on port ${PORT}`);
+        console.log(`📍 Environment: ${process.env.NODE_ENV || 'development'}`);
+    });
+}
+
+// Export for Vercel
 module.exports = app;
