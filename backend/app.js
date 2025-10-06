@@ -65,30 +65,25 @@ app.use(logger('dev'));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// View engine
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
-
-// Health check route (root) upadate this when database is connected
-// app.get('/', async (req, res) => {
-//     try {
-//         const result = await db.query('SELECT * FROM "users" LIMIT 5');
-//         res.json({
-//             status: 'ok',
-//             message: 'Backend is running!',
-//             users: result.rows,
-//             environment: process.env.NODE_ENV || 'development'
-//         });
-//     } catch (err) {
-//         console.error('Database error:', err);
-//         res.status(500).json({
-//             status: 'error',
-//             message: 'Database connection failed',
-//             error: process.env.NODE_ENV === 'development' ? err.message : 'Internal server error'
-//         });
-//     }
-// });
+// Health check route (root)
+app.get('/', async (req, res) => {
+    try {
+        const result = await db.query('SELECT * FROM "users" LIMIT 5');
+        res.json({
+            status: 'ok',
+            message: 'Backend is running!',
+            users: result.rows,
+            environment: process.env.NODE_ENV || 'development'
+        });
+    } catch (err) {
+        console.error('Database error:', err);
+        res.status(500).json({
+            status: 'error',
+            message: 'Database connection failed',
+            error: process.env.NODE_ENV === 'development' ? err.message : 'Internal server error'
+        });
+    }
+});
 
 // API Routes
 app.use('/', indexRouter);
