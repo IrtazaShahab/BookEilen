@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Carousel } from 'antd';
 import Image from 'next/image';
 import Link from 'next/link';
-import BookCard from '../components/bookcard/page';
+import BookCard from '../components/bookcard/bookcard';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
