@@ -167,7 +167,7 @@ export default function Dashboard() {
     }, []);
 
     return (
-        <div className="main-page min-h-screen p-6 bg-[#181818] text-white">
+        <div className="main-page min-h-screen px-4 pt-6 pb-12 bg-[#181818] text-white">
             {/* Carousel */}
             <div className="relative w-full h-[400px] mb-[80px]">
                 <Carousel autoplay className="w-full h-full">
@@ -229,7 +229,7 @@ export default function Dashboard() {
                             </div>
                             <span className="text-white text-3xl font-semibold mb-4">{selectedCategory}</span>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-x-[30px] gap-y-[80px] mt-4 mb-10">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-x-[30px] gap-y-[80px] mt-4 mb-[60px]">
                                 {books.map((book, index) => (
                                     <Link key={index} href={`/book-inner/${book.id}`}>
                                         <div className="cursor-pointer transform transition-transform hover:scale-105">
@@ -299,7 +299,7 @@ export default function Dashboard() {
                                 const visibleBooks = books.slice(visibleIndex, visibleIndex + 6);
 
                                 return (
-                                    <section key={cat} className="mb-12">
+                                    <section key={cat} className="mb-16">
                                         {/* Header with arrows */}
                                         <div className="flex justify-between items-center mb-[20px]">
                                             <h3 className="text-xl font-semibold">{cat}</h3>
@@ -313,7 +313,7 @@ export default function Dashboard() {
                                                         }))
                                                     }
                                                     disabled={(categoryPages[cat] || 0) === 0}
-                                                    className="p-2 rounded-lg bg-[#282828] text-white hover:bg-[#e50914] disabled:opacity-40 disabled:cursor-not-allowed"
+                                                    className="p-2 !rounded-[10px] bg-[#282828] text-white hover:bg-[#e50914] disabled:opacity-40 disabled:cursor-not-allowed"
                                                 >
                                                     <ChevronLeft size={20} />
                                                 </button>
@@ -340,7 +340,7 @@ export default function Dashboard() {
                                                             [cat]: nextPage,
                                                         }));
                                                     }}
-                                                    className="p-2 rounded-lg bg-[#282828] text-white hover:bg-[#e50914]"
+                                                    className="p-2 !rounded-[10px] bg-[#282828] text-white hover:bg-[#e50914]"
                                                 >
                                                     <ChevronRight size={20} />
                                                 </button>

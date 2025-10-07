@@ -46,25 +46,23 @@ const BookCard: React.FC<BookCardProps> = ({ book }) => {
                 {/* External Links */}
                 <div className="flex justify-between gap-2">
                     {previewLink && (
-                        <a
-                            href={previewLink}
-                            target="_blank"
+                        <button
+                            onClick={() => window.open(previewLink)}
                             rel="noopener noreferrer"
-                            className="bg-[#e50914] hover:bg-[#ad0810] text-white text-sm transition-colors font-medium rounded-[25px] py-[3px] px-[18px]"
+                            className="bg-[#e50914] hover:bg-[#ad0810] text-white !text-[14px] transition-colors !font-medium !rounded-[25px] py-[3px] px-[18px]"
                         >
                             Preview
-                        </a>
+                        </button>
                     )}
 
                     {infoLink && (
-                        <a
-                            href={infoLink}
-                            target="_blank"
+                        <button
+                            onClick={() => window.open(infoLink)}
                             rel="noopener noreferrer"
-                            className="bg-gray-500 hover:bg-gray-600 text-white text-sm transition-colors font-medium rounded-[25px] py-[3px] px-[18px]"
+                            className="bg-gray-500 hover:bg-gray-600 text-white !text-[14px] transition-colors !font-medium !rounded-[25px] py-[3px] px-[18px]"
                         >
                             More Info
-                        </a>
+                        </button>
                     )}
                 </div>
 
