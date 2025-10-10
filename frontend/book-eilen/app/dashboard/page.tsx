@@ -227,7 +227,7 @@ export default function Dashboard() {
                                 Showing: Page {currentPage} of {totalPages}
                                 {books.length > 0 && <span className="ml-2 text-gray-400"></span>}
                             </div>
-                            <span className="text-white text-3xl font-semibold mb-4">{selectedCategory}</span>
+                            <span className="text-white text-3xl font-semibold mb-8">{selectedCategory}</span>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-x-[30px] gap-y-[80px] mt-4 mb-[60px]">
                                 {books.map((book, index) => (

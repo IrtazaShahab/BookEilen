@@ -4,9 +4,13 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useAppDispatch } from '../../redux/hooks';
 import { setUser } from '../../redux/store';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/app/contexts/authcontext';
+import Link from 'next/link';
+
 
 export default function BeLoginForm() {
     const router = useRouter();
+    const { login } = useAuth();
 
     const {
         register,
@@ -19,6 +23,22 @@ export default function BeLoginForm() {
         },
     });
 
+    const handleLogin = async (e: FormEvent) => {
+        e.preventDefault();
+
+        // Your login API call
+        const response = await fetch('your-api-endpoint', {
+            // ... your login logic
+        });
+
+        const data = await response.json();
+
+        if (data.token) {
+            login(data.token); // This will update the context
+            router.push('/dashboard');
+        }
+    };
+
     const [showPassword, setShowPassword] = useState(false);
     const emailRef = useRef<HTMLInputElement>(null);
 
@@ -28,24 +48,31 @@ export default function BeLoginForm() {
 
     const dispatch = useAppDispatch();
 
+
     const onSubmit = useCallback(
         async (event: { email: string; password: string }) => {
             try {
-                const response = await fetch('http://localhost:3040/users/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(event),
-                });
-
+                // ... API call ...
+                const response = await fetch('http://localhost:3040/users/login', { /* ... */ });
                 const data = await response.json();
 
                 if (response.ok && data.accessToken) {
+
+                    // 🛑 REMOVE the Redux dispatch (unless you still need it for non-auth state)
+                    // dispatch(setUser({ user: data.data, token: data.accessToken })); 
+
+                    // 1. Call the CONTEXT login function with the received token
+                    login(data.accessToken);
+
+                    // 2. localStorage saving is handled INSIDE AuthContext's login function, 
+                    // so you don't need this block here:
+                    /*
                     if (typeof window !== 'undefined') {
                         localStorage.setItem('accessToken', data.accessToken);
                     }
+                    */
 
-                    dispatch(setUser({ user: data.data, token: data.accessToken }));
-                    router.push('/pages/dashboard');
+                    router.push('/dashboard');
                 } else {
                     alert(data.message || 'Login failed. Please check your credentials.');
                 }
@@ -53,7 +80,8 @@ export default function BeLoginForm() {
                 console.error('Error submitting form:', error);
             }
         },
-        [dispatch, router]
+        // The dependency array should include `login` from useAuth
+        [login, router]
     );
 
     useEffect(() => {
@@ -131,7 +159,7 @@ export default function BeLoginForm() {
                                     aria-label="Toggle password visibility"
                                 >
                                     {showPassword ? (
-                                        // 👁️ Eye OFF SVG
+                                        // Eye OFF SVG
                                         <svg
                                             width="20"
                                             height="20"
@@ -147,7 +175,7 @@ export default function BeLoginForm() {
                                             <path d="M1 1l22 22" />
                                         </svg>
                                     ) : (
-                                        // 👁️ Eye ON SVG
+                                        // Eye ON SVG
                                         <svg
                                             width="20"
                                             height="20"
@@ -175,6 +203,17 @@ export default function BeLoginForm() {
                     </button>
                 </div>
 
+
+                {/*  Forgot Password link here */}
+                <div className="text-center mt-4">
+                    <Link
+                        href="/auth/forget-password"
+                        className="text-[16px] !text-gray-300 hover:text-[#E20C11] !hover:underline font-medium"
+                    >
+                        Forgot Password?
+                    </Link>
+                </div>
+
                 {/* Sign up link */}
                 <div className="text-center mt-3 sign-up-link">
                     <p>
@@ -184,6 +223,8 @@ export default function BeLoginForm() {
                         </button>
                     </p>
                 </div>
+
+
             </form>
         </div>
     );

@@ -9,8 +9,10 @@ const db = require('./db');
 
 // Import routes
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var booksRouter = require('./routes/books');
+var sessionsRouter = require('./routes/sessions');
+const passwordResetRouter = require('./routes/reset-password');
+const { router: usersRouter } = require('./routes/users');
 
 // Load env
 env.config({
@@ -89,6 +91,8 @@ app.get('/', async (req, res) => {
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/books', booksRouter);
+app.use('/api', sessionsRouter); 
+app.use('/users', passwordResetRouter);
 
 // 404 handler
 app.use(function (req, res, next) {
@@ -103,14 +107,10 @@ app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     
     // For API routes, send JSON instead of rendering
-    if (req.path.startsWith('/api/')) {
-        res.json({
-            error: err.message,
-            status: err.status || 500
-        });
-    } else {
-        res.render('error');
-    }
+    res.json({
+        error: err.message,
+        status: err.status || 500
+    });
 });
 
 // For local development only
