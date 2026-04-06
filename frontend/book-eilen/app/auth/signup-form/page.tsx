@@ -2,9 +2,15 @@
 
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export default function BeSignupForm() {
     const router = useRouter();
+    const [showPassword, setShowPassword] = useState(false);
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
 
     const {
         register,
@@ -29,7 +35,7 @@ export default function BeSignupForm() {
                     'Content-Type': 'application/json',
                 },
                 credentials: 'include',
-                body: JSON.stringify(formData), // ✅ only send f_name, l_name, email, password
+                body: JSON.stringify(formData), //  only send f_name, l_name, email, password
             });
 
             console.log('Response status:', response.status);
@@ -52,8 +58,8 @@ export default function BeSignupForm() {
             alert('Signup successful! Redirecting to login...');
             reset();
 
-            // ✅ Redirect to login page
-            router.push('/login');
+            // Redirect to login page
+            router.push('/auth/login-form');
         } catch (error) {
             console.error('Error submitting form:', error);
         }
@@ -136,21 +142,72 @@ export default function BeSignupForm() {
                                 <label htmlFor="password" className="form-label">
                                     Password
                                 </label>
-                                <input
-                                    required
-                                    id="password"
-                                    type="password"
-                                    autoComplete="new-password"
-                                    className="form-control be-form-input"
-                                    placeholder="Password"
-                                    {...register('password', {
-                                        required: 'Password is required',
-                                        minLength: {
-                                            value: 6,
-                                            message: 'Password must be at least 6 characters',
-                                        },
-                                    })}
-                                />
+                                <div style={{ position: 'relative' }}>
+                                    <input
+                                        required
+                                        id="password"
+                                        type={showPassword ? 'text' : 'password'}
+                                        autoComplete="new-password"
+                                        className={`form-control be-form-input ${errors.password ? 'is-invalid' : ''}`}
+                                        placeholder="Password"
+                                        {...register('password', {
+                                            required: 'Password is required',
+                                            minLength: {
+                                                value: 6,
+                                                message: 'Password must be at least 6 characters',
+                                            },
+                                        })}
+                                    />
+                                    <button
+                                    type="button"
+                                    onClick={togglePasswordVisibility}
+                                    style={{
+                                        position: 'absolute',
+                                        right: '10px',
+                                        top: '50%',
+                                        transform: 'translateY(-50%)',
+                                        background: 'none',
+                                        border: 'none',
+                                        cursor: 'pointer',
+                                        padding: 0,
+                                    }}
+                                    aria-label="Toggle password visibility"
+                                >
+                                    {showPassword ? (
+                                        // Eye OFF SVG
+                                        <svg
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                        >
+                                            <path d="M17.94 17.94A10.5 10.5 0 0 1 12 19.5C7.305 19.5 3.135 16.305 1.5 12C2.366 9.825 3.84 7.95 5.76 6.6" />
+                                            <path d="M22.5 12C21.678 14.16 20.208 16.02 18.27 17.37" />
+                                            <path d="M1 1l22 22" />
+                                        </svg>
+                                    ) : (
+                                        // Eye ON SVG
+                                        <svg
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                        >
+                                            <path d="M1 12S5 4 12 4s11 8 11 8-4 8-11 8S1 12 1 12z" />
+                                            <circle cx="12" cy="12" r="3" />
+                                        </svg>
+                                    )}
+                                </button>
+                                </div>
+
                                 {errors.password && <p className="text-danger">{errors.password.message}</p>}
                             </div>
 
@@ -158,12 +215,13 @@ export default function BeSignupForm() {
                                 <label htmlFor="confirm-password" className="form-label">
                                     Confirm Password
                                 </label>
+                                <div style={{ position: 'relative'}}>
                                 <input
                                     required
                                     id="confirm-password"
-                                    type="password"
+                                    type={showPassword ? 'text' : 'password'}
                                     autoComplete="new-password"
-                                    className="form-control be-form-input"
+                                    className={`form-control be-form-input ${errors.password ? 'is-invalid' : ''}`}
                                     placeholder="Confirm Password"
                                     {...register('confirmPassword', {
                                         required: 'Confirm Password is required',
@@ -171,6 +229,55 @@ export default function BeSignupForm() {
                                             value === password || 'Passwords do not match',
                                     })}
                                 />
+                                <button
+                                    type="button"
+                                    onClick={togglePasswordVisibility}
+                                    style={{
+                                        position: 'absolute',
+                                        right: '10px',
+                                        top: '50%',
+                                        transform: 'translateY(-50%)',
+                                        background: 'none',
+                                        border: 'none',
+                                        cursor: 'pointer',
+                                        padding: 0,
+                                    }}
+                                    aria-label="Toggle password visibility"
+                                >
+                                    {showPassword ? (
+                                        //  Eye OFF SVG
+                                        <svg
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                        >
+                                            <path d="M17.94 17.94A10.5 10.5 0 0 1 12 19.5C7.305 19.5 3.135 16.305 1.5 12C2.366 9.825 3.84 7.95 5.76 6.6" />
+                                            <path d="M22.5 12C21.678 14.16 20.208 16.02 18.27 17.37" />
+                                            <path d="M1 1l22 22" />
+                                        </svg>
+                                    ) : (
+                                        //  Eye ON SVG
+                                        <svg
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="2"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                        >
+                                            <path d="M1 12S5 4 12 4s11 8 11 8-4 8-11 8S1 12 1 12z" />
+                                            <circle cx="12" cy="12" r="3" />
+                                        </svg>
+                                    )}
+                                </button>
+                                </div>
                                 {errors.confirmPassword && <p className="text-danger">{errors.confirmPassword.message}</p>}
                             </div>
                         </div>

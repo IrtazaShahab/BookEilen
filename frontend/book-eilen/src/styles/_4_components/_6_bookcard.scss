@@ -2,14 +2,14 @@
 // ### Styles -> Components -> Bookcard
 //-------------------------------------------------------------------------------/
 
-.form-content {
+main {
     .grid .bookcard:hover .bookcard-wrapper {
         opacity: 1 !important;
         background-color: rgba(40, 40, 40, 0.9);
     }
 }
 
-.form-content {
+main {
     .book-category-scroll .flex .flex-shrink-0 .bookcard:hover .bookcard-wrapper {
         opacity: 1 !important;
         background-color: rgba(40, 40, 40, 0.9);
