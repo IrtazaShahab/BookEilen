@@ -3,6 +3,9 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 
+type RequestResetValues = { email: string };
+type ResetPasswordValues = { code: string; password: string; confirmPassword: string };
+
 export default function ForgetPasswordPage() {
   const router = useRouter();
   const [step, setStep] = useState<'email' | 'verify'>('email');
@@ -22,7 +25,7 @@ export default function ForgetPasswordPage() {
           ) : (
             <ResetPasswordForm 
               email={userEmail}
-              onSuccess={() => router.push('/login')}
+              onSuccess={() => router.push('/auth/login-form')}
             />
           )}
           
@@ -30,7 +33,7 @@ export default function ForgetPasswordPage() {
             <button 
               type="button" 
               className="btn btn-link"
-              onClick={() => router.push('/login')}
+              onClick={() => router.push('/auth/login-form')}
             >
               ← Back to Login
             </button>
@@ -43,16 +46,16 @@ export default function ForgetPasswordPage() {
 
 // Component 1: Email Input & Send Code
 function RequestResetCode({ onCodeSent }: { onCodeSent: (email: string) => void }) {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm<RequestResetValues>();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
 
-  const onSubmit = async (data: { email: string }) => {
+  const onSubmit = async (data: RequestResetValues) => {
     setLoading(true);
     setMessage('');
     
     try {
-      const response = await fetch('http://localhost:3040/users/reset-password', {
+      const response = await fetch('http://localhost:3041/users/reset-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: data.email }),
@@ -91,7 +94,7 @@ function RequestResetCode({ onCodeSent }: { onCodeSent: (email: string) => void 
               pattern: { value: /^\S+@\S+$/i, message: 'Invalid email' }
             })}
           />
-          {errors.email && <div className="invalid-feedback">{errors.email.message}</div>}
+          {errors.email && <div className="invalid-feedback">{String(errors.email.message)}</div>}
         </div>
 
         <button
@@ -114,7 +117,7 @@ function RequestResetCode({ onCodeSent }: { onCodeSent: (email: string) => void 
 
 // Component 2: Verify Code & Reset Password
 function ResetPasswordForm({ email, onSuccess }: { email: string; onSuccess: () => void }) {
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const { register, handleSubmit, watch, formState: { errors } } = useForm<ResetPasswordValues>();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -122,12 +125,12 @@ function ResetPasswordForm({ email, onSuccess }: { email: string; onSuccess: () 
 
   const password = watch('password');
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: ResetPasswordValues) => {
     setLoading(true);
     setMessage('');
     
     try {
-      const response = await fetch('http://localhost:3040/users/reset-password', {
+      const response = await fetch('http://localhost:3041/users/reset-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -171,7 +174,7 @@ function ResetPasswordForm({ email, onSuccess }: { email: string; onSuccess: () 
               pattern: { value: /^[0-9]{6}$/, message: 'Code must be 6 digits' }
             })}
           />
-          {errors.code && <div className="invalid-feedback">{errors.code.message}</div>}
+          {errors.code && <div className="invalid-feedback">{String(errors.code.message)}</div>}
         </div>
 
         <div className="mb-3">
@@ -203,7 +206,7 @@ function ResetPasswordForm({ email, onSuccess }: { email: string; onSuccess: () 
               {showPassword ? '🙈' : '👁️'}
             </button>
           </div>
-          {errors.password && <div className="invalid-feedback d-block">{errors.password.message}</div>}
+          {errors.password && <div className="invalid-feedback d-block">{String(errors.password.message)}</div>}
         </div>
 
         <div className="mb-4">
@@ -235,7 +238,7 @@ function ResetPasswordForm({ email, onSuccess }: { email: string; onSuccess: () 
               {showConfirm ? '🙈' : '👁️'}
             </button>
           </div>
-          {errors.confirmPassword && <div className="invalid-feedback d-block">{errors.confirmPassword.message}</div>}
+          {errors.confirmPassword && <div className="invalid-feedback d-block">{String(errors.confirmPassword.message)}</div>}
         </div>
 
         <button

@@ -5,7 +5,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import BookCard from '../components/bookcard/book-card';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 
 // images
 import CarousalImage1 from '@/assets/images/horse-rider-img.webp';
@@ -13,7 +12,7 @@ import CarousalImage2 from '@/assets/images/man-in-rain.webp';
 import CarousalImage3 from '@/assets/images/white-unicorn-with-pink-hair.webp';
 import CarousalImage4 from '@/assets/images/traded-company-wall-street.webp';
 
-const API_BASE = 'http://localhost:3040/api/books';
+const API_BASE = 'http://localhost:3041/api/books';
 const CATEGORY_LIST = ['All', 'Fiction', 'Mystery', 'Science Fiction', 'Fantasy', 'Biography', 'History', 'Self Help', 'Romance'];
 const MAX_PAGES = 50; // Limit maximum pages
 
@@ -23,8 +22,6 @@ export default function Dashboard() {
     const [books, setBooks] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const router = useRouter();
-
     // Pagination states
     const [currentPage, setCurrentPage] = useState(1);
     const [totalResults, setTotalResults] = useState(0);
@@ -37,7 +34,8 @@ export default function Dashboard() {
             const res = await fetch(url);
             if (!res.ok) {
                 const txt = await res.text();
-                throw new Error(`Backend error ${res.status}: ${txt}`);
+                console.error(`Backend error ${res.status}: ${txt}`);
+                return { items: [], totalItems: 0 };
             }
             const data = await res.json();
             return {
@@ -46,7 +44,7 @@ export default function Dashboard() {
             };
         } catch (err: any) {
             console.error('fetchBooksFromBackend error:', err);
-            throw err;
+            return { items: [], totalItems: 0 };
         }
     }
 

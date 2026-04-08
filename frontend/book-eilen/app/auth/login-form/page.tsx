@@ -1,12 +1,16 @@
 'use client';
-import { useForm } from 'react-hook-form';
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { useAppDispatch } from '../../redux/hooks';
-import { setUser } from '../../redux/store';
+
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/app/contexts/authcontext';
 import Link from 'next/link';
 
+// ✅ Define form types
+type LoginFormInputs = {
+    email: string;
+    password: string;
+};
 
 export default function BeLoginForm() {
     const router = useRouter();
@@ -15,217 +19,165 @@ export default function BeLoginForm() {
     const {
         register,
         handleSubmit,
-        formState: { errors },
-    } = useForm({
+        watch,
+        formState: { errors, isSubmitting },
+    } = useForm<LoginFormInputs>({
         defaultValues: {
             email: '',
             password: '',
         },
     });
 
-    const handleLogin = async (e: FormEvent) => {
-        e.preventDefault();
+    const password = watch('password');
 
-        // Your login API call
-        const response = await fetch('your-api-endpoint', {
-            // ... your login logic
-        });
+    const [showPassword, setShowPassword] = useState<boolean>(false);
 
-        const data = await response.json();
-
-        if (data.token) {
-            login(data.token); // This will update the context
-            router.push('/dashboard');
-        }
-    };
-
-    const [showPassword, setShowPassword] = useState(false);
-    const emailRef = useRef<HTMLInputElement>(null);
-
-    const togglePasswordVisibility = () => {
-        setShowPassword(!showPassword);
-    };
-
-    const dispatch = useAppDispatch();
-
-
-    const onSubmit = useCallback(
-        async (event: { email: string; password: string }) => {
+    const onSubmit: SubmitHandler<LoginFormInputs> = useCallback(
+        async (data) => {
             try {
-                // ... API call ...
-                const response = await fetch('http://localhost:3040/users/login', { /* ... */ });
-                const data = await response.json();
+                const response = await fetch('http://localhost:3041/users/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
 
-                if (response.ok && data.accessToken) {
+                const resData = await response.json();
 
-                    // 🛑 REMOVE the Redux dispatch (unless you still need it for non-auth state)
-                    // dispatch(setUser({ user: data.data, token: data.accessToken })); 
-
-                    // 1. Call the CONTEXT login function with the received token
-                    login(data.accessToken);
-
-                    // 2. localStorage saving is handled INSIDE AuthContext's login function, 
-                    // so you don't need this block here:
-                    /*
-                    if (typeof window !== 'undefined') {
-                        localStorage.setItem('accessToken', data.accessToken);
-                    }
-                    */
-
+                if (response.ok && resData.accessToken) {
+                    login(resData.accessToken);
                     router.push('/dashboard');
                 } else {
-                    alert(data.message || 'Login failed. Please check your credentials.');
+                    alert(resData.message || 'Login failed.');
                 }
             } catch (error) {
-                console.error('Error submitting form:', error);
+                console.error('Login error:', error);
             }
         },
-        // The dependency array should include `login` from useAuth
         [login, router]
     );
 
-    useEffect(() => {
-        if (emailRef.current) {
-            emailRef.current.focus();
-        }
-    }, []);
-
     return (
-        <div className="form-content">
-            <form className="be-form" onSubmit={handleSubmit(onSubmit)}>
-                <div className="">
-                    <h1 className="h1 mb-5">
-                        Welcome To Book<span>Eilen</span>
-                    </h1>
-                    <h1 className="h2">Login</h1>
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0b0b0b] via-[#111] to-black px-4">
 
-                    <div className="row mt-4 g-4">
-                        {/* Email Field */}
-                        <div>
-                            <label htmlFor="email" className="form-label">
-                                Email Address
-                            </label>
-                            <input
-                                ref={emailRef}
-                                id="email"
-                                type="email"
-                                autoComplete="email"
-                                className={`form-control be-form-input ${errors.email ? 'is-invalid' : ''}`}
-                                placeholder="Email Address"
-                                {...register('email', {
-                                    required: 'Email is required',
-                                    pattern: {
-                                        value: /^\S+@\S+$/i,
-                                        message: 'Invalid email address',
-                                    },
-                                })}
-                            />
-                            {errors.email && <p className="text-danger small mt-1">{errors.email.message}</p>}
-                        </div>
+            {/* Card */}
+            <div className="w-full max-w-xl bg-[#111] border border-white/5 rounded-2xl shadow-[0_0_40px_rgba(226,12,17,0.15)] p-8 relative">
 
-                        {/* Password Field */}
-                        <div>
-                            <label htmlFor="password" className="form-label">
-                                Password
-                            </label>
-                            <div style={{ position: 'relative' }}>
-                                <input
-                                    id="password"
-                                    type={showPassword ? 'text' : 'password'}
-                                    autoComplete="current-password"
-                                    className={`form-control be-form-input ${errors.password ? 'is-invalid' : ''}`}
-                                    placeholder="Password"
-                                    {...register('password', {
-                                        required: 'Password is required',
-                                        minLength: {
-                                            value: 6,
-                                            message: 'Password must be at least 6 characters',
-                                        },
-                                    })}
-                                />
-                                <button
-                                    type="button"
-                                    onClick={togglePasswordVisibility}
-                                    style={{
-                                        position: 'absolute',
-                                        right: '10px',
-                                        top: '50%',
-                                        transform: 'translateY(-50%)',
-                                        background: 'none',
-                                        border: 'none',
-                                        cursor: 'pointer',
-                                        padding: 0,
-                                    }}
-                                    aria-label="Toggle password visibility"
-                                >
-                                    {showPassword ? (
-                                        // Eye OFF SVG
-                                        <svg
-                                            width="20"
-                                            height="20"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="2"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                        >
-                                            <path d="M17.94 17.94A10.5 10.5 0 0 1 12 19.5C7.305 19.5 3.135 16.305 1.5 12C2.366 9.825 3.84 7.95 5.76 6.6" />
-                                            <path d="M22.5 12C21.678 14.16 20.208 16.02 18.27 17.37" />
-                                            <path d="M1 1l22 22" />
-                                        </svg>
-                                    ) : (
-                                        // Eye ON SVG
-                                        <svg
-                                            width="20"
-                                            height="20"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="2"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                        >
-                                            <path d="M1 12S5 4 12 4s11 8 11 8-4 8-11 8S1 12 1 12z" />
-                                            <circle cx="12" cy="12" r="3" />
-                                        </svg>
-                                    )}
-                                </button>
-                            </div>
-                            {errors.password && <p className="text-danger small mt-1">{errors.password.message}</p>}
-                        </div>
+                {/* Top Accent */}
+                <div className="absolute top-0 left-0 w-full h-1 bg-[#E20C11] rounded-t-2xl" />
+
+                <form onSubmit={handleSubmit(onSubmit)}>
+
+                    {/* Heading */}
+                    <div className="text-center mb-8">
+                        <p className="text-white-400 mb-2 text-lg font-medium">Welcome to </p>
+                        <h1 className="text-3xl font-bold text-white">
+                            Book<span className="text-[#E20C11]">Eilen</span>
+                        </h1>
+
                     </div>
-                </div>
 
-                <div className="d-flex justify-content-center gap-3 mt-5">
-                    <button type="submit" className="be-btn be-btn-submit btn btn-primary">
-                        Submit
-                    </button>
-                </div>
+                    {/* Email */}
+                    <div className="mb-5">
+                        <label className="text-sm font-medium text-white-400">Email Address</label>
+                        <input
+                            type="email"
+                            className={`w-full mt-2 px-4 py-3 rounded-lg bg-[#1a1a1a] text-white border ${errors.email ? 'border-red-500' : 'border-gray-700'
+                                } focus:outline-none focus:border-[#E20C11] focus:ring-2 focus:ring-[#E20C11]/20 transition`}
+                            placeholder="Enter your email"
+                            {...register('email', {
+                                required: 'Email is required',
+                                pattern: {
+                                    value: /^\S+@\S+$/i,
+                                    message: 'Invalid email',
+                                },
+                            })}
+                        />
+                        {errors.email && (
+                            <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
+                        )}
+                    </div>
 
+                    {/* Password */}
+                    <div className="mb-6">
+                        <label className="text-sm font-medium text-white-400">Password</label>
 
-                {/*  Forgot Password link here */}
-                <div className="text-center mt-4">
-                    <Link
-                        href="/auth/forget-password"
-                        className="text-[16px] !text-gray-300 hover:text-[#E20C11] !hover:underline font-medium"
+                        <div className="relative mt-2">
+                            <input
+                                type={showPassword ? 'text' : 'password'}
+                                className={`w-full px-4 py-3 rounded-lg bg-[#1a1a1a] text-white border ${errors.password ? 'border-red-500' : 'border-gray-700'
+                                    } focus:outline-none focus:border-[#E20C11] focus:ring-2 focus:ring-[#E20C11]/20 transition`}
+                                style={
+                                    !showPassword && password // apply only when hidden and has value
+                                        ? { fontSize: '1.4rem', letterSpacing: '0.18em', fontFamily: 'serif' }
+                                        : {}
+                                }
+                                placeholder="Enter your password"
+                                {...register('password', {
+                                    required: 'Password is required',
+                                    minLength: {
+                                        value: 6,
+                                        message: 'Min 6 characters',
+                                    },
+                                })} />
+
+                            {/* Toggle */}
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword((prev) => !prev)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+                            >
+                                {showPassword ? (
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
+                                        <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" />
+                                        <line x1="1" y1="1" x2="23" y2="23" />
+                                    </svg>
+                                ) : (
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                        <circle cx="12" cy="12" r="3" />
+                                    </svg>
+                                )}
+                            </button>
+                        </div>
+
+                        {errors.password && (
+                            <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>
+                        )}
+                    </div>
+
+                    {/* Submit */}
+                    <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="w-full mt-4 py-3 rounded-full bg-[#E20C11] text-white font-semibold hover:bg-red-600 transition hover:shadow-[0_6px_20px_rgba(226,12,17,0.4)] disabled:opacity-60"
                     >
-                        Forgot Password?
-                    </Link>
-                </div>
+                        {isSubmitting ? 'Logging in...' : 'Login'}
+                    </button>
 
-                {/* Sign up link */}
-                <div className="text-center mt-3 sign-up-link">
-                    <p>
-                        Don’t have an account?{' '}
-                        <button type="button" className="btn btn-link fw-semibold" onClick={() => router.push('/auth/signup-form')}>
-                            Sign up
-                        </button>
-                    </p>
-                </div>
+                    {/* Links */}
+                    <div className="text-center mt-6 space-y-3">
+                        <Link
+                            href="/auth/forget-password"
+                            className="block font-semibold text-white-400 hover:text-[#E20C11] text-sm"
+                        >
+                            Forgot Password?
+                        </Link>
 
-
-            </form>
+                        <p className="text-gray-400 text-sm">
+                            Don’t have an account?{' '}
+                            <span
+                                onClick={() => router.push('/auth/signup-form')}
+                                className="text-[#E20C11] cursor-pointer font-semibold text-sm"
+                            >
+                                Sign up
+                            </span>
+                        </p>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 }

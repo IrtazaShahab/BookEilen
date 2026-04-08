@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Heart, BookMarked, ArrowLeft, Star, Calendar, User, BookOpen } from 'lucide-react';
 
-const API_BASE = 'http://localhost:3040/api/books';
+const API_BASE = 'http://localhost:3041/api/books';
 
 export default function BookDetailPage() {
     const params = useParams();

@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
     },
     sassOptions: {
         includePaths: ['./src/styles'],
+        silenceDeprecations: ['import', 'global-builtin', 'color-functions'],
     },
 };
 

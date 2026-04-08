@@ -105,9 +105,9 @@ export default function Header() {
     };
 
     return (
-        <header className="be-header">
-            <div className="shadow-xl">
-                <nav aria-label="Global" className="be-nav">
+        <header className="be-header border-b border-white/[0.06] sticky top-0 z-50">
+            <div className="shadow-xl bg-[#1B1B1B]">
+                <nav aria-label="Global" className="be-nav bg-[#282828] flex items-center gap-8 px-10 h-16 max-w-[1440px] mx-auto rounded-[20px]">
                     {/* Logo */}
                     <div className="be-logo">
                         <Link href="/" className="be-link">
@@ -115,213 +115,162 @@ export default function Header() {
                         </Link>
                     </div>
 
-                    {/* Nav Dropdown */}
-                    <PopoverGroup className="be-nav-content">
-                        {/* Browse dropdown */}
-                        <Popover className="be-dropdown">
-                            {({ open }) => (
-                                <div
-                                    className="relative"
-                                    onMouseEnter={() => setHoverOpen(true)}
-                                    onMouseLeave={() => {
-                                        setHoverOpen(false);
-                                        setSelectedCategory(null);
-                                    }}
-                                >
-                                    <PopoverButton
-                                        onClick={(h) => {
-                                            h.preventDefault();
-                                            router.push('/dashboard');
-                                        }}
-                                        className={`be-link flex items-center gap-1 ${hoverOpen ? 'active' : ''}`}
-                                    >
-                                        Browse
-                                        {hoverOpen ? (
-                                            <ChevronUpIcon width={20} height={20} />
-                                        ) : (
-                                            <ChevronDownIcon width={20} height={20} />
-                                        )}
-                                    </PopoverButton>
+                        {/* Nav Links */}
+        <div className="flex items-center gap-1 flex-1">
 
-                                    <Transition
-                                        as={Fragment}
-                                        show={hoverOpen}
-                                        enter="transition ease-out duration-300"
-                                        enterFrom="opacity-0 translate-y-3 scale-95"
-                                        enterTo="opacity-100 translate-y-0 scale-100"
-                                        leave="transition ease-in duration-200"
-                                        leaveFrom="opacity-100 translate-y-0 scale-100"
-                                        leaveTo="opacity-0 translate-y-3 scale-95"
-                                    >
-                                        <PopoverPanel
-                                            static
-                                            className="absolute mt-[10px] left-0 w-[500px] be-dropdown-content bg-white shadow-xl rounded-xl"
-                                        >
-                                            <div className="flex p-4 be-list-content">
-                                                <div className="grid grid-cols-3 w-2/3">
-                                                    {categories.map((cat) => (
-                                                        <button
-                                                            key={cat.name}
-                                                            className={`text-left transition font-normal ${
-                                                                selectedCategory?.name === cat.name ? 'font-semibold' : ''
-                                                            }`}
-                                                            onMouseEnter={() => setSelectedCategory(cat)}
-                                                        >
-                                                            {cat.name}
-                                                        </button>
-                                                    ))}
-                                                </div>
+          {/* Browse Dropdown */}
+          <div
+            ref={browseRef}
+            className="relative"
+            onMouseEnter={() => setBrowseOpen(true)}
+            onMouseLeave={() => setBrowseOpen(false)}
+          >
+            <button
+              onClick={() => router.push('/dashboard')}
+              className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium text-gray-400 hover:text-white hover:bg-white/[0.07] transition-all"
+            >
+              Browse
+              <ChevronDownIcon className={`w-3.5 h-3.5 transition-transform duration-200 ${browseOpen ? 'rotate-180' : ''}`} />
+            </button>
 
-                                                <div className="flex-1 flex justify-center items-center">
-                                                    <AnimatePresence mode="wait">
-                                                        <motion.div
-                                                            key={selectedCategory?.name || 'default'}
-                                                            initial={{ opacity: 0, scale: 0.95 }}
-                                                            animate={{ opacity: 1, scale: 1 }}
-                                                            exit={{ opacity: 0, scale: 0.95 }}
-                                                            transition={{ duration: 0.3 }}
-                                                            className="w-48 h-60 rounded-lg overflow-hidden shadow-md"
-                                                        >
-                                                            <Image
-                                                                src={selectedCategory?.image || DropdownBook}
-                                                                alt={selectedCategory?.name || 'Default'}
-                                                                width={260}
-                                                                height={260}
-                                                                className="object-cover w-full h-full"
-                                                            />
-                                                        </motion.div>
-                                                    </AnimatePresence>
-                                                </div>
-                                            </div>
-                                        </PopoverPanel>
-                                    </Transition>
-                                </div>
-                            )}
-                        </Popover>
-
-                        {/* Other Links */}
-                        <a href="/pages/dashboard" className="be-link">Features</a>
-                        <a href="#" className="be-link">Community</a>
-                        <a href="#" className="be-link">Blogs</a>
-                    </PopoverGroup>
-
-                    {/* Right Section */}
-                    <div className="be-right-content">
-                        {/* Search (Desktop) */}
-                        {!isMobile && (
-                            <div className="be-input" ref={searchRef}>
-                                <input
-                                    type="text"
-                                    placeholder="Search here"
-                                    value={searchTerm}
-                                    onChange={handleSearchChange}
-                                    className="be-search-input"
-                                />
-                                <Image className="search-icon" src={SearchIcon} alt="search-icon" />
-                            </div>
-                        )}
-
-                        {/* Search (Mobile) */}
-                        {isMobile && (
-                            <button
-                                type="button"
-                                onClick={() => setMobileSearchOpen((prev) => !prev)}
-                                ref={buttonRef}
-                                className="search-toggle-btn"
-                            >
-                                <Image className="search-icon-outside" src={SearchIcon} width={25} height={25} alt="search-icon" />
-                            </button>
-                        )}
-
-                        {/* 👇 SHOW PROFILE DROPDOWN ONLY IF LOGGED IN */}
-                        {isLoggedIn ? (
-                            <PopoverGroup className="be-profile-dropdown">
-                                <Popover className="be-dropdown">
-                                    {() => (
-                                        <div
-                                            className="relative"
-                                            onMouseEnter={() => setDropdownOpen(true)}
-                                            onMouseLeave={() => setDropdownOpen(false)}
-                                        >
-                                            <a
-                                                onClick={(e) => {
-                                                    e.preventDefault();
-                                                    router.push('/profile');
-                                                }}
-                                                className={`be-link flex items-center cursor-pointer ${dropdownOpen ? 'active' : ''}`}
-                                            >
-                                                <Image src={DropdownIcon} width="32" height="32" alt="dropdown" className="profile-img" />
-                                                {dropdownOpen ? (
-                                                    <ChevronUpIcon width={20} height={20} />
-                                                ) : (
-                                                    <ChevronDownIcon width={20} height={20} />
-                                                )}
-                                            </a>
-
-                                            <Transition
-                                                as={Fragment}
-                                                show={dropdownOpen}
-                                                enter="transition ease-out duration-300"
-                                                enterFrom="opacity-0 translate-y-3 scale-95"
-                                                enterTo="opacity-100 translate-y-0 scale-100"
-                                                leave="transition ease-in duration-200"
-                                                leaveFrom="opacity-100 translate-y-0 scale-100"
-                                                leaveTo="opacity-0 translate-y-3 scale-95"
-                                            >
-                                                <PopoverPanel static className="absolute top-60 left-50 be-dropdown-content shadow-xl rounded-xl">
-                                                    <div className="p-4 be-list-content">
-                                                        <h5 className="font-semibold">
-                                                            <Image src={PersonIcon} width="30" height="30" alt="person-icon" /> My Profile
-                                                        </h5>
-                                                        <div className="be-list">
-                                                            <ul>
-                                                                <li>
-                                                                    <a href="#">
-                                                                        <Image src={MyBooksIcon} width="22" height="22" alt="" />
-                                                                        My Books
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="#">
-                                                                        <Image src={ReadListIcon} width="24" height="24" alt="" />
-                                                                        Read List
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="#">
-                                                                        <Image src={SettingsIcon} width="24" height="24" alt="" />
-                                                                        Settings
-                                                                    </a>
-                                                                </li>
-                                                                <li>
-                                                                    <a onClick={handleLogout} className="cursor-pointer">
-                                                                        <Image src={LogoutIcon} width="24" height="24" alt="" />
-                                                                        Log Out
-                                                                    </a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </PopoverPanel>
-                                            </Transition>
-                                        </div>
-                                    )}
-                                </Popover>
-                            </PopoverGroup>
-                        ) : (
-                            // 👇 SHOW LOGIN BUTTON WHEN NOT LOGGED IN
-                            <Link href="/auth/login-form" className="be-login-btn be-link">
-                                Log in
-                            </Link>
-                        )}
-
-                        {/* Mobile Menu Toggler */}
-                        <div className="be-navbar-toggle d-block d-lg-none">
-                            <button type="button" onClick={() => setMobileMenuOpen(true)} className="be-navbar-toggle-icon">
-                                <Bars3Icon className="size-6" />
-                            </button>
-                        </div>
+            <AnimatePresence>
+              {browseOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 8 }}
+                  transition={{ duration: 0.18 }}
+                  className="absolute top-[calc(100%+8px)] left-0 w-[500px] bg-[#141414] border border-white/[0.08] rounded-xl p-5 shadow-[0_20px_60px_rgba(0,0,0,0.7)]"
+                >
+                  <div className="flex gap-5">
+                    {/* Category grid */}
+                    <div className="grid grid-cols-3 gap-0.5 flex-1">
+                      {CATEGORIES.map((cat) => (
+                        <button
+                          key={cat.name}
+                          onMouseEnter={() => setSelectedCat(cat)}
+                          className={`text-left px-2.5 py-1.5 rounded-md text-[13px] transition-all
+                            ${selectedCat.name === cat.name
+                              ? 'text-[#E20C11] bg-white/[0.07] font-medium'
+                              : 'text-gray-400 hover:text-white hover:bg-white/[0.07]'
+                            }`}
+                        >
+                          {cat.name}
+                        </button>
+                      ))}
                     </div>
+
+                    {/* Preview card */}
+                    <div className="w-[140px] shrink-0">
+                      <AnimatePresence mode="wait">
+                        <motion.div
+                          key={selectedCat.name}
+                          initial={{ opacity: 0, scale: 0.95 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.95 }}
+                          transition={{ duration: 0.2 }}
+                          className={`h-[190px] rounded-lg bg-gradient-to-br ${selectedCat.bg} flex flex-col items-center justify-center gap-2`}
+                        >
+                          <span className="text-4xl opacity-70">{selectedCat.icon}</span>
+                          <span className="font-['Bebas_Neue'] text-white text-lg tracking-widest">{selectedCat.name}</span>
+                        </motion.div>
+                      </AnimatePresence>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <a className="px-3 py-1.5 text-sm font-medium text-gray-400 hover:text-white rounded-lg hover:bg-white/[0.07] transition-all" href="#">Features</a>
+          <a className="px-3 py-1.5 text-sm font-medium text-gray-400 hover:text-white rounded-lg hover:bg-white/[0.07] transition-all" href="#">Community</a>
+          <a className="px-3 py-1.5 text-sm font-medium text-gray-400 hover:text-white rounded-lg hover:bg-white/[0.07] transition-all" href="#">Blogs</a>
+        </div>
+
+        {/* Right side */}
+        <div className="flex items-center gap-2 ml-auto">
+
+          {/* Search */}
+          <div className="flex items-center gap-2 bg-white/[0.07] border border-white/[0.08] rounded-full px-4 h-9 focus-within:border-white/25 focus-within:bg-white/10 transition-all">
+            <svg className="w-3.5 h-3.5 stroke-gray-500 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={2}>
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Search books..."
+              className="bg-transparent text-white text-[13px] outline-none w-36 placeholder:text-gray-500"
+            />
+          </div>
+
+          {/* Logged out */}
+          {!isLoggedIn && (
+            <Link
+              href="/auth/login-form"
+              className="bg-[#E20C11] hover:bg-[#ff1a1f] text-white text-[13px] font-semibold px-5 h-9 rounded-full transition-all hover:scale-[1.02] active:scale-[0.98]"
+            >
+              Log in
+            </Link>
+          )}
+
+          {/* Logged in */}
+          {isLoggedIn && (
+            <div
+              ref={profileRef}
+              className="relative"
+              onMouseEnter={() => setProfileOpen(true)}
+              onMouseLeave={() => setProfileOpen(false)}
+            >
+              <button className="w-9 h-9 rounded-full bg-[#E20C11] border-2 border-white/15 hover:border-white/40 transition-all flex items-center justify-center text-white text-xs font-semibold">
+                MR
+              </button>
+
+              <AnimatePresence>
+                {profileOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 8 }}
+                    transition={{ duration: 0.18 }}
+                    className="absolute top-[calc(100%+8px)] right-0 w-52 bg-[#141414] border border-white/[0.08] rounded-xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.7)]"
+                  >
+                    {/* Profile header */}
+                    <div className="px-4 py-3 border-b border-white/[0.08]">
+                      <p className="text-white text-sm font-semibold">Muaz Rehan</p>
+                      <p className="text-gray-500 text-xs mt-0.5">muaz@bookeilen.com</p>
+                    </div>
+                    <div className="p-2">
+                      {[
+                        { label: 'My Books',  icon: 'M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z' },
+                        { label: 'Read List', icon: 'M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z' },
+                        { label: 'Settings',  icon: 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z' },
+                      ].map(({ label, icon }) => (
+                        <button key={label} className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/[0.07] text-[13px] transition-all">
+                          <svg className="w-3.5 h-3.5 stroke-current shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={1.8}>
+                            <path d={icon}/>
+                          </svg>
+                          {label}
+                        </button>
+                      ))}
+                      <button
+                        onClick={handleLogout}
+                        className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-gray-400 hover:text-[#E20C11] hover:bg-[#E20C11]/10 text-[13px] transition-all"
+                      >
+                        <svg className="w-3.5 h-3.5 stroke-current shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={1.8}>
+                          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                          <polyline points="16 17 21 12 16 7"/>
+                          <line x1="21" y1="12" x2="9" y2="12"/>
+                        </svg>
+                        Log Out
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          )}
+        </div>
                 </nav>
 
                 {/* Mobile Search Input */}
