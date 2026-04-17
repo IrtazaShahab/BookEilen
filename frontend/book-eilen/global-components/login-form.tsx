@@ -78,7 +78,6 @@ export default function BeLoginForm() {
                             Email Address
                         </label>
                         <input
-                            ref={emailRef}
                             id="email"
                             type="email"
                             autoComplete="email"
