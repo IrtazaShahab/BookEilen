@@ -35,16 +35,21 @@ export default function Dashboard() {
             if (!res.ok) {
                 const txt = await res.text();
                 console.error(`Backend error ${res.status}: ${txt}`);
+
+                // ✅ Parse the status to show friendly message
+                let parsed: any = {};
+                try { parsed = JSON.parse(txt); } catch { }
+
+                if (parsed.status === 503) {
+                    throw new Error('Google Books is temporarily unavailable. Please try again in a moment.');
+                }
                 return { items: [], totalItems: 0 };
             }
             const data = await res.json();
-            return {
-                items: data.items || [],
-                totalItems: data.totalItems || 0,
-            };
+            return { items: data.items || [], totalItems: data.totalItems || 0 };
         } catch (err: any) {
             console.error('fetchBooksFromBackend error:', err);
-            return { items: [], totalItems: 0 };
+            throw err; // re-throw so handleCategoryClick can catch it
         }
     }
 
@@ -165,18 +170,18 @@ export default function Dashboard() {
     }, []);
 
     return (
-        <div className="main-page min-h-screen px-4 pt-6 pb-12 bg-[#181818] text-white">
+        <div className="main-page min-h-screen px-4 pt-[120px] pb-12 bg-[#000000] text-white">
             {/* Carousel */}
-            <div className="relative w-full h-[400px] mb-[80px]">
-                <Carousel autoplay className="w-full h-full">
+            <div className="relative w-full h-[400px] mb-[80px] rounded-[25px]">
+                <Carousel autoplay className="w-full h-full rounded-[25px]">
                     {[CarousalImage1, CarousalImage2, CarousalImage3, CarousalImage4].map((img, i) => (
-                        <div key={i} className="relative w-[800px] h-[400px]">
-                            <Image src={img} alt={`Ad ${i + 1}`} fill className="object-cover" />
+                        <div key={i} className="relative flex justify-center h-[400px] rounded-[25px]">
+                            <Image src={img} alt={`Ad ${i + 1}`} fill className="object-cover rounded-[25px]" />
                         </div>
                     ))}
                 </Carousel>
                 <div className="absolute bottom-10 left-10 z-20 text-white">
-                    <h2 className="text-3xl font-bold">Discover New Stories</h2>
+                    <h2 className="text-3xl font-bold mb-4">Discover New Stories</h2>
                     <button className="px-6 py-1 hover:bg-[#ad0810] bg-[#e50914] font-medium rounded-[25px]">Explore</button>
                 </div>
             </div>
@@ -192,10 +197,9 @@ export default function Dashboard() {
                                 after:absolute after:left-0 after:bottom-0
                                 after:h-[2px] after:w-0 after:bg-white
                                 after:transition-all after:duration-300
-                                font-semibold transition-colors rounded-none transition-all duration-250 ease-out ${
-                                    selectedCategory === cat
-                                        ? 'text-[#e50914] border-b-[2px] border-b-white rounded-none after:hidden'
-                                        : 'after:w-0 hover:after:w-full hover:text-[#e50914]'
+                                font-semibold transition-colors rounded-none transition-all duration-250 ease-out cursor-pointer ${selectedCategory === cat
+                                    ? 'text-[#e50914] border-b-[2px] border-b-white rounded-none after:hidden'
+                                    : 'after:w-0 hover:after:w-full hover:text-[#E20C11]'
                                 }`}
                         >
                             {cat === 'All' ? 'All Categories' : cat}
@@ -213,8 +217,21 @@ export default function Dashboard() {
             )}
 
             {/* Error */}
-            {error && <div className="mt-4 bg-red-600 text-white p-3 rounded">{error}</div>}
-
+            {error && (
+                <div className="mt-4 bg-[#282828] border border-red-500/30 text-white p-4 rounded-2xl flex items-center gap-3">
+                    <span className="text-red-400 text-xl">⚠</span>
+                    <div>
+                        <p className="font-semibold text-red-400">Could not load books</p>
+                        <p className="text-sm text-white/60 mt-1">{error}</p>
+                        <button
+                            onClick={() => handleCategoryClick(selectedCategory, currentPage)}
+                            className="mt-2 text-sm bg-[#e50914] px-4 py-1 rounded-full hover:bg-[#ad0810]"
+                        >
+                            Retry
+                        </button>
+                    </div>
+                </div>
+            )}
             {/* Render logic */}
             {!loading && !error && (
                 <>
@@ -243,11 +260,10 @@ export default function Dashboard() {
                                     <button
                                         onClick={() => handlePageChange(currentPage - 1)}
                                         disabled={currentPage === 1}
-                                        className={`flex items-center gap-1 font-semibold !rounded-[20px] py-[7px] pl-[18px] pr-[25px] transition-transform duration-500 ease-out ${
-                                            currentPage === 1
-                                                ? 'bg-[#761a1a] text-gray-300 cursor-not-allowed'
-                                                : 'bg-[#282828] text-white hover:bg-[#e50914]'
-                                        }`}
+                                        className={`flex items-center gap-1 font-semibold !rounded-[20px] py-[7px] pl-[18px] pr-[25px] transition-transform duration-500 ease-out ${currentPage === 1
+                                            ? 'bg-[#761a1a] text-gray-300 cursor-not-allowed'
+                                            : 'bg-[#282828] text-white hover:bg-[#e50914]'
+                                            }`}
                                     >
                                         <ChevronLeft size={20} />
                                         Previous
@@ -259,13 +275,12 @@ export default function Dashboard() {
                                                 key={index}
                                                 onClick={() => typeof page === 'number' && handlePageChange(page)}
                                                 disabled={page === '...'}
-                                                className={`px-[15px] py-[5px] !rounded-[12px] text-[13px] ${
-                                                    page === currentPage
-                                                        ? 'bg-[#e50914] text-white'
-                                                        : page === '...'
+                                                className={`px-[15px] py-[5px] !rounded-[12px] text-[13px] ${page === currentPage
+                                                    ? 'bg-[#e50914] text-white'
+                                                    : page === '...'
                                                         ? 'bg-transparent text-gray-400 cursor-default'
                                                         : 'bg-[#282828] text-white hover:bg-[#e50914]'
-                                                }`}
+                                                    }`}
                                             >
                                                 {page}
                                             </button>
@@ -275,11 +290,10 @@ export default function Dashboard() {
                                     <button
                                         onClick={() => handlePageChange(currentPage + 1)}
                                         disabled={currentPage === totalPages}
-                                        className={`flex items-center gap-1 font-semibold  !rounded-[20px] py-[7px] pr-[18px] pl-[25px] transition-transform duration-500 ease-out ${
-                                            currentPage === totalPages
-                                                ? 'bg-[#761a1a] text-gray-300 cursor-not-allowed'
-                                                : 'bg-[#282828] text-white hover:bg-[#e50914]'
-                                        }`}
+                                        className={`flex items-center gap-1 font-semibold  !rounded-[20px] py-[7px] pr-[18px] pl-[25px] transition-transform duration-500 ease-out ${currentPage === totalPages
+                                            ? 'bg-[#761a1a] text-gray-300 cursor-not-allowed'
+                                            : 'bg-[#282828] text-white hover:bg-[#e50914]'
+                                            }`}
                                     >
                                         Next
                                         <ChevronRight size={20} />

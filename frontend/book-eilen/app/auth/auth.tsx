@@ -60,7 +60,7 @@ export default function Auth({ children }: AuthProps) {
   }, [isLoading, isLoggedIn, pathname, router, publicRoutes]);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <main>{children}</main>;
   }
 
   const isPublicPage = publicRoutes.includes(pathname);

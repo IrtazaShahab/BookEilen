@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function Home() {
     return (
-        <div className="form-content">
+        <div className="form-content pt-[120px]">
             <Index />
         </div>
     );
