@@ -7,31 +7,41 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
-const session = require('express-session');
-const passport = require('passport');
 
 const db = require('./db');
 
-// ✅ app must be created BEFORE any app.use()
+// Import routes
+var indexRouter = require('./routes/index');
+var booksRouter = require('./routes/books');
+var sessionsRouter = require('./routes/sessions');
+const passwordResetRouter = require('./routes/reset-password');
+const { router: usersRouter } = require('./routes/users');
+
+
 var app = express();
 
 /**
  * CORS Configuration
+ * Updated to work with both local development and Vercel deployment
  */
 const allowedOrigins = [
-    'http://localhost:3020',
-    'http://localhost:3000',
-    'https://bookeilen.vercel.app',
-    'https://bookeilen-frontend.vercel.app',
+    'http://localhost:3020',                    // Local Next.js dev
+    'http://localhost:3000',                    // Alternative local port
+    'https://bookeilen.vercel.app',            // Your production frontend
+    'https://bookeilen-frontend.vercel.app',   // Alternative frontend name
 ];
 
+// Add all Vercel preview deployments
 if (process.env.VERCEL_URL) {
     allowedOrigins.push(`https://${process.env.VERCEL_URL}`);
 }
 
 const corsOptions = {
     origin: function (origin, callback) {
+        // Allow requests with no origin (mobile apps, Postman, etc.)
         if (!origin) return callback(null, true);
+        
+        // Check if origin is in allowed list or is a Vercel deployment
         if (allowedOrigins.indexOf(origin) !== -1 || /\.vercel\.app$/.test(origin)) {
             callback(null, true);
         } else {
@@ -56,26 +66,7 @@ app.use(logger('dev'));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// ✅ Session (required by passport — must come after app is created)
-app.use(session({
-    secret: process.env.JWT_SECRET,
-    resave: false,
-    saveUninitialized: false,
-}));
-
-// ✅ Passport (must come after session)
-app.use(passport.initialize());
-app.use(passport.session());
-
-// ✅ Import routes AFTER app is created
-var indexRouter = require('./routes/index');
-var booksRouter = require('./routes/books');
-var sessionsRouter = require('./routes/sessions');
-const passwordResetRouter = require('./routes/reset-password');
-const { router: usersRouter } = require('./routes/users');
-const googleAuthRoutes = require('./routes/google-auth');
-
-// Health check route
+// Health check route (root)
 app.get('/', async (req, res) => {
     try {
         const result = await db.query('SELECT * FROM "users" LIMIT 5');
@@ -95,12 +86,11 @@ app.get('/', async (req, res) => {
     }
 });
 
-// ✅ API Routes
+// API Routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/users', googleAuthRoutes);   // Google OAuth routes
 app.use('/api/books', booksRouter);
-app.use('/api', sessionsRouter);
+app.use('/api', sessionsRouter); 
 app.use('/users', passwordResetRouter);
 
 // 404 handler
@@ -112,7 +102,10 @@ app.use(function (req, res, next) {
 app.use(function (err, req, res, next) {
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
+    
     res.status(err.status || 500);
+    
+    // For API routes, send JSON instead of rendering
     res.json({
         error: err.message,
         status: err.status || 500
@@ -128,4 +121,5 @@ if (process.env.NODE_ENV !== 'production') {
     });
 }
 
+// Export for Vercel
 module.exports = app;

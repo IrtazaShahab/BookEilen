@@ -1,26 +1,16 @@
 'use client';
 
 import { useState } from 'react';
-import Image, { StaticImageData } from 'next/image';
+import Image from 'next/image';
 import profileImage from '@/assets/images/Irtaza.webp';
 
 import { User, BookMarked, Heart, Settings, Bell, Trash2, LogOut } from 'lucide-react';
 
-interface UserData {
-    username: string;
-    userId: string;
-    profileImage: StaticImageData | string;
-    readListCount: number;
-    wishlistCount: number;
-    followers: number;
-    bio: string;
-    joinedDate: string;
-}
-
 export default function ProfilePage() {
     const [activeSection, setActiveSection] = useState('profile');
 
-    const userData: UserData = {
+    // Mock user data - replace with actual API data
+    const userData = {
         username: 'Irtaza Shahab',
         userId: '@Irtaza123',
         profileImage: profileImage,
@@ -32,37 +22,48 @@ export default function ProfilePage() {
     };
 
     const sidebarItems = [
-        { id: 'profile',       label: 'Profile',        icon: User },
-        { id: 'edit',          label: 'Edit Profile',   icon: Settings },
-        { id: 'readlist',      label: 'Read List',      icon: BookMarked },
-        { id: 'wishlist',      label: 'Wishlist',       icon: Heart },
-        { id: 'notifications', label: 'Notifications',  icon: Bell },
-        { id: 'delete',        label: 'Delete Account', icon: Trash2, danger: true },
+        { id: 'profile', label: 'Profile', icon: User },
+        { id: 'edit', label: 'Edit Profile', icon: Settings },
+        { id: 'readlist', label: 'Read List', icon: BookMarked },
+        { id: 'wishlist', label: 'Wishlist', icon: Heart },
+        { id: 'notifications', label: 'Notifications', icon: Bell },
+        { id: 'delete', label: 'Delete Account', icon: Trash2, danger: true },
     ];
 
     const renderContent = () => {
         switch (activeSection) {
-            case 'profile':       return <ProfileContent userData={userData} />;
-            case 'edit':          return <EditProfile userData={userData} />;
-            case 'readlist':      return <ReadList />;
-            case 'wishlist':      return <Wishlist />;
-            case 'notifications': return <Notifications />;
-            case 'delete':        return <DeleteAccount />;
-            default:              return <ProfileContent userData={userData} />;
+            case 'profile':
+                return <ProfileContent userData={userData} />;
+            case 'edit':
+                return <EditProfile userData={userData} />;
+            case 'readlist':
+                return <ReadList />;
+            case 'wishlist':
+                return <Wishlist />;
+            case 'notifications':
+                return <Notifications />;
+            case 'delete':
+                return <DeleteAccount />;
+            default:
+                return <ProfileContent userData={userData} />;
         }
     };
-
     return (
-        <div className="min-h-screen pt-[120px] bg-[#181818] mb-[100px]">
-            {/* Profile Card */}
+        <div className="min-h-screen bg-[#181818] mb-[100px]">
+            {/* Profile Card with Carousel Effect */}
             <div className="bg-[#E50914] h-[350px] flex justify-center items-end rounded-2xl shadow-xl overflow-hidden mb-[60px] ml-8 mr-8">
                 <div className="p-8 text-white">
                     <div className="flex flex-col items-center">
+                        {/* Profile Image */}
                         <div className="w-22 h-22 rounded-full border-2 border-white shadow-lg mb-[16px] overflow-hidden">
                             <Image src={userData.profileImage} alt={userData.username} className="w-full h-full object-cover" />
                         </div>
+
+                        {/* User Info */}
                         <h2 className="text-2xl font-bold mb-1">{userData.username}</h2>
                         <p className="text-blue-100 mb-4">{userData.userId}</p>
+
+                        {/* Stats */}
                         <div className="flex gap-8">
                             <div className="text-center">
                                 <div className="text-2xl font-bold">{userData.readListCount}</div>
@@ -80,8 +81,7 @@ export default function ProfilePage() {
                     </div>
                 </div>
             </div>
-
-            <div className="flex px-8 gap-6">
+            <div className="flex px-8 gap-6 ">
                 {/* Sidebar */}
                 <aside className="w-[330px] bg-[#282828] shadow-lg min-h-screen sticky top-0 rounded-[25px]">
                     <div className="p-6">
@@ -103,7 +103,7 @@ export default function ProfilePage() {
                                     <span>{item.label}</span>
                                 </button>
                             ))}
-                            <button className="w-full flex items-center gap-3 px-[16px] py-[12px] rounded-2xl text-gray-300 hover:text-[#e50914] transition-all mt-4 border-t border-t-[#858585] pt-4">
+                            <button className="w-full flex items-center gap-3 px-[16px] py-[12px] rounded-2xl text-gray-300 br-transparent hover:bg-transparent hover:text-[#e50914] transition-all mt-4 border-t border-t-[#858585] pt-4">
                                 <LogOut size={20} />
                                 <span>Logout</span>
                             </button>
@@ -118,17 +118,19 @@ export default function ProfilePage() {
     );
 }
 
-function ProfileContent({ userData }: { userData: UserData }) {
+function ProfileContent({ userData }) {
     return (
         <div className="max-w-4xl mx-auto">
             <h1 className="text-3xl font-bold text-gray-800 mb-8">Profile</h1>
 
+            {/* Bio Section */}
             <div className="max-w-4xl bg-white rounded-xl shadow-md p-6 mb-6">
                 <h3 className="text-xl font-semibold !text-[#181818] mb-3">About</h3>
                 <p className="text-gray-600 mb-4">{userData.bio}</p>
                 <p className="text-sm !text-gray-400">Joined {userData.joinedDate}</p>
             </div>
 
+            {/* Quick Actions */}
             <div className="max-w-4xl grid grid-cols-2 gap-4">
                 <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow cursor-pointer">
                     <BookMarked className="text-blue-500 mb-3" size={32} />
@@ -145,20 +147,14 @@ function ProfileContent({ userData }: { userData: UserData }) {
     );
 }
 
-interface EditProfileFormData {
-    username: string;
-    bio: string;
-    profileImage: StaticImageData | string;
-}
-
-function EditProfile({ userData }: { userData: UserData }) {
-    const [formData, setFormData] = useState<EditProfileFormData>({
+function EditProfile({ userData }) {
+    const [formData, setFormData] = useState({
         username: userData.username,
         bio: userData.bio,
         profileImage: userData.profileImage,
     });
 
-    const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         console.log('Updating profile:', formData);
     };
@@ -168,6 +164,16 @@ function EditProfile({ userData }: { userData: UserData }) {
             <h1 className="text-3xl font-bold text-gray-800 mb-8">Edit Profile</h1>
 
             <div className="bg-white rounded-xl shadow-md p-8">
+                <div className="mb-6">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Profile Picture URL</label>
+                    <input
+                        type="text"
+                        value={formData.profileImage}
+                        onChange={(e) => setFormData({ ...formData, profileImage: e.target.value })}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                </div>
+
                 <div className="mb-6">
                     <label className="block text-sm font-medium text-gray-700 mb-2">Username</label>
                     <input
@@ -201,9 +207,9 @@ function EditProfile({ userData }: { userData: UserData }) {
 
 function ReadList() {
     const mockBooks = [
-        { id: 1, title: 'The Hobbit',    author: 'J.R.R. Tolkien', rating: 5, cover: 'https://covers.openlibrary.org/b/id/8228691-M.jpg' },
-        { id: 2, title: 'Harry Potter',  author: 'J.K. Rowling',   rating: 5, cover: 'https://covers.openlibrary.org/b/id/10521270-M.jpg' },
-        { id: 3, title: '1984',          author: 'George Orwell',  rating: 4, cover: 'https://covers.openlibrary.org/b/id/7222246-M.jpg' },
+        { id: 1, title: 'The Hobbit', author: 'J.R.R. Tolkien', rating: 5, cover: 'https://covers.openlibrary.org/b/id/8228691-M.jpg' },
+        { id: 2, title: 'Harry Potter', author: 'J.K. Rowling', rating: 5, cover: 'https://covers.openlibrary.org/b/id/10521270-M.jpg' },
+        { id: 3, title: '1984', author: 'George Orwell', rating: 4, cover: 'https://covers.openlibrary.org/b/id/7222246-M.jpg' },
     ];
 
     return (
@@ -213,14 +219,15 @@ function ReadList() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {mockBooks.map((book) => (
                     <div key={book.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={book.cover} alt={book.title} className="w-full h-64 object-cover" />
+                        <Image src={book.cover} alt={book.title} className="w-full h-64 object-cover" />
                         <div className="p-4">
                             <h3 className="font-semibold text-gray-800 mb-1">{book.title}</h3>
                             <p className="text-sm text-gray-600 mb-2">{book.author}</p>
                             <div className="flex items-center gap-1">
                                 {[...Array(5)].map((_, i) => (
-                                    <span key={i} className={i < book.rating ? 'text-yellow-400' : 'text-gray-300'}>★</span>
+                                    <span key={i} className={i < book.rating ? 'text-yellow-400' : 'text-gray-300'}>
+                                        ★
+                                    </span>
                                 ))}
                             </div>
                         </div>
@@ -233,7 +240,7 @@ function ReadList() {
 
 function Wishlist() {
     const mockBooks = [
-        { id: 1, title: 'Dune',                 author: 'Frank Herbert',    cover: 'https://covers.openlibrary.org/b/id/8220163-M.jpg' },
+        { id: 1, title: 'Dune', author: 'Frank Herbert', cover: 'https://covers.openlibrary.org/b/id/8220163-M.jpg' },
         { id: 2, title: 'The Name of the Wind', author: 'Patrick Rothfuss', cover: 'https://covers.openlibrary.org/b/id/8513716-M.jpg' },
     ];
 
@@ -244,7 +251,6 @@ function Wishlist() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {mockBooks.map((book) => (
                     <div key={book.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={book.cover} alt={book.title} className="w-full h-64 object-cover" />
                         <div className="p-4">
                             <h3 className="font-semibold text-gray-800 mb-1">{book.title}</h3>
@@ -259,8 +265,8 @@ function Wishlist() {
 
 function Notifications() {
     const mockNotifications = [
-        { id: 1, message: 'John followed you',             time: '2 hours ago' },
-        { id: 2, message: 'New book added to wishlist',    time: '1 day ago' },
+        { id: 1, message: 'John followed you', time: '2 hours ago' },
+        { id: 2, message: 'New book added to wishlist', time: '1 day ago' },
     ];
 
     return (
@@ -287,7 +293,8 @@ function DeleteAccount() {
             <div className="bg-red-50 border border-red-200 rounded-xl p-8">
                 <h2 className="text-xl font-semibold text-red-800 mb-4">Warning: This action is irreversible</h2>
                 <p className="text-gray-700 mb-6">
-                    Deleting your account will permanently remove all your data, including your read list, wishlist, and profile information.
+                    Deleting your account will permanently remove all your data, including your read list, wishlist, and profile
+                    information.
                 </p>
                 <button className="bg-red-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-red-700 transition-colors">
                     Delete My Account

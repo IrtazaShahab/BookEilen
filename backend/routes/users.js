@@ -88,11 +88,6 @@ router.post('/login', async (req, res) => {
     });
   } catch (err) {
     console.error('Login error:', err);
-    if (err && (err.code === 'ENOTFOUND' || err.code === 'ECONNREFUSED')) {
-      return res.status(503).json({
-        message: 'Database is unreachable. Check Supabase host/connection string.',
-      });
-    }
     return res.status(500).json({ message: 'Error during login' });
   }
 });

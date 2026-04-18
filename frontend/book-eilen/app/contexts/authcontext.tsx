@@ -11,12 +11,19 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  // ✅ Always start as false on BOTH server and client — prevents mismatch
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  // ✅ Read token synchronously on first render — no false "logged out" flash
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return false;
+    return Boolean(localStorage.getItem('authToken'));
+  });
+
+  // ✅ Start as false only on server, true on client means we already know auth state
+  const [isLoading, setIsLoading] = useState<boolean>(
+    typeof window === 'undefined' ? true : false
+  );
 
   useEffect(() => {
-    // ✅ Only runs on client, after hydration is complete
+    // Only needed for SSR hydration — on client we already read it synchronously
     const token = localStorage.getItem('authToken');
     setIsLoggedIn(Boolean(token));
     setIsLoading(false);
@@ -37,7 +44,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = useCallback(() => {
     localStorage.removeItem('authToken');
-    localStorage.removeItem('userProfile');
     setIsLoggedIn(false);
   }, []);
 
